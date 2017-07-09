@@ -13,7 +13,9 @@ before_script:
   - cd ..
   - yarn install
 script:
+  - cd server.test
   - dotnet test
+  - cd ..
   - yarn test
 cache:
   yarn: true
