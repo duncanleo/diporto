@@ -1,0 +1,11 @@
+language: csharp
+mono: none
+dotnet: 1.0.4
+dist: trusty
+before_script:
+- cd server
+- dotnet restore
+- cd ../server.test
+- dotnet restore
+script:
+- dotnet test
