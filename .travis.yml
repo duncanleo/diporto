@@ -5,7 +5,7 @@ dist: trusty
 before_script:
 - cd server
 - dotnet restore
-- cd server.test
+- cd ../server.test
 - dotnet restore
 script:
 - cd server.test
