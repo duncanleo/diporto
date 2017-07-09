@@ -8,5 +8,4 @@ before_script:
 - cd ../server.test
 - dotnet restore
 script:
-- cd server.test
 - dotnet test
