@@ -1,0 +1,12 @@
+{
+  "name": "diporto",
+  "version": "1.0.0",
+  "main": "client/index.js",
+  "repository": "git@github.com:duncanleo/diporto.git",
+  "author": "Duncan Leo <duncanleo97@gmail.com>",
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "echo Hello!",
+    "test": "echo Test!"
+  }
+}
