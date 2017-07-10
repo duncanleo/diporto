@@ -1,1 +1,1 @@
-web: ASPNETCORE_URLS='http://+:\$PORT' dotnet ./Diporto.dll --urls http://+:\$PORT
+web: ASPNETCORE_URLS='http://+:$PORT' dotnet ./Diporto.dll --urls http://+:$PORT
