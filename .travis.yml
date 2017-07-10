@@ -6,14 +6,14 @@ before_install:
   - nvm install stable
   - nvm use stable
 before_script:
-  - cd server
+  - cd Diporto
   - dotnet restore
-  - cd ../server.test
+  - cd ../DiportoTests
   - dotnet restore
   - cd ..
   - yarn install
 script:
-  - cd server.test
+  - cd DiportoTests
   - dotnet test
   - cd ..
   - yarn test
