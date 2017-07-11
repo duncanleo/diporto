@@ -15,7 +15,7 @@ before_script:
 script:
   - cd DiportoTests
   - dotnet test
-  - cd ..
+  - cd ../Diporto
   - yarn test
 cache:
   yarn: true
