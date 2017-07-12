@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Diporto.Database;
+using Microsoft.EntityFrameworkCore;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 namespace Diporto
 {
@@ -30,6 +33,9 @@ namespace Diporto
         {
             // Add framework services.
             services.AddMvc();
+
+            var connectionString = Configuration["DbContextSettings:ConnectionString"];
+            services.AddDbContext<DatabaseContext>(opts => opts.UseNpgsql(connectionString));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
