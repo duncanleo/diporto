@@ -10,12 +10,12 @@ before_script:
   - dotnet restore
   - cd ../DiportoTests
   - dotnet restore
-  - cd ..
+  - cd ../Diporto
   - yarn install
 script:
-  - cd DiportoTests
+  - cd ../DiportoTests
   - dotnet test
-  - cd ../Diporto
+  - cd ..
   - yarn test
 cache:
   yarn: true

@@ -1,0 +1,19 @@
+{
+  "name": "Diporto",
+  "version": "0.0.0",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "start": "(cd Diporto && yarn start)",
+    "test": "(cd Diporto && yarn test)",
+    "build:clean": "rm app/assets/webpack/*",
+    "build:production": "(cd Diporto && yarn run build:production --silent)",
+    "build:production:Diporto": "(cd Diporto && yarn run build:production:Diporto --silent)",
+    "build:production:server": "(cd Diporto && yarn run build:production:server --silent)",
+    "build:client": "(cd Diporto && yarn run build:Diporto --silent)",
+    "build:server": "(cd Diporto && yarn run build:server --silent)",
+    "build:dev:client": "(cd Diporto && yarn run build:dev:Diporto --silent)",
+    "build:dev:server": "(cd Diporto && yarn run build:dev:server --silent)",
+    "hot-assets": "(cd Diporto && yarn run hot-assets)"
+  }
+}
