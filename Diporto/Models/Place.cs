@@ -35,5 +35,7 @@ namespace Diporto.Models {
     public ICollection<PlaceCategory> PlaceCategories { get; set; }
     
     public ICollection<PlacePhoto> PlacePhotos { get; set; }
+
+    public ICollection<PlaceReview> PlaceReviews { get; set; }
   }
 }

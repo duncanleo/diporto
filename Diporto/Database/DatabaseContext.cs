@@ -26,6 +26,11 @@ namespace Diporto.Database {
         .HasMany(place => place.PlacePhotos)
         .WithOne(photo => photo.Place)
         .HasForeignKey("place_id");
+
+      modelBuilder.Entity<Place>()
+        .HasMany(place => place.PlaceReviews)
+        .WithOne(review => review.Place)
+        .HasForeignKey("place_id");
     }
   }
 }
