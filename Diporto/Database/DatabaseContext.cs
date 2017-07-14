@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Diporto.Models;
+using System.Linq;
 
 namespace Diporto.Database {
   public class DatabaseContext : DbContext {
@@ -34,6 +35,10 @@ namespace Diporto.Database {
 
       modelBuilder.Entity<Category>()
         .HasIndex(cat => cat.Name)
+        .IsUnique();
+
+      modelBuilder.Entity<Place>()
+        .HasIndex("Name", "Address")
         .IsUnique();
     }
   }
