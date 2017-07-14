@@ -62,6 +62,7 @@ namespace Diporto.Migrations
                     place_id = table.Column<int>(nullable: false),
                     category_id = table.Column<int>(nullable: false),
                     id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
                 },
                 constraints: table =>
                 {
