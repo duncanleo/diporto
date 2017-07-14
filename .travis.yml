@@ -13,9 +13,16 @@ before_script:
   - cd ../Diporto
   - yarn install
 script:
+  - cd ../Diporto
+  - cp appsettings.Travis.json appsettings.Development.json
+  - dotnet ef database update
   - cd ../DiportoTests
   - dotnet test
   - cd ..
   - yarn test
 cache:
   yarn: true
+services:
+  - postgresql
+env:
+  - ASPNETCORE_ENVIRONMENT=Development
