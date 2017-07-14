@@ -57,6 +57,13 @@ namespace Diporto
                 app.UseExceptionHandler("/Home/Error");
             }
 
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                Console.WriteLine("Auto seeding database");
+                serviceScope.ServiceProvider.GetService<DatabaseContext>().Database.Migrate();
+                serviceScope.ServiceProvider.GetService<DatabaseContext>().EnsureSeedData();
+            }
+
             app.UseStaticFiles();
 
             app.UseMvc(routes =>
