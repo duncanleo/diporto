@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace Diporto.Models {
   [Table("place_category")]
@@ -6,6 +7,7 @@ namespace Diporto.Models {
     [Column("id")]
     public int Id { get; set; }
 
+    [JsonIgnore]
     public Place Place { get; set; }
     
     [Column("place_id")]

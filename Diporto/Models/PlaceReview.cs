@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace Diporto.Models {
   [Table("place_review")]
@@ -28,6 +29,7 @@ namespace Diporto.Models {
     public string Text { get; set; }
 
     [Required]
+    [JsonIgnore]
     public Place Place { get; set; }
   }
 }
