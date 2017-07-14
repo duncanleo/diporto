@@ -31,6 +31,10 @@ namespace Diporto.Database {
         .HasMany(place => place.PlaceReviews)
         .WithOne(review => review.Place)
         .HasForeignKey("place_id");
+
+      modelBuilder.Entity<Category>()
+        .HasIndex(cat => cat.Name)
+        .IsUnique();
     }
   }
 }
