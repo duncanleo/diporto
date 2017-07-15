@@ -24,7 +24,7 @@ namespace Diporto.Controllers {
     [HttpPost("register")]
     // [ValidateAntiForgeryToken]
     public async Task<IActionResult> Register(RegisterViewModel model) {
-      if (model.Password != model.ConfirmPassword) {
+      if (model.Password != model.ConfirmPassword || !ModelState.IsValid) {
         return StatusCode((int)HttpStatusCode.BadRequest);
       }
 
@@ -39,6 +39,24 @@ namespace Diporto.Controllers {
         return StatusCode((int)HttpStatusCode.OK);
       }
       return StatusCode((int)HttpStatusCode.InternalServerError);
+    }
+
+    [HttpPost("login")]
+    public async Task<IActionResult> Login(LoginViewModel model) {
+      if (!ModelState.IsValid) {
+        return StatusCode((int)HttpStatusCode.BadRequest);
+      }
+
+      var result = await signInManager.PasswordSignInAsync(model.UserName, model.Password, true, lockoutOnFailure: false);
+      if (result.Succeeded) {
+        return StatusCode((int)HttpStatusCode.OK);
+      }
+
+      if (result.IsLockedOut) {
+        return StatusCode((int)HttpStatusCode.Conflict);
+      } else {
+        return StatusCode((int)HttpStatusCode.Forbidden);
+      }
     }
   }
 }
