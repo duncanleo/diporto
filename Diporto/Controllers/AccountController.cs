@@ -58,5 +58,11 @@ namespace Diporto.Controllers {
         return StatusCode((int)HttpStatusCode.Forbidden);
       }
     }
+
+    [HttpPost("logout")]
+    public async Task<IActionResult> Logout() {
+      await signInManager.SignOutAsync();
+      return StatusCode((int)HttpStatusCode.OK);
+    }
   }
 }
