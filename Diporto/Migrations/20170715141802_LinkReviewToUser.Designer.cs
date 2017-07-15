@@ -8,9 +8,10 @@ using Diporto.Database;
 namespace Diporto.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20170715141802_LinkReviewToUser")]
+    partial class LinkReviewToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("Npgsql:PostgresExtension:cube", "'cube', '', ''")

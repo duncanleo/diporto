@@ -31,5 +31,13 @@ namespace Diporto.Models {
     [Required]
     [JsonIgnore]
     public Place Place { get; set; }
+
+    [JsonIgnore]
+    public User User { get; set; }
+
+    
+
+    [Column("user_id")]
+    public int UserId { get; set; }
   }
 }
