@@ -22,7 +22,6 @@ namespace Diporto.Controllers {
     }
 
     [HttpPost("register")]
-    // [ValidateAntiForgeryToken]
     public async Task<IActionResult> Register(RegisterViewModel model) {
       if (model.Password != model.ConfirmPassword || !ModelState.IsValid) {
         return StatusCode((int)HttpStatusCode.BadRequest);
