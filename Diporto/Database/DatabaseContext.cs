@@ -8,6 +8,7 @@ namespace Diporto.Database {
   public class DatabaseContext : IdentityDbContext<User, IdentityRole<int>, int> {
     public DbSet<Place> Places { get; set; }
     public DbSet<Category> Categories { get; set; }
+    public DbSet<PlaceReview> PlaceReviews { get; set; }
     public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) {}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {

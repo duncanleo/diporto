@@ -28,6 +28,7 @@ namespace Diporto.Models {
     public User User { get; set; }
 
     [Column("user_id")]
+    [JsonProperty("user_id")]
     public int UserId { get; set; }
   }
 }
