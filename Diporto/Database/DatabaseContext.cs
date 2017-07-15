@@ -1,15 +1,17 @@
 using Microsoft.EntityFrameworkCore;
 using Diporto.Models;
 using System.Linq;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Diporto.Database {
-  public class DatabaseContext : DbContext {
-    public DbSet<User> Users { get; set; }
+  public class DatabaseContext : IdentityDbContext<User, IdentityRole<int>, int> {
     public DbSet<Place> Places { get; set; }
     public DbSet<Category> Categories { get; set; }
     public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) {}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
+      base.OnModelCreating(modelBuilder);
+
       modelBuilder.Entity<PlaceCategory>()
         .HasKey(pc => new { pc.PlaceId, pc.CategoryId });
       
@@ -40,6 +42,17 @@ namespace Diporto.Database {
       modelBuilder.Entity<Place>()
         .HasIndex("Name", "Address")
         .IsUnique();
+
+      modelBuilder.Entity<User>(entity => {
+        entity.ToTable("user");
+        entity.Property(user => user.Id).HasColumnName("id");
+        entity.Property(user => user.UserName).HasColumnName("user_name");
+        entity.Property(user => user.Email).HasColumnName("email");
+        entity.Property(user => user.PasswordHash).HasColumnName("password_hash");
+        entity.Property(user => user.TwoFactorEnabled).HasColumnName("is_two_factor_enabled");
+        entity.Property(user => user.EmailConfirmed).HasColumnName("email_confirmed");
+        entity.Property(user => user.AccessFailedCount).HasColumnName("access_failed_count");
+      });
     }
   }
 }

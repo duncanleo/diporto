@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Diporto.Database;
 using Diporto.Models;
 using System.Linq;
 
 namespace Diporto.Controllers {
+  [Authorize]
   [Route("api/[controller]")]
   public class PlaceController : Controller {
     private readonly DatabaseContext context;
