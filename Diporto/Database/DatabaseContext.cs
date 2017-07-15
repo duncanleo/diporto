@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Diporto.Models;
 using System.Linq;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 namespace Diporto.Database {
   public class DatabaseContext : IdentityDbContext<User, IdentityRole<int>, int> {
@@ -11,6 +12,10 @@ namespace Diporto.Database {
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
       base.OnModelCreating(modelBuilder);
+
+      modelBuilder.HasPostgresExtension("cube");
+      modelBuilder.HasPostgresExtension("earthdistance");
+      modelBuilder.HasPostgresExtension("postgis");
 
       modelBuilder.Entity<PlaceCategory>()
         .HasKey(pc => new { pc.PlaceId, pc.CategoryId });

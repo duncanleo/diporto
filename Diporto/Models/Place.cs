@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
 
 namespace Diporto.Models {
   [Table("place")]
@@ -31,11 +32,17 @@ namespace Diporto.Models {
     [Required]
     [Column("opening_hours")]
     public string OpeningHours { get; set; }
+
+    [NotMapped]
+    public IEnumerable<string> Categories { get; set; }
     
+    [JsonIgnore]
     public ICollection<PlaceCategory> PlaceCategories { get; set; }
-    
+
+    [JsonProperty("photos")]    
     public ICollection<PlacePhoto> PlacePhotos { get; set; }
 
+    [JsonProperty("reviews")]
     public ICollection<PlaceReview> PlaceReviews { get; set; }
   }
 }
