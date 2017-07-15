@@ -29,6 +29,7 @@ namespace Diporto.Controllers {
 
       var newUser = new User {
         UserName = model.UserName,
+        Name = model.Name,
         IsAdmin = false
       };
 
