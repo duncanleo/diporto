@@ -9,15 +9,6 @@ namespace Diporto.Models {
     [Column("id")]
     public int Id { get; set; }
 
-    [Column("author_name")]
-    [JsonProperty("author_name")]
-    [Required]
-    public string AuthorName { get; set; }
-
-    [Column("author_profile_image_url")]
-    [JsonProperty("author_profile_image_url")]
-    public string AuthorProfileImageURL { get; set; }
-
     [Column("rating")]
     [Required]
     public float Rating { get; set; }
