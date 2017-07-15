@@ -48,6 +48,10 @@ namespace Diporto.Database {
         .HasIndex("Name", "Address")
         .IsUnique();
 
+      modelBuilder.Entity<User>()
+        .HasIndex(user => user.UserName)
+        .IsUnique();
+
       modelBuilder.Entity<User>(entity => {
         entity.ToTable("user");
         entity.Property(user => user.Id).HasColumnName("id");
