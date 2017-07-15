@@ -21,7 +21,7 @@ namespace Diporto.Models {
     [Column("lon")]
     public float Lon { get; set; }
     
-    [Required]
+    [Required(AllowEmptyStrings = true)]
     [Column("phone")]
     public string Phone { get; set; }
     
@@ -29,8 +29,9 @@ namespace Diporto.Models {
     [Column("address")]
     public string Address { get; set; }
     
-    [Required]
+    [Required(AllowEmptyStrings = true)]
     [Column("opening_hours")]
+    [JsonProperty("opening_hours")]
     public string OpeningHours { get; set; }
 
     [NotMapped]
