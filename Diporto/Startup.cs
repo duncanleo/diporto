@@ -9,8 +9,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Diporto.Database;
+using Diporto.Models;
 using Microsoft.EntityFrameworkCore;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Diporto
 {
@@ -36,6 +38,22 @@ namespace Diporto
 
             var connectionString = Configuration["DbContextSettings:ConnectionString"];
             services.AddDbContext<DatabaseContext>(opts => opts.UseNpgsql(connectionString));
+
+            services.AddIdentity<User, IdentityRole<int>>()
+                .AddEntityFrameworkStores<DatabaseContext, int>()
+                .AddDefaultTokenProviders();
+
+            services.Configure<IdentityOptions>(options => {
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 16;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireLowercase = true;
+
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
+                options.Lockout.MaxFailedAccessAttempts = 10;
+                options.Lockout.AllowedForNewUsers = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,6 +83,8 @@ namespace Diporto
             }
 
             app.UseStaticFiles();
+
+            app.UseIdentity();
 
             app.UseMvc(routes =>
             {
