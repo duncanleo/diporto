@@ -12,6 +12,9 @@ before_script:
   - dotnet restore
   - cd ../Diporto
   - yarn install
+  - psql -U postgres -c "create extension cube"
+  - psql -U postgres -c "create extension earthdistance"
+  - psql -U postgres -c "create extension postgis"
 script:
   - cd ../Diporto
   - cp appsettings.Travis.json appsettings.Development.json
