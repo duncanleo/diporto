@@ -2,11 +2,13 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Diporto.Models;
 using Diporto.Database;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Diporto.Controllers {
@@ -64,6 +66,33 @@ namespace Diporto.Controllers {
       }
 
       return new ObjectResult(reviews);
+    }
+
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> Update(int id, [FromBody] PlaceReview item) {
+      if (item == null) {
+        return BadRequest();
+      }
+      
+      var review = context.PlaceReviews.Include(rv => rv.User).FirstOrDefault(rv => rv.Id == id);
+      if (review == null) {
+        return NotFound();
+      }
+
+      // Ensure submitting user is owner of the review
+      var user = await userManager.GetUserAsync(User);
+      if (review.User.Id != user.Id) {
+        return StatusCode((int)HttpStatusCode.Forbidden);
+      }
+
+      review.Text = item.Text;
+      review.Time = item.Time;
+      review.Rating = item.Rating;
+      
+      context.PlaceReviews.Update(review);
+      context.SaveChanges();
+
+      return new NoContentResult();
     }
   }
 }
