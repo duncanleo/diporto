@@ -24,6 +24,7 @@ namespace Diporto.Models {
     [NotMapped]
     public IEnumerable<User> Members { get; set; }
 
+    [JsonIgnore]
     public IEnumerable<RoomMembership> RoomMemberships { get; set; }
   }
 }
