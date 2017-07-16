@@ -68,7 +68,7 @@ namespace Diporto.Controllers {
     [HttpGet("nearby")]
     public IEnumerable<Place> GetNearby(double lat, double lon, string categoryFilters = "", int numResults = 5) {
       var places = context.Places
-        .FromSql("SELECT *, ST_Distance(ST_SetSRID(ST_MakePoint(p.lat,p.lon),4326), ST_SetSRID(ST_MakePoint({0},{1}),4326)) AS distance FROM place p ORDER BY distance", lat, lon)
+        .FromSql("SELECT *, ST_Distance(ST_SetSRID(ST_MakePoint(p.lon,p.lat),4326), ST_SetSRID(ST_MakePoint({0},{1}),4326)) AS distance FROM place p ORDER BY distance", lon, lat)
         .Where(place => categoryFilters.Length > 0 ? place.PlaceCategories.Select(pc => pc.Category.Name).Intersect(categoryFilters.Split('|')).Any() : true)
         .Include(place => place.PlaceCategories)
           .ThenInclude(pc => pc.Category)
