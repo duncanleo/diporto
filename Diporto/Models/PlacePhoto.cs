@@ -7,10 +7,18 @@ namespace Diporto.Models {
   public class PlacePhoto {
     [Column("id")]
     public int Id { get; set; }
+
+    [Column("file_name")]
+    [JsonIgnore]
+    public string FileName { get; set; }
     
-    [Required]
-    [Column("url")]
-    public string URL { get; set; }
+    [Column("google_place_id")]
+    [JsonIgnore]
+    public string GooglePlacesId { get; set; }
+
+    [Column("is_google_places_image")]
+    [JsonIgnore]
+    public bool IsGooglePlacesImage { get; set; }
     
     [Required]
     [JsonIgnore]

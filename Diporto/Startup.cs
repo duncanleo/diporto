@@ -13,6 +13,8 @@ using Diporto.Models;
 using Microsoft.EntityFrameworkCore;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Amazon;
+using Amazon.S3;
 
 namespace Diporto
 {
@@ -54,6 +56,9 @@ namespace Diporto
                 options.Lockout.MaxFailedAccessAttempts = 10;
                 options.Lockout.AllowedForNewUsers = true;
             });
+
+            services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
+            services.AddAWSService<IAmazonS3>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
