@@ -89,7 +89,8 @@ namespace Diporto.Controllers {
       return new ObjectResult(new {
         name = user.Name,
         email = user.Email,
-        username = user.UserName
+        username = user.UserName,
+        profileImage = user.ProfileImageURL
       });
     }
 
