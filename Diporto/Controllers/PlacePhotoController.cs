@@ -10,6 +10,7 @@ using Diporto.ViewModels;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Linq;
+using System.Net;
 using System;
 using System.Threading.Tasks;
 using Amazon.S3;
@@ -31,7 +32,7 @@ namespace Diporto.Controllers {
     [HttpPost]
     // Users can only submit local files.
     public async Task<IActionResult> Create(UploadPhotoViewModel model) { // This implementation because this is form file uploading.
-      if (model.PlaceId == -1) {
+      if (model.PlaceId == -1 || !ModelState.IsValid) {
         return BadRequest();
       }
       var place = context.Places.FirstOrDefault(p => p.Id == model.PlaceId);
@@ -49,11 +50,15 @@ namespace Diporto.Controllers {
       context.PlacePhotos.Add(photo);
       context.SaveChanges();
       var fileExt = model.File.ContentType.Split('/').Last();
-      await S3Client.PutObjectAsync(new PutObjectRequest {
-        BucketName = bucketName,
-        Key = $"{photo.Id}-{model.File.FileName}",
-        InputStream = model.File.OpenReadStream()
-      });
+      try {
+        await S3Client.PutObjectAsync(new PutObjectRequest {
+          BucketName = bucketName,
+          Key = $"{photo.Id}-{model.File.FileName}",
+          InputStream = model.File.OpenReadStream()
+        });
+      } catch (Exception e) {
+        return StatusCode((int)HttpStatusCode.InternalServerError);
+      }
       place.PlacePhotos.Add(photo);
       context.Places.Update(place);
       context.SaveChanges();
@@ -77,6 +82,44 @@ namespace Diporto.Controllers {
           return NotFound();
         }
       }
+    }
+
+    [HttpPut("{id:int}")]
+    public async Task<IActionResult> Update(int id, UpdatePhotoViewModel model) {
+      if (!ModelState.IsValid) {
+        return BadRequest();
+      }
+      var photo = context.PlacePhotos.FirstOrDefault(p => p.Id == id);
+      if (photo == null) {
+        return NotFound();
+      }
+      if (photo.IsGooglePlacesImage) {
+        return Forbid();
+      }
+      photo.FileName = model.File.FileName;
+      try {
+        await S3Client.PutObjectAsync(new PutObjectRequest {
+          BucketName = bucketName,
+          Key = $"{photo.Id}-{model.File.FileName}",
+          InputStream = model.File.OpenReadStream()
+        });
+      } catch (Exception e) {
+        return StatusCode((int)HttpStatusCode.InternalServerError);
+      }
+      context.PlacePhotos.Update(photo);
+      context.SaveChanges();
+      return new NoContentResult();
+    }
+
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> Delete(int id) {
+      var photo = context.PlacePhotos.FirstOrDefault(p => p.Id == id);
+      if (photo == null) {
+        return NotFound();
+      }
+      context.PlacePhotos.Remove(photo);
+      context.SaveChanges();
+      return new NoContentResult();
     }
   }
 }
