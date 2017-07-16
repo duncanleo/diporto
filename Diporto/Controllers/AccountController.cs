@@ -82,6 +82,17 @@ namespace Diporto.Controllers {
       return Ok();
     }
 
+    [HttpGet("me")]
+    [Authorize]
+    public async Task<IActionResult> GetOwnProfile() {
+      var user = await userManager.GetUserAsync(User);
+      return new ObjectResult(new {
+        name = user.Name,
+        email = user.Email,
+        username = user.UserName
+      });
+    }
+
     [HttpGet("users/{id:int}")]
     [Authorize]
     public async Task<IActionResult> GetById(int id) {
