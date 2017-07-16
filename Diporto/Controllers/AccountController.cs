@@ -6,7 +6,7 @@ using Diporto.Models;
 using Diporto.ViewModels;
 
 namespace Diporto.Controllers {
-  [Route("api/[controller]")]
+  [Route("api")]
   public class AccountController : Controller {
     private readonly UserManager<User> userManager;
     private readonly SignInManager<User> signInManager;

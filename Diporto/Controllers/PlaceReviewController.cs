@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Diporto.Controllers {
   [Authorize]
-  [Route("api/review")]
+  [Route("api/reviews")]
   public class PlaceReviewController : Controller {
     private readonly DatabaseContext context;
     private UserManager<User> userManager;
