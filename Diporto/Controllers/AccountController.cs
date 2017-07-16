@@ -7,6 +7,7 @@ using System.Linq;
 using Diporto.Models;
 using Diporto.ViewModels;
 using Diporto.Database;
+using NpgsqlTypes;
 
 namespace Diporto.Controllers {
   [Route("api")]
@@ -79,6 +80,20 @@ namespace Diporto.Controllers {
 
       var user = await userManager.GetUserAsync(User);
       await userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+      return Ok();
+    }
+
+    [HttpPut("location")]
+    [Authorize]
+    public async Task<IActionResult> UpdateLocation([FromBody] UpdateLocationViewModel model) {
+      if (!ModelState.IsValid) {
+        return BadRequest();
+      }
+
+      var user = await userManager.GetUserAsync(User);
+      user.CurrentLocation = new PostgisPoint(model.Lon, model.Lat);
+      context.Users.Update(user);
+      context.SaveChanges();
       return Ok();
     }
 
