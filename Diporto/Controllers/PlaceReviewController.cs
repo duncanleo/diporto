@@ -52,7 +52,7 @@ namespace Diporto.Controllers {
     public IActionResult GetById(int id) {
       var review = context.PlaceReviews.FirstOrDefault(pr => pr.Id == id);
       if (review == null) {
-        return BadRequest();
+        return NotFound();
       }
 
       return new ObjectResult(review);
@@ -62,7 +62,7 @@ namespace Diporto.Controllers {
     public IActionResult GetByPlaceId(int placeId = -1) {
       var reviews = context.PlaceReviews.Where(pr => (placeId != -1) ? pr.Place.Id == placeId : true);
       if (reviews == null) {
-        return BadRequest();
+        return NotFound();
       }
 
       return new ObjectResult(reviews);
