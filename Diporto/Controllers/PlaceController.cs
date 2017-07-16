@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Diporto.Database;
 using Diporto.Models;
 using System.Linq;
+using NpgsqlTypes;
 
 namespace Diporto.Controllers {
   [Authorize]
@@ -82,6 +83,28 @@ namespace Diporto.Controllers {
       }
       
       return places;
+    }
+
+    [HttpGet]
+    public IActionResult GetPlacesByRoomId(int roomId) {
+      var room = context.Rooms.Include(r => r.RoomMemberships).FirstOrDefault(r => r.Id == roomId);
+      if (room == null) {
+        return NotFound();
+      }
+
+      var locations = room.RoomMemberships.Select(rm => rm.User.CurrentLocation).ToList();
+
+      var places = context.Places
+        .FromSql(
+          @"SELECT * FROM place p WHERE ST_Within(
+            ST_MakePoint(p.lon, p.lat),
+            ST_Envelope({0})
+          )
+          ", 
+          new PostgisLineString(locations.Select(loc => new Coordinate2D(loc.X, loc.Y)))
+        );
+
+      return new ObjectResult(places);
     }
 
     [HttpPut("{id:int}")]
