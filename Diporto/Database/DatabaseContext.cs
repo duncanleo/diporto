@@ -11,6 +11,7 @@ namespace Diporto.Database {
     public DbSet<PlaceReview> PlaceReviews { get; set; }
     public DbSet<PlacePhoto> PlacePhotos { get; set; }
     public DbSet<Room> Rooms { get; set; }
+    public DbSet<RoomMembership> RoomMemberships { get; set; }
     public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) {}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {

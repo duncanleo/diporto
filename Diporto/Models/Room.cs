@@ -13,6 +13,7 @@ namespace Diporto.Models {
     public string Name { get; set; }
 
     [Column("short_code")]
+    [JsonProperty("short_code")]
     public string ShortCode { get; set; }
 
     public User Owner { get; set; }

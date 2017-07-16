@@ -39,13 +39,23 @@ namespace Diporto.Controllers {
 
       room.ShortCode = hashids.Encode(room.Id);
       context.Rooms.Update(room);
+
+      var roomMembership = new RoomMembership {
+        Room = room,
+        User = user
+      };
+      context.RoomMemberships.Add(roomMembership);
       context.SaveChanges();
       return new ObjectResult(room);
     }
 
     [HttpGet("{id:int}")]
     public IActionResult GetById(int id) {
-      var room = context.Rooms.Include(r => r.RoomMemberships).FirstOrDefault(r => r.Id == id);
+      var room = context.Rooms
+        .Include(r => r.Owner)
+        .Include(r => r.RoomMemberships)
+          .ThenInclude(rm => rm.User)
+        .FirstOrDefault(r => r.Id == id);
       if (room == null) {
         return NotFound();
       }
@@ -55,7 +65,11 @@ namespace Diporto.Controllers {
 
     [HttpGet("{shortCode}")]
     public IActionResult GetByShortCode(string shortCode) {
-      var room = context.Rooms.Include(r => r.RoomMemberships).FirstOrDefault(r => r.ShortCode == shortCode);
+      var room = context.Rooms
+        .Include(r => r.Owner)
+        .Include(r => r.RoomMemberships)
+          .ThenInclude(rm => rm.User)
+        .FirstOrDefault(r => r.ShortCode == shortCode);
       if (room == null) {
         return NotFound();
       }
