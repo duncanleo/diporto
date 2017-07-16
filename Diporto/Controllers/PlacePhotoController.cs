@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System;
 using System.Threading.Tasks;
 using Amazon.S3;
@@ -72,15 +73,25 @@ namespace Diporto.Controllers {
         return NotFound();
       }
       if (photo.IsGooglePlacesImage) {
-        // TODO: Do something
-        return null;
-      } else {
-        try {
-          var s3Response = await S3Client.GetObjectAsync(bucketName, $"{id}-{photo.FileName}");
-          return new FileStreamResult(s3Response.ResponseStream, "image/jpg");
-        } catch (Exception e) {
-          return NotFound();
+        using (var client = new HttpClient()) {
+          try {
+            client.BaseAddress = new Uri("https://maps.googleapis.com");
+            var response = await client.GetAsync($"/maps/api/place/photo?maxwidth=600&photoreference={photo.GooglePlacesId}&key={Environment.GetEnvironmentVariable("GOOGLE_API_KEY")}");
+            response.EnsureSuccessStatusCode();
+
+            return new FileStreamResult(await response.Content.ReadAsStreamAsync(), "image/jpg");
+          } catch (HttpRequestException e) {
+            return StatusCode((int)HttpStatusCode.InternalServerError);
+          }
         }
+        return null;
+      }
+
+      try {
+        var s3Response = await S3Client.GetObjectAsync(bucketName, $"{id}-{photo.FileName}");
+        return new FileStreamResult(s3Response.ResponseStream, "image/jpg");
+      } catch (Exception e) {
+        return NotFound();
       }
     }
 
