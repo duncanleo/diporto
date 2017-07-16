@@ -8,9 +8,10 @@ using Diporto.Database;
 namespace Diporto.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20170715141802_LinkReviewToUser")]
+    partial class LinkReviewToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("Npgsql:PostgresExtension:cube", "'cube', '', ''")
@@ -117,6 +118,13 @@ namespace Diporto.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnName("id");
 
+                    b.Property<string>("AuthorName")
+                        .IsRequired()
+                        .HasColumnName("author_name");
+
+                    b.Property<string>("AuthorProfileImageURL")
+                        .HasColumnName("author_profile_image_url");
+
                     b.Property<float>("Rating")
                         .HasColumnName("rating");
 
@@ -130,7 +138,8 @@ namespace Diporto.Migrations
                     b.Property<int>("UserId")
                         .HasColumnName("user_id");
 
-                    b.Property<int?>("place_id");
+                    b.Property<int?>("place_id")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -167,10 +176,6 @@ namespace Diporto.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnName("name");
-
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256);
 
@@ -183,9 +188,6 @@ namespace Diporto.Migrations
                     b.Property<string>("PhoneNumber");
 
                     b.Property<bool>("PhoneNumberConfirmed");
-
-                    b.Property<string>("ProfileImageURL")
-                        .HasColumnName("profile_image_url");
 
                     b.Property<string>("SecurityStamp");
 
@@ -204,9 +206,6 @@ namespace Diporto.Migrations
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasName("UserNameIndex");
-
-                    b.HasIndex("UserName")
-                        .IsUnique();
 
                     b.ToTable("user");
                 });
@@ -345,7 +344,8 @@ namespace Diporto.Migrations
 
                     b.HasOne("Diporto.Models.Place", "Place")
                         .WithMany("PlaceReviews")
-                        .HasForeignKey("place_id");
+                        .HasForeignKey("place_id")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<int>", b =>

@@ -8,9 +8,10 @@ using Diporto.Database;
 namespace Diporto.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20170715151215_MoveProfileImageURLToUser")]
+    partial class MoveProfileImageURLToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("Npgsql:PostgresExtension:cube", "'cube', '', ''")
@@ -204,9 +205,6 @@ namespace Diporto.Migrations
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasName("UserNameIndex");
-
-                    b.HasIndex("UserName")
-                        .IsUnique();
 
                     b.ToTable("user");
                 });

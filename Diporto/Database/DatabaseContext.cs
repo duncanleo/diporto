@@ -8,6 +8,7 @@ namespace Diporto.Database {
   public class DatabaseContext : IdentityDbContext<User, IdentityRole<int>, int> {
     public DbSet<Place> Places { get; set; }
     public DbSet<Category> Categories { get; set; }
+    public DbSet<PlaceReview> PlaceReviews { get; set; }
     public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) {}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
@@ -46,6 +47,10 @@ namespace Diporto.Database {
 
       modelBuilder.Entity<Place>()
         .HasIndex("Name", "Address")
+        .IsUnique();
+
+      modelBuilder.Entity<User>()
+        .HasIndex(user => user.UserName)
         .IsUnique();
 
       modelBuilder.Entity<User>(entity => {

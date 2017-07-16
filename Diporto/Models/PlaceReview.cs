@@ -9,13 +9,6 @@ namespace Diporto.Models {
     [Column("id")]
     public int Id { get; set; }
 
-    [Column("author_name")]
-    [Required]
-    public string AuthorName { get; set; }
-
-    [Column("author_profile_image_url")]
-    public string AuthorProfileImageURL { get; set; }
-
     [Column("rating")]
     [Required]
     public float Rating { get; set; }
@@ -28,8 +21,14 @@ namespace Diporto.Models {
     [Required]
     public string Text { get; set; }
 
-    [Required]
     [JsonIgnore]
     public Place Place { get; set; }
+
+    [JsonIgnore]
+    public User User { get; set; }
+
+    [Column("user_id")]
+    [JsonProperty("user_id")]
+    public int UserId { get; set; }
   }
 }
