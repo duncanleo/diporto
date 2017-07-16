@@ -94,5 +94,23 @@ namespace Diporto.Controllers {
 
       return new NoContentResult();
     }
+
+    [HttpDelete("{id:int}")]
+    public async Task<IActionResult> Delete(int id) {
+      var review = context.PlaceReviews.Include(rv => rv.User).FirstOrDefault(rv => rv.Id == id);
+      if (review == null) {
+        return NotFound();
+      }
+
+      // Ensure request user is owner of the review
+      var user = await userManager.GetUserAsync(User);
+      if (review.User.Id != user.Id) {
+        return StatusCode((int)HttpStatusCode.Forbidden);
+      }
+
+      context.PlaceReviews.Remove(review);
+      context.SaveChanges();
+      return new NoContentResult();
+    }
   }
 }
