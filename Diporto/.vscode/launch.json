@@ -30,7 +30,10 @@
                 }
             },
             "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
+                "ASPNETCORE_ENVIRONMENT": "Development",
+                "AWS_ACCESS_KEY_ID": "",
+                "AWS_SECRET_ACCESS_KEY": "",
+                "GOOGLE_API_KEY": ""
             },
             "sourceFileMap": {
                 "/Views": "${workspaceRoot}/Views"
