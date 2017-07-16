@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace Diporto.Controllers {
   [Authorize]
-  [Route("api/[controller]")]
+  [Route("api/places")]
   public class PlaceController : Controller {
     private readonly DatabaseContext context;
     public PlaceController(DatabaseContext context) {
