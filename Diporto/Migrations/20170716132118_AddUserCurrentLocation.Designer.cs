@@ -9,9 +9,10 @@ using NpgsqlTypes;
 namespace Diporto.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20170716132118_AddUserCurrentLocation")]
+    partial class AddUserCurrentLocation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("Npgsql:PostgresExtension:cube", "'cube', '', ''")
@@ -145,49 +146,6 @@ namespace Diporto.Migrations
                     b.HasIndex("place_id");
 
                     b.ToTable("place_review");
-                });
-
-            modelBuilder.Entity("Diporto.Models.Room", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnName("name");
-
-                    b.Property<int>("OwnerId")
-                        .HasColumnName("owner_id");
-
-                    b.Property<string>("ShortCode")
-                        .HasColumnName("short_code");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OwnerId");
-
-                    b.ToTable("room");
-                });
-
-            modelBuilder.Entity("Diporto.Models.RoomMembership", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id");
-
-                    b.Property<int>("RoomId")
-                        .HasColumnName("room_id");
-
-                    b.Property<int>("UserId")
-                        .HasColumnName("user_id");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RoomId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("room_membership");
                 });
 
             modelBuilder.Entity("Diporto.Models.User", b =>
@@ -398,27 +356,6 @@ namespace Diporto.Migrations
                     b.HasOne("Diporto.Models.Place", "Place")
                         .WithMany("PlaceReviews")
                         .HasForeignKey("place_id");
-                });
-
-            modelBuilder.Entity("Diporto.Models.Room", b =>
-                {
-                    b.HasOne("Diporto.Models.User", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Diporto.Models.RoomMembership", b =>
-                {
-                    b.HasOne("Diporto.Models.Room", "Room")
-                        .WithMany("RoomMemberships")
-                        .HasForeignKey("RoomId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Diporto.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<int>", b =>

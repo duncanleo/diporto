@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using NpgsqlTypes;
 
 namespace Diporto.Models {
   [Table("user")]
@@ -18,6 +19,9 @@ namespace Diporto.Models {
     [Required]
     [Column("is_admin")]
     public bool IsAdmin { get; set; }
+
+    [Column("current_location")]
+    public PostgisPoint CurrentLocation { get; set; }
 
     [JsonProperty("reviews")]
     public ICollection<PlaceReview> PlaceReviews { get; set; }

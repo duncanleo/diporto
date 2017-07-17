@@ -9,9 +9,10 @@ using NpgsqlTypes;
 namespace Diporto.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20170716133009_AddRooms")]
+    partial class AddRooms
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("Npgsql:PostgresExtension:cube", "'cube', '', ''")
@@ -153,18 +154,12 @@ namespace Diporto.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnName("name");
-
-                    b.Property<int>("OwnerId")
-                        .HasColumnName("owner_id");
 
                     b.Property<string>("ShortCode")
                         .HasColumnName("short_code");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("OwnerId");
 
                     b.ToTable("room");
                 });
@@ -398,14 +393,6 @@ namespace Diporto.Migrations
                     b.HasOne("Diporto.Models.Place", "Place")
                         .WithMany("PlaceReviews")
                         .HasForeignKey("place_id");
-                });
-
-            modelBuilder.Entity("Diporto.Models.Room", b =>
-                {
-                    b.HasOne("Diporto.Models.User", "Owner")
-                        .WithMany()
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Diporto.Models.RoomMembership", b =>

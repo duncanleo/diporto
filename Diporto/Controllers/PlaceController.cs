@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Diporto.Database;
 using Diporto.Models;
 using System.Linq;
+using NpgsqlTypes;
 
 namespace Diporto.Controllers {
   [Authorize]
@@ -68,7 +69,7 @@ namespace Diporto.Controllers {
     [HttpGet("nearby")]
     public IEnumerable<Place> GetNearby(double lat, double lon, string categoryFilters = "", int numResults = 5) {
       var places = context.Places
-        .FromSql("SELECT *, ST_Distance(ST_SetSRID(ST_MakePoint(p.lat,p.lon),4326), ST_SetSRID(ST_MakePoint({0},{1}),4326)) AS distance FROM place p ORDER BY distance", lat, lon)
+        .FromSql("SELECT *, ST_Distance(ST_SetSRID(ST_MakePoint(p.lon,p.lat),4326), ST_SetSRID(ST_MakePoint({0},{1}),4326)) AS distance FROM place p ORDER BY distance", lon, lat)
         .Where(place => categoryFilters.Length > 0 ? place.PlaceCategories.Select(pc => pc.Category.Name).Intersect(categoryFilters.Split('|')).Any() : true)
         .Include(place => place.PlaceCategories)
           .ThenInclude(pc => pc.Category)
@@ -82,6 +83,31 @@ namespace Diporto.Controllers {
       }
       
       return places;
+    }
+
+    [HttpGet]
+    public IActionResult GetPlacesByRoomId(int roomId) {
+      var room = context.Rooms
+        .Include(r => r.RoomMemberships)
+          .ThenInclude(rm => rm.User)
+        .FirstOrDefault(r => r.Id == roomId);
+      if (room == null) {
+        return NotFound();
+      }
+
+      var locations = room.RoomMemberships.Select(rm => rm.User.CurrentLocation).ToList();
+
+      var places = context.Places
+        .FromSql(
+          @"SELECT * FROM place p WHERE ST_Within(
+            ST_MakePoint(p.lon, p.lat),
+            ST_Envelope({0})
+          )
+          ", 
+          new PostgisLineString(locations.Select(loc => new Coordinate2D(loc.X, loc.Y)))
+        );
+
+      return new ObjectResult(places);
     }
 
     [HttpPut("{id:int}")]
