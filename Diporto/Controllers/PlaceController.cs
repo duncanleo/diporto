@@ -12,17 +12,23 @@ namespace Diporto.Controllers {
   [Authorize]
   [Route("api/places")]
   public class PlaceController : Controller {
+    const int pageSize = 20;
+
     private readonly DatabaseContext context;
     public PlaceController(DatabaseContext context) {
       this.context = context;
     }
 
     [HttpGet("all")]
-    public IEnumerable<Place> GetAll() {
+    [AllowAnonymous]
+    public IEnumerable<Place> GetAll(int page = 1, string categories = "") {
       return context.Places
         .Include(place => place.PlacePhotos)
         .Include(place => place.PlaceCategories)
         .Include(place => place.PlaceReviews)
+        .Where(place => categories.Length > 0 ? place.PlaceCategories.Select(pc => pc.Category.Name).Intersect(categories.Split('|')).Any() : true)
+        .Skip((page - 1) * pageSize)
+        .Take(pageSize)
         .ToList();
     }
 
@@ -49,6 +55,7 @@ namespace Diporto.Controllers {
     }
 
     [HttpGet("{id:int}")]
+    [AllowAnonymous]
     public IActionResult GetById(int id) {
       var result = context.Places
         .Include(place => place.PlaceCategories)
@@ -67,10 +74,11 @@ namespace Diporto.Controllers {
     }
 
     [HttpGet("nearby")]
-    public IEnumerable<Place> GetNearby(double lat, double lon, string categoryFilters = "", int numResults = 5) {
+    [AllowAnonymous]
+    public IEnumerable<Place> GetNearby(double lat, double lon, string categories = "", int numResults = 5) {
       var places = context.Places
         .FromSql("SELECT *, ST_Distance(ST_SetSRID(ST_MakePoint(p.lon,p.lat),4326), ST_SetSRID(ST_MakePoint({0},{1}),4326)) AS distance FROM place p ORDER BY distance", lon, lat)
-        .Where(place => categoryFilters.Length > 0 ? place.PlaceCategories.Select(pc => pc.Category.Name).Intersect(categoryFilters.Split('|')).Any() : true)
+        .Where(place => categories.Length > 0 ? place.PlaceCategories.Select(pc => pc.Category.Name).Intersect(categories.Split('|')).Any() : true)
         .Include(place => place.PlaceCategories)
           .ThenInclude(pc => pc.Category)
         .Include(place => place.PlacePhotos)
