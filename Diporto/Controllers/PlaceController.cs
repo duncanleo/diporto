@@ -87,7 +87,10 @@ namespace Diporto.Controllers {
 
     [HttpGet]
     public IActionResult GetPlacesByRoomId(int roomId) {
-      var room = context.Rooms.Include(r => r.RoomMemberships).FirstOrDefault(r => r.Id == roomId);
+      var room = context.Rooms
+        .Include(r => r.RoomMemberships)
+          .ThenInclude(rm => rm.User)
+        .FirstOrDefault(r => r.Id == roomId);
       if (room == null) {
         return NotFound();
       }
