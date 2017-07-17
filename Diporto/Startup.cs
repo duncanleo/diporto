@@ -39,6 +39,13 @@ namespace Diporto
             services.AddMvc();
 
             var connectionString = Configuration["DbContextSettings:ConnectionString"];
+            var databaseURL = Configuration["DATABASE_URL"];
+            if (connectionString.Length == 0 && databaseURL.Length > 0) {
+                // Attempt to use Env Var DATABASE_URL
+                var uri = new Uri(databaseURL);
+                var creds = uri.UserInfo.Split(':');
+                connectionString = $"Username={creds[0]};Password={creds[1]};Host={uri.Host};Port={uri.Port};Database={uri.LocalPath.Substring(1)};Pooling=true;SSL Mode=Prefer;";
+            }
             services.AddDbContext<DatabaseContext>(opts => opts.UseNpgsql(connectionString));
 
             services.AddIdentity<User, IdentityRole<int>>()
