@@ -44,7 +44,7 @@ namespace Diporto
                 // Attempt to use Env Var DATABASE_URL
                 var uri = new Uri(databaseURL);
                 var creds = uri.UserInfo.Split(':');
-                connectionString = $"Username={creds[0]};Password={creds[1]};Host={uri.Host};Port={uri.Port};Database={uri.LocalPath.Substring(1)};Pooling=true;Use SSL Stream=True;SSL Mode=Require;TrustServerCertificate=True;";
+                connectionString = $"Username={creds[0]};Password={creds[1]};Host={uri.Host};Port={uri.Port};Database={uri.PathAndQuery.Substring(1)};Pooling=true;Use SSL Stream=True;SSL Mode=Require;TrustServerCertificate=True;";
             }
             services.AddDbContext<DatabaseContext>(opts => opts.UseNpgsql(connectionString));
 
