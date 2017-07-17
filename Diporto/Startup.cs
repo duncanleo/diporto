@@ -39,7 +39,7 @@ namespace Diporto
             services.AddMvc();
 
             var connectionString = Configuration["DbContextSettings:ConnectionString"];
-            var databaseURL = Configuration["DATABASE_URL"];
+            var databaseURL = Environment.GetEnvironmentVariable("DATABASE_URL");
             if (connectionString.Length == 0 && databaseURL.Length > 0) {
                 // Attempt to use Env Var DATABASE_URL
                 var uri = new Uri(databaseURL);
