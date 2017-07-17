@@ -40,7 +40,7 @@ namespace Diporto
 
             var connectionString = Configuration["DbContextSettings:ConnectionString"];
             var databaseURL = Environment.GetEnvironmentVariable("DATABASE_URL");
-            if (connectionString.Length == 0 && databaseURL.Length > 0) {
+            if ((connectionString == null || connectionString.Length == 0) && databaseURL.Length > 0) {
                 // Attempt to use Env Var DATABASE_URL
                 var uri = new Uri(databaseURL);
                 var creds = uri.UserInfo.Split(':');
