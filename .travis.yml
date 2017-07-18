@@ -26,13 +26,12 @@ script:
 - cd ..
 - yarn test
 after_success:
-- cd ./Diporto
 - mkdir -p public
+- cd ./Diporto
 - dotnet publish Diporto.csproj --output $TRAVIS_BUILD_DIR/public --configuration Release
 - cd ..
-- mv ./Diporto/public .
-- chmod 600 deploy-key
-- mv deploy-key ~/.ssh/id_rsa
+- chmod 600 deploy_key
+- mv deploy_key ~/.ssh/id_rsa
 - rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR/public diporto@diporto.undertide.co:/home/diporto/deployed_code
 cache:
   yarn: true
