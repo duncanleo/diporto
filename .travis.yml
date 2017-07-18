@@ -25,6 +25,8 @@ script:
 - dotnet test
 - cd ..
 - yarn test
+before_deploy:
+- chmod +x deploy.sh
 deploy:
   provider: script
   script: deploy.sh
