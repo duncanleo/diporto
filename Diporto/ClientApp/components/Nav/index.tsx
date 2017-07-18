@@ -1,7 +1,5 @@
 import * as React from 'react';
 import { HTMLProps } from 'react';
-import DiportoMap from '../DiportoMap';
-
 
 const styles = {
   navBar: {
@@ -26,7 +24,6 @@ export default class Nav extends React.Component<{}, {}> {
 	  <h2 className="f3 lh-title white ma0">Diporto</h2>
 	  <div style={{flexGrow: 1}}></div>
 	  <div style={styles.buttonContainer}>
-	      <DiportoMap />
 	      <a className="f6 link dim br3 ph3 pv2 mb2 white" style={styles.signUpButton} href="#">Sign Up</a>
 	      <a className="f6 link dim br3 ph3 pv2 mb2 white" style={styles.loginButton} href="#">Login</a>
 	  </div>
