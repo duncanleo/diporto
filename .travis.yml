@@ -3,32 +3,43 @@ mono: none
 dotnet: 1.0.4
 dist: trusty
 before_install:
-  - nvm install stable
-  - nvm use stable
+- openssl aes-256-cbc -K $encrypted_6cc82b9ebf3a_key -iv $encrypted_6cc82b9ebf3a_iv
+  -in deploy_key.enc -out deploy_key -d
+- nvm install stable
+- nvm use stable
 before_script:
-  - cd Diporto
-  - dotnet restore
-  - cd ../DiportoTests
-  - dotnet restore
-  - cd ../Diporto
-  - yarn install
-  - psql -U postgres -c "create extension cube"
-  - psql -U postgres -c "create extension earthdistance"
-  - psql -U postgres -c "create extension postgis"
+- cd Diporto
+- dotnet restore
+- cd ../DiportoTests
+- dotnet restore
+- cd ../Diporto
+- yarn install
+- psql -U postgres -c "create extension cube"
+- psql -U postgres -c "create extension earthdistance"
+- psql -U postgres -c "create extension postgis"
 script:
-  - cd ../Diporto
-  - cp appsettings.Travis.json appsettings.Development.json
-  - dotnet ef database update
-  - cd ../DiportoTests
-  - dotnet test
-  - cd ..
-  - yarn test
+- cd ../Diporto
+- cp appsettings.Travis.json appsettings.Development.json
+- dotnet ef database update
+- cd ../DiportoTests
+- dotnet test
+- cd ..
+- yarn test
+after_success:
+- cd ./Diporto
+- mkdir -p public
+- dotnet publish Diporto.csproj --output public/ --configuration Release
+- cd ..
+- mv ./Diporto/public .
+- chmod 600 deploy-key
+- mv deploy-key ~/.ssh/id_rsa
+- rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR/public diporto@diporto.undertide.co:/home/diporto/deployed_code
 cache:
   yarn: true
 services:
-  - postgresql
+- postgresql
 env:
-  - ASPNETCORE_ENVIRONMENT=Development
+- ASPNETCORE_ENVIRONMENT=Development
 addons:
   postgresql: 9.6
   apt:
