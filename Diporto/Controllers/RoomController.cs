@@ -49,6 +49,22 @@ namespace Diporto.Controllers {
       return new ObjectResult(room);
     }
 
+    [HttpGet]
+    public async Task<IActionResult> GetOwnRooms() {
+      var user = await userManager.GetUserAsync(User);
+      var rooms = context.Rooms
+        .Include(r => r.Owner)
+        .Include(r => r.RoomMemberships)
+        .Where(r => r.RoomMemberships.Select(rm => rm.UserId).Contains(user.Id))
+        .ToList();
+
+      for (int i = 0; i < rooms.Count; i++) {
+        rooms[i].Members = rooms[i].RoomMemberships.Select(rm => rm.User).ToList();
+      }
+      
+      return new ObjectResult(rooms);
+    }
+
     [HttpGet("{id:int}")]
     public IActionResult GetById(int id) {
       var room = context.Rooms
@@ -59,7 +75,7 @@ namespace Diporto.Controllers {
       if (room == null) {
         return NotFound();
       }
-      room.Members = room.RoomMemberships.Select(rm => rm.User);
+      room.Members = room.RoomMemberships.Select(rm => rm.User).ToList();
       return new ObjectResult(room);
     }
 

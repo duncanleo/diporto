@@ -25,5 +25,8 @@ namespace Diporto.Models {
 
     [JsonProperty("reviews")]
     public ICollection<PlaceReview> PlaceReviews { get; set; }
+
+    [JsonIgnore]
+    public ICollection<RoomMembership> RoomMemberships { get; set; }
   }
 }
