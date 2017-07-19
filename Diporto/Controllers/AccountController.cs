@@ -2,9 +2,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Collections.Generic;
 using System.Net;
+using System.Text;
+using System;
 using System.Threading.Tasks;
 using System.Linq;
+using Microsoft.Extensions.Configuration;
 using Diporto.Models;
 using Diporto.ViewModels;
 using Diporto.Database;
@@ -16,11 +23,14 @@ namespace Diporto.Controllers {
     private readonly DatabaseContext context;
     private readonly UserManager<User> userManager;
     private readonly SignInManager<User> signInManager;
+
+    private IConfiguration configuration;
     
-    public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, DatabaseContext context) {
+    public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, DatabaseContext context, IConfiguration configuration) {
       this.userManager = userManager;
       this.signInManager = signInManager;
       this.context = context;
+      this.configuration = configuration;
     }
 
     public IActionResult Index()
@@ -167,6 +177,44 @@ namespace Diporto.Controllers {
       context.SaveChanges();
 
       return new ObjectResult(targetUser);
+    }
+
+    [HttpPost("token")]
+    public async Task<IActionResult> Token([FromBody] RequestTokenViewModel model) {
+      if (!ModelState.IsValid) {
+        return BadRequest();
+      }
+
+      var user = await userManager.FindByNameAsync(model.UserName);
+
+      if (user == null || new PasswordHasher<User>().VerifyHashedPassword(user, user.PasswordHash, model.Password) != PasswordVerificationResult.Success) {
+        return BadRequest();
+      }
+
+      var token = await GetJwtSecurityToken(user);
+      return Ok(new {
+        token = new JwtSecurityTokenHandler().WriteToken(token),
+        expiration = token.ValidTo
+      });
+    }
+
+    private async Task<JwtSecurityToken> GetJwtSecurityToken(User user) {
+      var userClaims = await userManager.GetClaimsAsync(user);
+
+      return new JwtSecurityToken(
+        issuer: configuration.GetSection("AppConfiguration:SiteUrl").Value,
+        audience: configuration.GetSection("AppConfiguration:SiteUrl").Value,
+        claims: GetTokenClaims(user).Union(userClaims),
+        expires: DateTime.UtcNow.AddMinutes(10),
+        signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection("AppConfiguration:Key").Value)), SecurityAlgorithms.HmacSha256)
+      );
+    }
+
+    private static IEnumerable<Claim> GetTokenClaims(User user) {
+      return new List<Claim> {
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+        new Claim(JwtRegisteredClaimNames.Sub, $"{user.Id}")
+      };
     }
   }
 }
