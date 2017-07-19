@@ -28,6 +28,7 @@ namespace Diporto.Controllers {
         .Where(place => categories.Length > 0 ? place.PlaceCategories.Select(pc => pc.Category.Name).Intersect(categories.Split('|')).Any() : true)
         .Include(place => place.PlacePhotos)
         .Include(place => place.PlaceReviews)
+          .ThenInclude(review => review.User)
         .Include(place => place.PlaceCategories)
           .ThenInclude(pc => pc.Category);
 
@@ -91,6 +92,14 @@ namespace Diporto.Controllers {
       // Patch categories
       foreach(Place place in places) {
         place.Categories = place.PlaceCategories.Select(pc => pc.Category.Name);
+
+        // Patch user's review to be null
+        if (place.PlaceReviews != null) {
+          place.PlaceReviews = place.PlaceReviews.Select(review => {
+            review.User = null;
+            return review;
+          }).ToList();
+        }
       }
 
       return new ObjectResult(places);

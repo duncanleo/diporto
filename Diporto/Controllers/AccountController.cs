@@ -101,12 +101,7 @@ namespace Diporto.Controllers {
     [Authorize]
     public async Task<IActionResult> GetOwnProfile() {
       var user = await userManager.GetUserAsync(User);
-      return new ObjectResult(new {
-        name = user.Name,
-        email = user.Email,
-        username = user.UserName,
-        profileImage = user.ProfileImageURL
-      });
+      return new ObjectResult(user);
     }
 
     [HttpGet("users/{id:int}")]
