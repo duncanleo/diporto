@@ -5,9 +5,11 @@ import Nav from '../Nav';
 export class Layout extends React.Component<{}, {}> {
     public render() {
 	return (
-	    <div>
+	    <div className="h-100 flex flex-column">
 		<Nav />
-		<div>{this.props.children}</div>
+		<div className="flex flex-column" style={{flexGrow: 1}}>
+		    {this.props.children}
+		</div>
 	    </div>
 	)
     }
