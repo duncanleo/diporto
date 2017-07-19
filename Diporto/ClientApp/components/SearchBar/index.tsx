@@ -1,7 +1,13 @@
 import * as React from "react";
 
+export interface SearchButtonStyle {
+  backgroundColor: string
+  color: string
+}
+
 export interface SearchProps extends React.Props<any> {
   onSearch: (searchText: string) => void;
+  buttonStyle?: SearchButtonStyle;
 }
 
 export interface SearchState extends React.ComponentState {
@@ -9,6 +15,13 @@ export interface SearchState extends React.ComponentState {
 }
 
 export default class SearchBar extends React.Component<SearchProps, SearchState> {
+  public static defaultProps: Partial<SearchProps> = {
+    buttonStyle: {
+      backgroundColor: "#FE92DE",
+      color: "white"
+    }
+  };
+
   constructor(props) {
     super(props)
 
@@ -37,7 +50,7 @@ export default class SearchBar extends React.Component<SearchProps, SearchState>
 	  value={this.state.value}
 	  onChange={this.handleChange}
 	/>
-	<input className="f6 f5-l button-reset fl pv3 tc bn bg-animate bg-black-70 hover-bg-black white pointer w-100 w-25-m w-20-l br2-ns br--right-ns" type="submit" value="search"/>
+	<input style={this.props.buttonStyle} className="f6 f5-l button-reset fl pv3 tc bn bg-animate white pointer w-100 w-25-m w-20-l br2-ns br--right-ns" type="submit" value="search"/>
       </form>
     )
   }
