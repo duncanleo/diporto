@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import { NavLink, Link } from 'react-router-dom';
 import { ChangeTargetHTMLProps } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import Map from './Map';
@@ -21,14 +22,15 @@ export default class Home extends React.Component<RouteComponentProps<{}>, {}> {
 	return (
 	    <div style={backgroundStyle} className="flex flex-column">
 		<div style={containerStyle} className="flex flex-column h-100 justify-center">
-		    <div className="flex flex-column items-center">
-			<h1 className="white f-headline lh-solid">Diporto</h1>
-			<h2 className="white f-subheadlibe lh-title">Best recommendations for the best places in Singapore.</h2>
+		    <div className="flex flex-column items-center pa4 pa0-ns">
+			<h1 className="white f-subheadline lh-solid">Diporto</h1>
+			<h2 className="white f4 lh-title tc">Best recommendations for the best places in Singapore.</h2>
 			<div className="flex w-100 mw7">
 			    <SearchBar
 				onSearch={(t) => console.log(t)}
 			    />
 			</div>
+			<Link className='white f5 mt4 lh-copy' to={ '/nearby' }>show me nearby places</Link>
 		    </div>
 		</div>
 	    </div>
