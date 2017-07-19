@@ -1,0 +1,18 @@
+@{
+    ViewData["Title"] = "Admin Panel";
+    Layout = "_AdminLayout";
+}
+
+@section styles {
+  <link rel="stylesheet" href="~/css/admin/index.css">
+}
+
+<div class="container">
+  <h4>Login here.</h4>
+
+  <form action="api/login" method="post">
+    <input type="text" name="username" placeholder="Username" required>
+    <input type="password" placeholder="Password" required>
+    <input type="submit" value="Login">
+  </form>
+</div>
