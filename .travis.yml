@@ -25,18 +25,14 @@ script:
 - dotnet test
 - cd ..
 - yarn test
-after_success:
-- if [ "$TRAVIS_BRANCH" == "master" ]; then
-    mkdir -p deployed_code
-    cd ./Diporto
-    dotnet publish Diporto.csproj --output $TRAVIS_BUILD_DIR/deployed_code --configuration Release
-    cd ..
-    chmod 600 deploy_key
-    mv deploy_key ~/.ssh/id_rsa
-    rsync -r --delete-after --quiet $TRAVIS_BUILD_DIR/deployed_code diporto@diporto.undertide.co:/home/diporto
-    ssh diporto@diporto.undertide.co cp /home/diporto/appsettings.Production.json /home/diporto/deployed_code/
-    ssh diporto@diporto.undertide.co sudo systemctl restart diporto
-  fi
+before_deploy:
+- chmod +x deploy.sh
+deploy:
+  provider: script
+  script: ./deploy.sh
+  skip_cleanup: true
+  on:
+    branch: master
 cache:
   yarn: true
 services:
