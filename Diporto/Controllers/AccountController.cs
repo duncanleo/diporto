@@ -188,7 +188,7 @@ namespace Diporto.Controllers {
       var user = await userManager.FindByNameAsync(model.UserName);
 
       if (user == null || new PasswordHasher<User>().VerifyHashedPassword(user, user.PasswordHash, model.Password) != PasswordVerificationResult.Success) {
-        return BadRequest();
+        return StatusCode(401);
       }
 
       var token = await GetJwtSecurityToken(user);
