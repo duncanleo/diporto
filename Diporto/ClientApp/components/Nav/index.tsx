@@ -3,7 +3,8 @@ import { HTMLProps } from 'react';
 
 const styles = {
   navBar: {
-      backgroundColor: "#273CFE"
+      backgroundColor: "#273CFE",
+      flexShrink: 0,
   } as HTMLProps<HTMLDivElement>,
   buttonContainer: {
       alignSelf: "center"
@@ -19,7 +20,7 @@ const styles = {
 export default class Nav extends React.Component<{}, {}> {
   public render() {
     return (
-      <div className="flex flex-row pa0 pa3-ns" style={styles.navBar}>
+      <div className="flex flex-row pa3 pa3-ns" style={styles.navBar}>
 	  <h2 className="f3 lh-title white ma0">Diporto</h2>
 	  <div style={{flexGrow: 1}}></div>
 	  <div style={styles.buttonContainer}>

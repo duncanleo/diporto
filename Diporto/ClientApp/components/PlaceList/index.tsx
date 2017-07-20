@@ -12,14 +12,14 @@ export default class PlaceList extends React.Component<PlaceListProps, PlaceList
   }
 
   private renderPlaceList() {
-    return this.props.places.map(place => {
-      return <PlaceListItem key={place.id} place={place}/>
+    return this.props.places.map((place, index) => {
+      return <PlaceListItem key={place.id} place={place} index={index}/>
     })
   }
 
   public render() {
     return (
-      <div>
+      <div className="mw8 center">
 	{this.renderPlaceList()}
       </div>
     )
