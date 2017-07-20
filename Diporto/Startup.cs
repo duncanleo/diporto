@@ -4,9 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
+using System.Net;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -52,7 +54,9 @@ namespace Diporto
             }
             services.AddDbContext<DatabaseContext>(opts => opts.UseNpgsql(connectionString));
 
-            services.AddIdentity<User, IdentityRole<int>>()
+            services.AddIdentity<User, IdentityRole<int>>(options => {
+                options.Cookies.ApplicationCookie.AutomaticChallenge = false;
+            })
                 .AddEntityFrameworkStores<DatabaseContext, int>()
                 .AddDefaultTokenProviders();
 
@@ -66,6 +70,17 @@ namespace Diporto
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
                 options.Lockout.MaxFailedAccessAttempts = 10;
                 options.Lockout.AllowedForNewUsers = true;
+
+                options.Cookies.ApplicationCookie.Events = new CookieAuthenticationEvents {
+                    OnRedirectToLogin = ctx => {
+                        if (ctx.Request.Path.StartsWithSegments("/api") && ctx.Response.StatusCode == (int) HttpStatusCode.OK) {
+                            ctx.Response.StatusCode = (int) HttpStatusCode.Unauthorized;
+                        } else {
+                            ctx.Response.Redirect(ctx.RedirectUri);
+                        }
+                        return Task.FromResult(0);
+                    }
+                };
             });
 
             services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
