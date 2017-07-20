@@ -96,7 +96,7 @@ namespace Diporto.Controllers {
         // Patch user's review to be null
         if (place.PlaceReviews != null) {
           place.PlaceReviews = place.PlaceReviews.Select(review => {
-            review.User = null;
+            review.User.PlaceReviews = null;
             return review;
           }).ToList();
         }
