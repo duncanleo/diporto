@@ -3,6 +3,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../store';
 import * as PlacesState from '../store/Places';
+import PlaceList from './PlaceList'
 
 type PlacesSearchProps =
   PlacesState.PlacesState
@@ -22,32 +23,16 @@ class PlacesSearch extends React.Component<PlacesSearchProps, {}> {
 
   public render() {
     return <div>
-      <h1>Places</h1>
       { this.renderPlacesTable() }
     </div>
   }
 
   private renderPlacesTable() {
-    return <table>
-      <thead>
-	<td>Name</td>
-	<td>lat</td>
-	<td>lon</td>
-	<td>phone</td>
-	<td>address</td>
-      </thead>
-      <tbody>
-	 {this.props.places.map( place =>
-	  <tr>
-	    <td>{ place.name }</td>
-	    <td>{ place.lat }</td>
-	    <td>{ place.lon } </td>
-	    <td>{ place.phone }</td>
-	    <td>{ place.address }</td>
-	  </tr>
-	)}
-      </tbody>
-    </table>
+    return (
+      <PlaceList
+	places={this.props.places}
+      />
+    )
   }
 }
 
