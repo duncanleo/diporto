@@ -239,7 +239,7 @@ namespace Diporto.Controllers {
         issuer: configuration.GetSection("AppConfiguration:SiteUrl").Value,
         audience: configuration.GetSection("AppConfiguration:SiteUrl").Value,
         claims: GetTokenClaims(user).Union(userClaims),
-        expires: DateTime.UtcNow.AddMinutes(10),
+        expires: DateTime.UtcNow.AddMinutes(30),
         signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection("AppConfiguration:Key").Value)), SecurityAlgorithms.HmacSha256)
       );
     }
@@ -258,7 +258,7 @@ namespace Diporto.Controllers {
         issuer: configuration.GetSection("AppConfiguration:SiteUrl").Value,
         audience: configuration.GetSection("AppConfiguration:SiteUrl").Value,
         claims: GetRefreshTokenClaims(user).Union(userClaims),
-        expires: DateTime.UtcNow.AddMinutes(10),
+        expires: DateTime.UtcNow.AddDays(7),
         signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection("AppConfiguration:Key").Value)), SecurityAlgorithms.HmacSha256)
       );
     }
