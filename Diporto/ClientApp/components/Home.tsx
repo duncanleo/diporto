@@ -2,12 +2,23 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { NavLink, Link } from 'react-router-dom';
 import { ChangeTargetHTMLProps } from 'react';
+import createHistory from 'history/createBrowserHistory';
 import { RouteComponentProps } from 'react-router-dom';
 import Map from './Map';
 import SearchBar from './SearchBar';
 const config: Config = require('../util/config.json');
 
 export default class Home extends React.Component<RouteComponentProps<{}>, {}> {
+    constructor(props) {
+	super(props);
+
+	this.handleSearchButtonPressed = this.handleSearchButtonPressed.bind(this);
+    }
+
+    handleSearchButtonPressed(text) {
+	createHistory().push(`/search/${text}`);
+    }
+
     public render() {
 	const containerStyle = {
 	    backgroundColor: "rgba(80, 204, 188, .8)",
@@ -27,7 +38,7 @@ export default class Home extends React.Component<RouteComponentProps<{}>, {}> {
 			<h2 className="white f4 lh-title tc">Best recommendations for the best places in Singapore.</h2>
 			<div className="flex w-100 mw7">
 			    <SearchBar
-				onSearch={(t) => console.log(t)}
+				onSearch={this.handleSearchButtonPressed}
 			    />
 			</div>
 			<Link className='white f5 mt4 lh-copy' to={ '/nearby' }>show me nearby places</Link>
