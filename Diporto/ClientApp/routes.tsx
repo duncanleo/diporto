@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { Route } from 'react-router-dom';
-import { Layout, LandingLayout, AppLayout } from './components/Layout';
+import { Layout } from './components/Layout';
 import Home from './components/Home';
+import PlacesSearch from './components/PlacesSearch';
 
 export const routes = (
     <Layout>
-	<LandingLayout>
-	    <Route exact path='/' component={ Home } />
-	</LandingLayout>
+	<Route exact path='/' component={ Home } />
+	<Route path='/search/:searchTerm?' component={ PlacesSearch } />
     </Layout>
 );
