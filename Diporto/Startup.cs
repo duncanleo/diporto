@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
@@ -35,6 +37,8 @@ namespace Diporto
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IConfiguration>(Configuration);
+            
             // Add framework services.
             services.AddMvc();
 
@@ -97,6 +101,18 @@ namespace Diporto
             app.UseStaticFiles();
 
             app.UseIdentity();
+
+            app.UseJwtBearerAuthentication(new JwtBearerOptions {
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
+                TokenValidationParameters = new TokenValidationParameters {
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetSection("AppConfiguration:Key").Value)),
+                    ValidAudience = Configuration.GetSection("AppConfiguration:SiteUrl").Value,
+                    ValidateIssuerSigningKey = true,
+                    ValidateLifetime = true,
+                    ValidIssuer = Configuration.GetSection("AppConfiguration:SiteUrl").Value
+                }
+            });
 
             app.UseMvc(routes =>
             {
