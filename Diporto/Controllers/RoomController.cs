@@ -55,7 +55,8 @@ namespace Diporto.Controllers {
       var rooms = context.Rooms
         .Include(r => r.Owner)
         .Include(r => r.RoomMemberships)
-        .Where(r => r.RoomMemberships.Select(rm => rm.UserId).Contains(user.Id))
+          .ThenInclude(rm => rm.User)
+        .Where(r => r.RoomMemberships.Any(rm => rm.UserId == user.Id))
         .ToList();
 
       for (int i = 0; i < rooms.Count; i++) {
