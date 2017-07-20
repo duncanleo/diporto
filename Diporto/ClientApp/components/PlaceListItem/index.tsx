@@ -17,11 +17,11 @@ const PlaceListItem: React.SFC<PlaceListItemProps> = (props) => {
   }
 
   return (
-    <div className="flex">
-      <div className="flex w-60">
+    <div className="flex bt bb b--light-gray pv3">
+      <div className="flex w-70">
 	<div className="w-20 pa2" style={{flexShrink: 0}}>
 	  <div className="aspect-ratio aspect-ratio--1x1">
-	    <div className="aspect-ratio--object cover" style={photoStyle}></div>
+	    <div className="aspect-ratio--object cover br2" style={photoStyle}></div>
 	  </div>
 	</div>
 	<div className="flex flex-column">
@@ -32,7 +32,7 @@ const PlaceListItem: React.SFC<PlaceListItemProps> = (props) => {
 	  {place.reviews[0] != null ? <span className="f6 i lh-copy">"{place.reviews[0].text}"</span> : ''}
 	</div>
       </div>
-      <div className="w-40">
+      <div className="w-30">
 	<span>{place.phone}</span>
 	<address>{place.address}</address>
       </div>
