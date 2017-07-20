@@ -41,19 +41,22 @@ type KnownAction = RECEIVE_PLACES | REQUEST_PLACES;
 export const actionCreators = {
     requestPlaces: (filter: PlacesFilter): AppThunkAction<KnownAction> => (dispatch, getState) => {
 	if (filter.text !== getState().places.filter.text) {
-	    let fetchTask = fetch(`api/places/all`)
+	    let fetchTask = fetch(`api/places`)
 		.then(response => response.json())
 		.then(json => {
 		    return json.map(place => {
-			return {
-			    id: place.id,
-			    name: place.name,
-			    lat: place.lat,
-			    lon: place.lon,
-			    address: place.address,
-			    phone: place.phone,
-			}
-		    })
+				return {
+					id: place.id,
+					name: place.name,
+					lat: place.lat,
+					lon: place.lon,
+					address: place.address,
+					phone: place.phone,
+					photos: place.photos,
+					reviews: place.reviews,
+					categories: place.categories
+				} as Place
+			})
 		})
 		.then(data => {
 		    dispatch({ type: 'RECEIVE_PLACES', places: data, filter: filter})

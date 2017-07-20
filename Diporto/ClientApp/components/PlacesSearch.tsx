@@ -22,7 +22,7 @@ class PlacesSearch extends React.Component<PlacesSearchProps, {}> {
   }
 
   public render() {
-    return <div>
+    return <div className="bg-white">
       { this.renderPlacesTable() }
     </div>
   }
@@ -30,7 +30,7 @@ class PlacesSearch extends React.Component<PlacesSearchProps, {}> {
   private renderPlacesTable() {
     return (
       <PlaceList
-	places={this.props.places}
+	      places={this.props.places}
       />
     )
   }
