@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 using System.Threading.Tasks;
 using System.Linq;
@@ -101,12 +102,10 @@ namespace Diporto.Controllers {
     [Authorize]
     public async Task<IActionResult> GetOwnProfile() {
       var user = await userManager.GetUserAsync(User);
-      return new ObjectResult(new {
-        name = user.Name,
-        email = user.Email,
-        username = user.UserName,
-        profileImage = user.ProfileImageURL
-      });
+      var dbUser = context.Users
+        .Include(u => u.PlaceReviews)
+        .First(u => u.Id == user.Id);
+      return new ObjectResult(dbUser);
     }
 
     [HttpGet("users/{id:int}")]

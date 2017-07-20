@@ -7,9 +7,11 @@ using NpgsqlTypes;
 
 namespace Diporto.Models {
   [Table("user")]
+  [JsonObject(MemberSerialization.OptIn)]
   public class User : IdentityUser<int> {
     [Required]
     [Column("name")]
+    [JsonProperty("name")]
     public string Name { get; set; }
 
     [Column("profile_image_url")]
@@ -18,12 +20,17 @@ namespace Diporto.Models {
 
     [Required]
     [Column("is_admin")]
+    [JsonIgnore]
     public bool IsAdmin { get; set; }
 
     [Column("current_location")]
+    [JsonProperty("current_location")]
     public PostgisPoint CurrentLocation { get; set; }
 
-    [JsonProperty("reviews")]
+    [JsonProperty("reviews", NullValueHandling = NullValueHandling.Ignore)]
     public ICollection<PlaceReview> PlaceReviews { get; set; }
+
+    [JsonIgnore]
+    public ICollection<RoomMembership> RoomMemberships { get; set; }
   }
 }
