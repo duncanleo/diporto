@@ -185,16 +185,50 @@ namespace Diporto.Controllers {
         return BadRequest();
       }
 
-      var user = await userManager.FindByNameAsync(model.UserName);
+      var tokenValidationParams = new TokenValidationParameters {
+          IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection("AppConfiguration:Key").Value)),
+          ValidAudience = configuration.GetSection("AppConfiguration:SiteUrl").Value,
+          ValidateIssuerSigningKey = true,
+          ValidateLifetime = true,
+          ValidIssuer = configuration.GetSection("AppConfiguration:SiteUrl").Value
+      };
 
-      if (user == null || new PasswordHasher<User>().VerifyHashedPassword(user, user.PasswordHash, model.Password) != PasswordVerificationResult.Success) {
-        return StatusCode(401);
+      JwtSecurityToken refreshToken;
+      var jwtTokenhandler = new JwtSecurityTokenHandler();
+      User user;
+
+      switch(model.GrantType) {
+        case "refresh_token":
+          try {
+            SecurityToken validatedToken;
+            refreshToken = jwtTokenhandler.ReadJwtToken(model.RefreshToken);
+
+            var claims = jwtTokenhandler.ValidateToken(model.RefreshToken, tokenValidationParams, out validatedToken);
+            var userName = refreshToken.Claims.First(claim => claim.Type == JwtRegisteredClaimNames.Sub).Value;
+
+            user = await userManager.FindByNameAsync(userName);
+          } catch (Exception) {
+            // Could not decode refresh token
+            return StatusCode(401);
+          }
+          break;
+        case "access_token":
+          user = await userManager.FindByNameAsync(model.UserName);
+
+          if (user == null || new PasswordHasher<User>().VerifyHashedPassword(user, user.PasswordHash, model.Password) != PasswordVerificationResult.Success) {
+            return StatusCode(401);
+          }
+          break;
+        default:
+          return BadRequest();
       }
 
-      var token = await GetJwtSecurityToken(user);
+      var accessToken = await GetJwtSecurityToken(user);
+      refreshToken = await GetJwtSecurityRefreshToken(user);
       return Ok(new {
-        token = new JwtSecurityTokenHandler().WriteToken(token),
-        expiration = token.ValidTo
+        token = jwtTokenhandler.WriteToken(accessToken),
+        refresh_token = jwtTokenhandler.WriteToken(refreshToken),
+        expiration = accessToken.ValidTo
       });
     }
 
@@ -214,6 +248,25 @@ namespace Diporto.Controllers {
       return new List<Claim> {
         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         new Claim(JwtRegisteredClaimNames.Sub, $"{user.Id}")
+      };
+    }
+
+    private async Task<JwtSecurityToken> GetJwtSecurityRefreshToken(User user) {
+      var userClaims = await userManager.GetClaimsAsync(user);
+
+      return new JwtSecurityToken(
+        issuer: configuration.GetSection("AppConfiguration:SiteUrl").Value,
+        audience: configuration.GetSection("AppConfiguration:SiteUrl").Value,
+        claims: GetRefreshTokenClaims(user).Union(userClaims),
+        expires: DateTime.UtcNow.AddMinutes(10),
+        signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection("AppConfiguration:Key").Value)), SecurityAlgorithms.HmacSha256)
+      );
+    }
+
+    private static IEnumerable<Claim> GetRefreshTokenClaims(User user) {
+      return new List<Claim> {
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+        new Claim(JwtRegisteredClaimNames.Sub, $"{user.UserName}")
       };
     }
   }

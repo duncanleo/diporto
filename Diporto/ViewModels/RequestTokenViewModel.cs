@@ -2,11 +2,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Diporto.ViewModels {
   public class RequestTokenViewModel {
-    [Required]
     public string UserName { get; set; }
 
-    [Required]
+    public string RefreshToken { get; set; }
+
     [DataType(DataType.Password)]
     public string Password { get; set; }
+
+    [Required]
+    public string GrantType { get; set; }
   }
 }
