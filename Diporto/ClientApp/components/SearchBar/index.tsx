@@ -14,6 +14,7 @@ export interface SearchProps extends React.Props<any> {
   onSearch?: (searchText: string) => void;
   buttonStyle?: SearchButtonStyle;
   barStyle?: SearchBarStyle;
+  initialValue?: string
 }
 
 export interface SearchState extends React.ComponentState {
@@ -31,7 +32,7 @@ export default class SearchBar extends React.Component<SearchProps, SearchState>
   constructor(props) {
     super(props)
 
-    this.state = {value: ''};
+    this.state = {value: props.initialValue == null ? '' : props.initialValue};
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
