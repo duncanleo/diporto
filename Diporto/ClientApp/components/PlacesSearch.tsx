@@ -43,16 +43,24 @@ class PlacesSearch extends React.Component<PlacesSearchProps, {}> {
 	searchButtonPressed={this.handleSearchButtonPressed}
       />
 
-      { this.props.places.length === 0 ? <h2>Loading...</h2> : this.renderPlacesTable() }
+      { this.renderPlacesTable() }
     </div>
   }
 
   private renderPlacesTable() {
-    return (
-      <PlaceList
-	      places={this.props.places}
-      />
-    )
+    if (this.props.isLoading) { return <h2>Loading</h2> }
+
+    if (this.props.places.length === 0) {
+      return (
+	<h2>{`No Results Found for ${this.props.filter.text}`}</h2>
+      )
+    } else {
+      return (
+	<PlaceList
+	  places={this.props.places}
+	/>
+      )
+    }
   }
 }
 
