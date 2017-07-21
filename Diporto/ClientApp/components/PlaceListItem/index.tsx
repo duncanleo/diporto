@@ -10,7 +10,7 @@ interface PlaceListItemProps {
 const PlaceListItem: React.SFC<PlaceListItemProps> = (props) => {
   const { place } = props;
 
-  const placePhotoUrl = place.photos[0] === undefined ?  'http://via.placeholder.com/100x100' : `/api/photos/${place.photos[0].id}`
+  const placePhotoUrl = place.photos[0] === undefined ?  'https://s3-us-west-1.amazonaws.com/jurvis/placeholder_img.svg' : `/api/photos/${place.photos[0].id}`
 
   const photoStyle = {
     "background": `url(${placePhotoUrl}) center`
