@@ -17,7 +17,7 @@ namespace Diporto.Controllers {
   [Route("api/rooms")]
   public class RoomController : Controller {
     const string hashIdSalt = "95AE4B22-AE51-4F55-BD74-A17CC6990B5F";
-    private Hashids hashids = new Hashids(hashIdSalt, 5);
+    public static Hashids hashids = new Hashids(hashIdSalt, 5);
 
     private readonly DatabaseContext context;
     private UserManager<User> userManager;

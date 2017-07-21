@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Diporto.Models;
+using Diporto.Controllers;
 using NpgsqlTypes;
 
 namespace Diporto.Database {
@@ -38,6 +39,7 @@ namespace Diporto.Database {
         };
         context.Rooms.Add(roomOne);
         context.SaveChanges();
+        roomOne.ShortCode = RoomController.hashids.Encode(roomOne.Id);
 
         var roomOneUsers = new[] {
           generateUser(new { Name = "Tommy Lau", UserName = "tlau", Lat = 1.348016, Lon = 103.719112 }),
@@ -68,6 +70,7 @@ namespace Diporto.Database {
         };
         context.Rooms.Add(roomTwo);
         context.SaveChanges();
+        roomTwo.ShortCode = RoomController.hashids.Encode(roomTwo.Id);
 
         var roomTwoUsers = new[] {
           generateUser(new { Name = "Rakel Arun", UserName = "rarun", Lat = 1.309899, Lon = 103.837120 }),
