@@ -5,8 +5,9 @@ import { AppThunkAction } from './';
 // -----------------
 // STATE - This defines the type of data maintained in the Redux store.
 export interface PlacesState {
-    filter: PlacesFilter
-    places: Place[]
+    filter: PlacesFilter;
+	places: Place[];
+	isLoading: boolean;
 }
 
 export interface PlacesFilter {
@@ -84,7 +85,8 @@ export const actionCreators = {
 // REDUCER - For a given state and action, returns the new state. To support time travel, this must not mutate the old state.
 const defaultState: PlacesState = {
     filter: { text: '' },
-    places: []
+	places: [],
+	isLoading: false
 }
 
 export const reducer: Reducer<PlacesState> = (state: PlacesState, action: KnownAction) => {
@@ -92,17 +94,20 @@ export const reducer: Reducer<PlacesState> = (state: PlacesState, action: KnownA
 	case 'RECEIVE_PLACES':
 	    return {
 			filter: state.filter,
-			places: action.places
+			places: action.places,
+			isLoading: false
 	    };
 	case 'REQUEST_PLACES':
 	    return {
 			filter: action.filter,
-			places: state.places
+			places: state.places,
+			isLoading: true
 		};
 	case 'EMPTY_SEARCH_TERM':
 		return {
 			filter: { text: '' },
-			places: state.places
+			places: state.places,
+			isLoading: state.isLoading
 		}
 	default:
 	    // The following line guarantees that every action in the KnownAction union has been covered by a case above
