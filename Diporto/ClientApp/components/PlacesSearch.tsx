@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { ApplicationState } from '../store';
 import * as PlacesState from '../store/Places';
 import PlaceList from './PlaceList'
+import ToolBar from './ToolBar'
 
 type PlacesSearchProps =
   PlacesState.PlacesState
@@ -21,9 +22,15 @@ class PlacesSearch extends React.Component<PlacesSearchProps, {}> {
     this.props.requestPlaces({ text: searchTerm });
   }
 
+  componentWillUnmount() {
+    this.props.emptySearchTerm();
+  }
+
   public render() {
     return <div className="bg-white">
-      { this.renderPlacesTable() }
+      <ToolBar/>
+
+      { this.props.places.length === 0 ? <h2>Loading...</h2> : this.renderPlacesTable() }
     </div>
   }
 
