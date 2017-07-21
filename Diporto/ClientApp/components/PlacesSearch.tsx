@@ -39,6 +39,7 @@ class PlacesSearch extends React.Component<PlacesSearchProps, {}> {
   public render() {
     return <div className="bg-white">
       <ToolBar
+	initialValue={this.props.filter.text}
 	searchButtonPressed={this.handleSearchButtonPressed}
       />
 

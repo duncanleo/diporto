@@ -32,7 +32,7 @@ const PlaceListItem: React.SFC<PlaceListItemProps> = (props) => {
 	  {place.reviews[0] != null ? <span className="f6 i lh-copy">"{place.reviews[0].text}"</span> : ''}
 	</div>
       </div>
-      <div className="w-30">
+      <div className="w-30 pa3">
 	<span>{place.phone}</span>
 	<address>{place.address}</address>
       </div>
