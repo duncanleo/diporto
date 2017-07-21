@@ -45,7 +45,7 @@ type KnownAction = RECEIVE_PLACES | REQUEST_PLACES | EMPTY_SEARCH_TERM;
 export const actionCreators = {
     requestPlaces: (filter: PlacesFilter): AppThunkAction<KnownAction> => (dispatch, getState) => {
 		if (filter.text !== getState().places.filter.text) {
-			let fetchTask = fetch(`/api/places`)
+			let fetchTask = fetch(`/api/places?term=${filter.text}`)
 			.then(response => response.json())
 			.then(json => {
 				return json.map(place => {
