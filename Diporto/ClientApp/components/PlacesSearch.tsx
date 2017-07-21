@@ -12,6 +12,12 @@ type PlacesSearchProps =
   & RouteComponentProps<{ searchTerm: string }>;
 
 class PlacesSearch extends React.Component<PlacesSearchProps, {}> {
+  constructor(props) {
+    super(props)
+
+    this.handleSearchButtonPressed = this.handleSearchButtonPressed.bind(this);
+  }
+
   componentWillMount() {
     let searchTerm = this.props.match.params.searchTerm
     this.props.requestPlaces({ text: searchTerm });
@@ -26,9 +32,15 @@ class PlacesSearch extends React.Component<PlacesSearchProps, {}> {
     this.props.emptySearchTerm();
   }
 
+  private handleSearchButtonPressed(text) {
+    this.props.history.push(`/search/${text}`);
+  }
+
   public render() {
     return <div className="bg-white">
-      <ToolBar/>
+      <ToolBar
+	searchButtonPressed={this.handleSearchButtonPressed}
+      />
 
       { this.props.places.length === 0 ? <h2>Loading...</h2> : this.renderPlacesTable() }
     </div>
