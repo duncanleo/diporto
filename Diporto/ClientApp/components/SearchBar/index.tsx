@@ -1,13 +1,19 @@
 import * as React from "react";
+import { Link } from 'react-router-dom';
 
 export interface SearchButtonStyle {
-  backgroundColor: string
-  color: string
+  backgroundColor?: string
+  color?: string
+}
+
+export interface SearchBarStyle {
+  maxWidth?: number | string
 }
 
 export interface SearchProps extends React.Props<any> {
-  onSearch: (searchText: string) => void;
+  onSearch?: (searchText: string) => void;
   buttonStyle?: SearchButtonStyle;
+  barStyle?: SearchBarStyle;
 }
 
 export interface SearchState extends React.ComponentState {
@@ -35,13 +41,13 @@ export default class SearchBar extends React.Component<SearchProps, SearchState>
   }
 
   private handleSubmit(event) {
-    this.props.onSearch(this.state.value);
     event.preventDefault();
+    this.props.onSearch(this.state.value);
   }
 
   public render() {
     return (
-      <form style={{flexGrow: 1}} onSubmit={this.handleSubmit}>
+      <form style={Object.assign({flexGrow: 1}, this.props.barStyle)} onSubmit={this.handleSubmit}>
 	<input
 	  className="f6 f5-l input-reset bn fl black-80 bg-white pa3 lh-solid w-100 w-75-m w-80-l br2-ns br--left-n"
 	  placeholder="Search"

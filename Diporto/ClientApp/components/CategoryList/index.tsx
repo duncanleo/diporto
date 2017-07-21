@@ -19,7 +19,7 @@ export default class CategoryList extends React.Component<CategoryListProps, Cat
     return (
       <div>
 	{this.props.categories.map(category =>
-	  <span className="f7 lh-copy inline-flex bg-near-white ba b--light-gray ttu light-silver br2 ph2 ml2">{this.convertToTitleCase(category)}</span>
+	  <span key={category} className="f7 lh-copy inline-flex bg-near-white ba b--light-gray ttu light-silver br2 ph2 ml2">{this.convertToTitleCase(category)}</span>
 	)}
       </div>
     )
