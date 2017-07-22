@@ -25,7 +25,7 @@ const PlaceListItem: React.SFC<PlaceListItemProps> = (props) => {
 	  </div>
 	</div>
 	<div className="flex flex-column">
-	  <Link className="link blue lh-title" to={`/place?id=${place.id}`}>
+	  <Link className="link blue lh-title" to={`/place/${place.id}`}>
 	    <span className="fw7 lh-title underline-hover">{props.index + 1}. {place.name}</span>
 	  </Link>
 	  <CategoryList categories={place.categories}/>

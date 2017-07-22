@@ -3,10 +3,12 @@ import { Route } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import Home from './components/Home';
 import PlacesSearch from './components/PlacesSearch';
+import PlaceDisplay from './components/PlaceDisplay';
 
 export const routes = (
     <Layout>
 	<Route exact path='/' component={ Home } />
 	<Route path='/search/:searchTerm?' component={ PlacesSearch } />
+	<Route path='/place/:id' component={ PlaceDisplay } />
     </Layout>
 );
