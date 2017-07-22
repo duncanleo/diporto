@@ -27,7 +27,8 @@ module.exports = (env) => {
                 'redux',
                 'redux-thunk',
                 'react-router-redux',
-		'tachyons'
+		'tachyons',
+		'react-star-rating'
             ],
         },
         output: {
