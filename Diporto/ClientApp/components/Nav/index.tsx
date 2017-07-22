@@ -11,10 +11,10 @@ const styles = {
       alignSelf: "center"
   } as HTMLProps<HTMLDivElement>,
   loginButton: {
-      backgroundColor: "#50CCBC",
+      color: "#FE92DE",
   },
   signUpButton: {
-      color: "#FE92DE",
+      backgroundColor: "#50CCBC",
   }
 }
 
@@ -27,8 +27,8 @@ export default class Nav extends React.Component<{}, {}> {
 	</Link>
 	<div style={{flexGrow: 1}}></div>
 	<div style={styles.buttonContainer}>
-	    <a className="f6 link dim br3 ph3 pv2 mb2 white" style={styles.signUpButton} href="#">Sign Up</a>
 	    <a className="f6 link dim br3 ph3 pv2 mb2 white" style={styles.loginButton} href="#">Login</a>
+	    <a className="f6 link dim br3 ph3 pv2 mb2 white" style={styles.signUpButton} href="#">Sign Up</a>
 	</div>
       </div>
     )
