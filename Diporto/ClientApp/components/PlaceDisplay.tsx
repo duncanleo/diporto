@@ -2,6 +2,7 @@ import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import Api from '../util/api';
 import CategoryList from './CategoryList';
+import StarRating from 'react-star-rating';
 
 declare interface PlaceState {
   place?: Place
@@ -57,6 +58,24 @@ export default class PlaceDisplay extends React.Component<PlaceProps, PlaceState
 	<div id="remaining-meta-container" className="flex">
 	  <div className="flex flex-column w-70">
 	    <h3 className="f2 lh-copy ma0">Reviews</h3>
+	    <div id="reviews-container">
+	      {place.reviews.map(review => {
+		return (
+		  <div>
+		    <span>{review.user}</span>
+		    <StarRating
+		      size={50}
+		      rating={review.rating}
+		      editing={false}
+		      totalStars={5}
+		      disabled={true}
+		    />
+		    <span>{review.time}</span>
+		    <p className="f5 lh-copy measure">{review.text}</p>
+		  </div>
+		);
+	      })}
+	    </div>
 	  </div>
 	  <div className="w-30">
 	    <span>{place.phone}</span>
