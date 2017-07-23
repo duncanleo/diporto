@@ -1,23 +1,52 @@
 import * as React from "react";
-import MapGL from "react-map-gl";
+import MapGL, {Marker} from 'react-map-gl';
+
+import Pin from '../PlacePin';
 
 export interface MapProps extends React.Props<any> {
-  width: number;
-  height: number;
+  viewport: MapGLViewport;
+  places?: Place[]
+}
+
+export interface MapState extends React.ComponentState {
   viewport: MapGLViewport;
 }
 
-export class Map extends React.Component<MapProps, null> {
+export class Map extends React.Component<MapProps, MapState> {
+  constructor(props) {
+    super(props);
+
+    this.state = { viewport: props.viewport };
+    this.updateViewport = this.updateViewport.bind(this);
+  }
+
+  private _renderCityMarker(place: Place, index: number) {
+    return (
+      <Marker key={`marker-${index}`}
+	longitude={place.lon}
+	latitude={place.lat}>
+	<Pin size={20}/>
+      </Marker>
+    )
+  }
+
+  updateViewport(newViewport) {
+    let viewport = Object.assign({}, this.state.viewport, newViewport);
+
+    this.setState({viewport});
+  }
+
   render() {
+    const { viewport } = this.state;
+
     return (
       <MapGL
-	width={this.props.width}
-	height={this.props.height}
-	latitude={this.props.viewport.latitude}
-	longitude={this.props.viewport.longitude}
-	zoom={this.props.viewport.zoom}
+	{...viewport}
 	mapboxApiAccessToken="pk.eyJ1IjoianVydmlzIiwiYSI6ImNqNTh5MmlnNzAya3EzMXE3eGFhMWtrczQifQ.BgT8aHg52oKkki4GV8oNpA"
-      />
+	onViewportChange={this.updateViewport}>
+
+	{this.props.places.map(this._renderCityMarker)}
+      </MapGL>
     )
   }
 }

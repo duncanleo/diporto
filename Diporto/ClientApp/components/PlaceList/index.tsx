@@ -26,7 +26,7 @@ export default class PlaceList extends React.Component<PlaceListProps, PlaceList
 	</div>
 	<div className="w-10"></div>
 	<div className="w-20 mt4">
-	  <Map width={200} height={200} viewport={{latitude: 1.03, longitude: 103.5, zoom: 8}}/>
+	  <Map viewport={{latitude: 1.03, longitude: 103.5, zoom: 8, height: 200, width: 200}}/>
 	</div>
       </div>
     )
