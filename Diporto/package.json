@@ -4,6 +4,7 @@
   "dependencies": {
     "@types/history": "4.6.0",
     "@types/immutable": "^3.8.7",
+    "@types/moment": "^2.13.0",
     "@types/react": "15.0.35",
     "@types/react-dom": "15.5.1",
     "@types/react-hot-loader": "3.0.3",
@@ -27,6 +28,7 @@
     "jquery": "3.2.1",
     "jsdom": "^11.1.0",
     "json-loader": "0.5.4",
+    "moment": "^2.18.1",
     "node-noop": "1.0.0",
     "react": "15.6.1",
     "react-dom": "15.6.1",
@@ -36,6 +38,7 @@
     "react-router-dom": "4.1.1",
     "react-router-redux": "5.0.0-alpha.6",
     "react-star-rating": "^1.4.2",
+    "react-stars": "^2.1.0",
     "redux": "^3.7.2",
     "redux-thunk": "2.2.0",
     "style-loader": "0.18.2",

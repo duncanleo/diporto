@@ -2,7 +2,7 @@ import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import Api from '../util/api';
 import CategoryList from './CategoryList';
-import StarRating from 'react-star-rating';
+import ReviewItem from './ReviewItem';
 
 declare interface PlaceState {
   place?: Place
@@ -37,16 +37,16 @@ export default class PlaceDisplay extends React.Component<PlaceProps, PlaceState
     const { place } = this.state;
     return (
       <div id="place-information-container" className="flex flex-column mw8 center">
-	<div id="place-meta-container">
+	<div id="place-meta-container" className="mb4">
 	  <h2 className="f2 lh-title">{place.name}</h2>
 	  <CategoryList categories={place.categories}/>
 	</div>
-	<div id="place-images-container" className="flex">
+	<div id="place-images-container" className="flex mb4">
 	  {place.photos.slice(0,4).map(photo => {
 	    const imageUrl = `/api/photos/${photo.id}`;
 	    const imageStyle = { backgroundImage: `url(${imageUrl}` };
 	    return (
-	      <div className="w-25">
+	      <div key={photo.id} className="w-25">
 		<div className="aspect-ratio aspect-ratio--1x1">
 		  <img className="bg-center cover aspect-ratio--object"
 		    style={imageStyle}/>
@@ -61,18 +61,10 @@ export default class PlaceDisplay extends React.Component<PlaceProps, PlaceState
 	    <div id="reviews-container">
 	      {place.reviews.map(review => {
 		return (
-		  <div>
-		    <span>{review.user}</span>
-		    <StarRating
-		      size={50}
-		      rating={review.rating}
-		      editing={false}
-		      totalStars={5}
-		      disabled={true}
-		    />
-		    <span>{review.time}</span>
-		    <p className="f5 lh-copy measure">{review.text}</p>
-		  </div>
+		  <ReviewItem
+		    key={review.id}
+		    review={review}
+		  />
 		);
 	      })}
 	    </div>
