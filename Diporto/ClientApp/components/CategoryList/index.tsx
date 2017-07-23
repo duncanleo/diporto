@@ -12,7 +12,7 @@ export default class CategoryList extends React.Component<CategoryListProps, Cat
   }
 
   private convertToTitleCase(snakeCaseString: string) {
-    return snakeCaseString.replace('_', ' ')
+    return snakeCaseString.replace(/_/g, ' ')
   }
 
   public render() {
