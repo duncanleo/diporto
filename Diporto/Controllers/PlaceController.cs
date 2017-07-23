@@ -135,6 +135,7 @@ namespace Diporto.Controllers {
           .ThenInclude(pc => pc.Category)
         .Include(place => place.PlacePhotos)
         .Include(place => place.PlaceReviews)
+	  .ThenInclude(r => r.User)
         .FirstOrDefault(place => place.Id == id);
 
         if (result == null) {
@@ -142,6 +143,13 @@ namespace Diporto.Controllers {
         }
 
       result.Categories = result.PlaceCategories.Select(pc => pc.Category.Name);
+
+      if (result.PlaceReviews != null) {
+	result.PlaceReviews = result.PlaceReviews.Select(review => {
+	  review.User.PlaceReviews = null;
+	  return review;
+	}).ToList();
+      }
 
       return new ObjectResult(result);
     }
