@@ -37,8 +37,8 @@ export default class PlaceDisplay extends React.Component<PlaceProps, PlaceState
     const { place } = this.state;
     return (
       <div id="place-information-container" className="flex flex-column mw8 center">
-	<div id="place-meta-container" className="mb4">
-	  <h2 className="f2 lh-title">{place.name}</h2>
+	<div id="place-meta-container" className="mb3">
+	  <h2 className="f2 lh-title mv3">{place.name}</h2>
 	  <CategoryList categories={place.categories}/>
 	</div>
 	<div id="place-images-container" className="flex mb4">
@@ -57,7 +57,7 @@ export default class PlaceDisplay extends React.Component<PlaceProps, PlaceState
 	</div>
 	<div id="remaining-meta-container" className="flex">
 	  <div className="flex flex-column w-70">
-	    <h3 className="f2 lh-copy ma0">Reviews</h3>
+	    <h3 className="f2 lh-title ma0 mb2">Reviews</h3>
 	    <div id="reviews-container">
 	      {place.reviews.map(review => {
 		return (
