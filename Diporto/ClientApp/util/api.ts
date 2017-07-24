@@ -9,6 +9,22 @@ export class DiportoApi {
 
     return fetchTask;
   }
+  login(creds: Credentials): Promise<TokenResponse> {
+    const fetchTask = fetch('/api/token', {
+      method: 'POST',
+      headers: {
+	'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+	UserName: creds.username,
+	Password: creds.password,
+	GrantType: "access_token"
+      })
+    })
+    .then(response => response.json());
+
+    return fetchTask;
+  }
 }
 
 export default new DiportoApi();
