@@ -6,7 +6,7 @@ import { AppThunkAction } from './';
 export interface AuthState {
   isFetching: boolean;
   isAuthenticated: boolean;
-  user?: Credentials;
+  user?: User;
   errorMessage?: string;
 }
 
@@ -33,41 +33,55 @@ interface LogoutSuccessAction {
   type: 'LOGOUT_SUCCESS'
 }
 
-type KnownAction = LoginRequestAction | LoginSuccessAction | LoginFailureAction | LogoutRequestAction| LogoutSuccessAction
+interface SetUserAction {
+  type: 'SET_USER',
+  user: User
+}
+
+type KnownAction = LoginRequestAction | LoginSuccessAction | LoginFailureAction | LogoutRequestAction| LogoutSuccessAction | SetUserAction
 
 export const actionCreators = {
   loginUser: (creds: Credentials) : AppThunkAction<KnownAction> => (dispatch, getState) => {
-    console.log("dave");
     dispatch({type: 'LOGIN_REQUEST', creds: creds})
     return Api.login(creds)
       .then(tokenResponse => {
 	localStorage.setItem('id_token', tokenResponse.token);
 	dispatch({type: 'LOGIN_SUCCESS', idToken: tokenResponse.token});
-      }).catch(err => {
+	return tokenResponse.token;
+      })
+      .then(token => {
+	Api.getMe(token)
+	  .then(user => {
+	    localStorage.setItem('user', JSON.stringify(user));
+	    dispatch({type: 'SET_USER', user: user})
+	  });
+      })
+      .catch(err => {
 	dispatch({type: 'LOGIN_FAILURE', message: 'Bad Credentials'})
 	return Promise.reject(err)
       });
   },
   logout: () : AppThunkAction<KnownAction> => (dispatch, getState) => {
-    return dispatch => {
-      dispatch({type: 'LOGOUT_REQUEST'})
-      localStorage.removeItem('id_token')
-      dispatch({type: 'LOGOUT_SUCCESS'})
-    }
+    dispatch({type: 'LOGOUT_REQUEST'});
+    localStorage.removeItem('id_token');
+    localStorage.removeItem('user');
+    dispatch({type: 'LOGOUT_SUCCESS'});
   }
 }
 
-const unloadedState: AuthState = { isFetching: false, isAuthenticated: false, };
+export const unloadedState: AuthState = {
+  isFetching: false,
+  isAuthenticated: localStorage.getItem('id_token') ? true : false,
+  user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null
+};
 
 export const reducer: Reducer<AuthState> = (state: AuthState, incomingAction: Action) => {
   const action = incomingAction as KnownAction;
   switch(action.type) {
     case 'LOGIN_REQUEST':
-      console.log(action);
       return Object.assign({}, state, {
 	isFetching: true,
 	isAuthenticated: false,
-	user: action.creds
       })
     case 'LOGIN_SUCCESS':
       return Object.assign({}, state, {
@@ -88,6 +102,10 @@ export const reducer: Reducer<AuthState> = (state: AuthState, incomingAction: Ac
       })
     case 'LOGOUT_SUCCESS':
       return Object.assign({}, state, unloadedState)
+    case 'SET_USER':
+      return Object.assign({}, state, {
+	user: action.user
+      })
     default:
       const exhaustiveCheck: never = action;
   }
