@@ -50,7 +50,7 @@ namespace Diporto.Controllers {
           return NotFound();
         }
 
-        var locations = room.RoomMemberships.Select(rm => rm.User.CurrentLocation).ToList();
+        var locations = room.RoomMemberships.Select(rm => rm.User.CurrentLocation).ToList().Where(loc => loc != null);
 
         places = commonQueriedPlaces
           .FromSql(
