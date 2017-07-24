@@ -2,6 +2,7 @@ import { fetch, addTask } from 'domain-task';
 import Api from '../util/api';
 import { Action, Reducer, ActionCreator } from 'redux';
 import { AppThunkAction } from './';
+import history from '../history';
 
 export interface AuthState {
   isFetching: boolean;
@@ -54,6 +55,7 @@ export const actionCreators = {
 	  .then(user => {
 	    localStorage.setItem('user', JSON.stringify(user));
 	    dispatch({type: 'SET_USER', user: user})
+	    history.replace('/');
 	  });
       })
       .catch(err => {
