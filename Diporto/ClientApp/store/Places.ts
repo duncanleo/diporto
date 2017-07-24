@@ -72,7 +72,7 @@ export const actionCreators = {
 
 		addTask(fetchTask); // Ensure server-side prerendering waits for this to complete
 
-		    dispatch({ type: 'REQUEST_PLACES', filter: filter })
+		dispatch({ type: 'REQUEST_PLACES', filter: filter })
 
 		}
 	},
