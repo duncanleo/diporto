@@ -25,6 +25,16 @@ export class DiportoApi {
 
     return fetchTask;
   }
+  getMe(token): Promise<User> {
+    const config = {
+      headers: { 'Authorization' : `Bearer ${token}` }
+    }
+
+    const fetchTask = fetch('/api/me', config)
+      .then(response => response.json() as Promise<User>)
+
+    return fetchTask;
+  }
 }
 
 export default new DiportoApi();
