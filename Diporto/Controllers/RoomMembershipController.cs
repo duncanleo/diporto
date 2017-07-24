@@ -24,12 +24,31 @@ namespace Diporto.Controllers {
       this.userManager = userManager;
     }
 
+    [HttpPost("{roomShortCode}/memberships")]
+    public async Task<IActionResult> Create(string roomShortCode) {
+      var room = context.Rooms.FirstOrDefault(r => r.ShortCode == roomShortCode);
+      if (room == null) {
+        return NotFound();
+      } 
+
+      var user = await userManager.GetUserAsync(User);
+
+      var roomMembership = new RoomMembership {
+        User = user,
+        Room = room
+      };
+
+      context.RoomMemberships.Add(roomMembership);
+      context.SaveChanges();
+      return new ObjectResult(roomMembership);
+    }
+
     [HttpPost("{roomId:int}/memberships")]
     public async Task<IActionResult> Create(int roomId) {
       var room = context.Rooms.FirstOrDefault(r => r.Id == roomId);
       if (room == null) {
         return NotFound();
-      }
+      } 
 
       var user = await userManager.GetUserAsync(User);
 
