@@ -12,6 +12,8 @@ namespace Diporto.Database {
     public DbSet<PlacePhoto> PlacePhotos { get; set; }
     public DbSet<Room> Rooms { get; set; }
     public DbSet<RoomMembership> RoomMemberships { get; set; }
+    public DbSet<UserPlaceBookmark> UserPlaceBookmarks { get; set; }
+
     public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) {}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) {
@@ -78,7 +80,19 @@ namespace Diporto.Database {
         .HasForeignKey(upb => upb.PlaceId);
 
       modelBuilder.Entity<UserPlaceBookmark>()
-        .HasKey(upb => new { upb.PlaceId, upb.UserId });
+        .HasIndex(upb => new { upb.PlaceId, upb.UserId })
+        .IsUnique();
+
+      modelBuilder.Entity<UserPlaceBookmark>()
+        .HasKey(upb => upb.Id);
+
+      modelBuilder.Entity<UserPlaceBookmark>()
+        .Property(upb => upb.PlaceId)
+        .IsRequired();
+
+      modelBuilder.Entity<UserPlaceBookmark>()
+        .Property(upb => upb.UserId)
+        .IsRequired();
     }
   }
 }
