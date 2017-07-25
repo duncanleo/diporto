@@ -27,6 +27,7 @@ namespace Diporto.Controllers {
       
       var bookmarks = context.UserPlaceBookmarks
         .Where(b => b.UserId == user.Id)
+        .Include(b => b.Place)
         .ToList();
 
       return new ObjectResult(bookmarks);

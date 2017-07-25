@@ -8,7 +8,7 @@ namespace Diporto.Models {
     [Column("id")]
     public int Id { get; set; }
 
-    [JsonIgnore]
+    [JsonProperty("place")]
     public Place Place { get; set; }
 
     [Column("place_id")]
