@@ -11,13 +11,13 @@
     <body>
       <div class="root-container">
         <div class="header">
-          <div class="app-name">
+          <a href="/admin/home" class="app-name">
             <h1>Diporto</h1>
             <span>Admin Portal</span>
-          </div>
+          </a>
           @if (Model != null) {
             <div class="controls">
-              <h4>Welcome, @Model.Name</h4>
+              <h4>@Model.Name</h4>
               <form action="/api/logout" method="post">
                 <input type="submit" value="Logout">
               </form>

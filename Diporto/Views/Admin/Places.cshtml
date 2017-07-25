@@ -1,9 +1,26 @@
+@model Diporto.ViewModels.Admin.PlacesViewModel
+
 @{
     ViewData["Title"] = "Admin Panel - Places";
+    Layout = "_AdminLayout";
 }
 
 @section styles {
   <link rel="stylesheet" href="~/css/admin/places.css">
 }
 
-<h1>Places</h1>
+<div class="container">
+  <h1>Places</h1>
+  @foreach (var p in @Model.Places) {
+    <div class="place">
+      <div class="details">
+        <span class="place-name">@p.Name</span>
+        <span class="place-address">@p.Address</span>
+      </div>
+      <div class="controls">
+        <a href="edit?id=@p.Id" class="control-edit">Edit</a>
+        <a href="delete?id=@p.Id" class="control-delete">Delete</a>
+      </div>
+    </div>
+  }
+</div>
