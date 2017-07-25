@@ -9,9 +9,10 @@ using NpgsqlTypes;
 namespace Diporto.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20170725032925_AddUserBookmarks")]
+    partial class AddUserBookmarks
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("Npgsql:PostgresExtension:cube", "'cube', '', ''")
@@ -265,22 +266,18 @@ namespace Diporto.Migrations
 
             modelBuilder.Entity("Diporto.Models.UserPlaceBookmark", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnName("id");
-
                     b.Property<int>("PlaceId")
                         .HasColumnName("place_id");
 
                     b.Property<int>("UserId")
                         .HasColumnName("user_id");
 
-                    b.HasKey("Id");
+                    b.Property<int>("Id")
+                        .HasColumnName("id");
+
+                    b.HasKey("PlaceId", "UserId");
 
                     b.HasIndex("UserId");
-
-                    b.HasIndex("PlaceId", "UserId")
-                        .IsUnique();
 
                     b.ToTable("user_place_bookmark");
                 });

@@ -9,9 +9,10 @@ using NpgsqlTypes;
 namespace Diporto.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20170725040501_ChangeUserPlaceBookmarksPK")]
+    partial class ChangeUserPlaceBookmarksPK
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("Npgsql:PostgresExtension:cube", "'cube', '', ''")
