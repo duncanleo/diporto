@@ -27,6 +27,9 @@ namespace Diporto.Controllers {
     [HttpGet]
     [Route("places")]
     public async Task<ViewResult> Places(int page = 1) {
+      if (page <= 1) {
+        page = 1;
+      }
       var user = await userManager.GetUserAsync(User);
       var places = context.Places
         // .Where(place => categories.Length > 0 ? place.PlaceCategories.Select(pc => pc.Category.Name).Intersect(categories.Split('|')).Any() : true)
@@ -40,7 +43,8 @@ namespace Diporto.Controllers {
           .ToList();
       return View(new PlacesViewModel{
         Name = user.Name,
-        Places = places
+        Places = places,
+        PageIndex = page
       });
     }
 
