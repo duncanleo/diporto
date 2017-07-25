@@ -66,6 +66,19 @@ namespace Diporto.Database {
         entity.Property(user => user.EmailConfirmed).HasColumnName("email_confirmed");
         entity.Property(user => user.AccessFailedCount).HasColumnName("access_failed_count");
       });
+
+      modelBuilder.Entity<UserPlaceBookmark>()
+        .HasOne(upb => upb.User)
+        .WithMany(u => u.PlaceBookmarks)
+        .HasForeignKey(upb => upb.UserId);
+
+      modelBuilder.Entity<UserPlaceBookmark>()
+        .HasOne(upb => upb.Place)
+        .WithMany(p => p.UserBookmarks)
+        .HasForeignKey(upb => upb.PlaceId);
+
+      modelBuilder.Entity<UserPlaceBookmark>()
+        .HasKey(upb => new { upb.PlaceId, upb.UserId });
     }
   }
 }

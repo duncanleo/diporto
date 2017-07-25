@@ -27,10 +27,16 @@ namespace Diporto.Models {
     [JsonProperty("current_location")]
     public PostgisPoint CurrentLocation { get; set; }
 
+    [NotMapped]
+    public IEnumerable<int> Bookmarks { get; set; }
+
     [JsonProperty("reviews", NullValueHandling = NullValueHandling.Ignore)]
     public ICollection<PlaceReview> PlaceReviews { get; set; }
 
     [JsonIgnore]
     public ICollection<RoomMembership> RoomMemberships { get; set; }
+
+    [JsonIgnore]
+    public ICollection<UserPlaceBookmark> PlaceBookmarks { get; set; }
   }
 }
