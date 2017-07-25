@@ -1,3 +1,4 @@
+@model Diporto.ViewModels.Admin.CommonViewModel
 <!DOCTYPE html>
 <html>
     <head>
@@ -10,7 +11,22 @@
     <body>
       <div class="root-container">
         <div class="header">
-          <h1>Diporto</h1>
+          <div class="app-name">
+            <h1>Diporto</h1>
+            <span>Admin Portal</span>
+          </div>
+          @if (Model != null) {
+            <div class="controls">
+              <h4>Welcome, @Model.Name</h4>
+              <form action="/api/logout" method="post">
+                <input type="submit" value="Logout">
+              </form>
+            </div>
+          } else {
+            <div class="controls">
+              <a href="/admin">Login</a>
+            </div>
+          }
         </div>
         <div class="content">
           @RenderBody()

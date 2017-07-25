@@ -19,7 +19,37 @@ html, body {
   display: flex;
   flex-shrink: 0;
   background-color: lightblue;
-  padding: 0 12px;
+  padding: 12px 12px;
+  flex-direction: row;
+}
+
+.header .app-name {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: center;
+}
+
+.header .app-name h1, .header .controls h4 {
+  margin: 0;
+}
+
+.header .app-name span {
+  font-weight: 900;
+  font-size: 0.75em;
+  text-transform: uppercase;
+}
+
+.header .controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-self: flex-end;
+  height: 100%;
+}
+
+.header .controls h4 {
+  margin-right: 0.5em;
 }
 
 .content {
