@@ -23,7 +23,12 @@ const NavButtons: React.SFC<{}> = (props) => {
 	    to="/login">
 	    Login
 	</Link>
-	<a className="f6 link dim br3 ph3 pv2 mb2 white" style={styles.signUpButton} href="#">Sign Up</a>
+	<Link
+	  className="f6 link dim br3 ph3 pv2 mb2 white"
+	  style={styles.signUpButton}
+	  to="/signup">
+	  Sign Up
+	</Link>
     </div>
   )
 }
