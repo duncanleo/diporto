@@ -71,8 +71,23 @@ namespace Diporto.Controllers {
 
     [HttpGet]
     [Route("users")]
-    public ViewResult Users() {
-      return View();
+    public async Task<ViewResult> Users(int page = 1) {
+      if (page < 1) {
+        page = 1;
+      }
+      var user = await userManager.GetUserAsync(User);
+
+      var users = context.Users
+        .Include(u => u.PlaceReviews)
+        .Skip((page - 1) * pageSize)
+        .Take(pageSize)
+        .ToList();
+
+      return View(new UsersViewModel {
+        Name = user.Name,
+        Users = users,
+        PageIndex = page
+      });
     }
 
     [HttpGet]

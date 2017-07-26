@@ -179,6 +179,27 @@ namespace Diporto.Controllers {
       return new ObjectResult(targetUser);
     }
 
+    [HttpPost("users/{id:int}/admin")]
+    [Authorize]
+    public async Task<IActionResult> ToggleAdmin(int id) {
+      var user = await userManager.GetUserAsync(User);
+      if (!user.IsAdmin) {
+        return Forbid();
+      }
+
+      var targetUser = context.Users.FirstOrDefault(u => u.Id == id);
+      if (targetUser == null) {
+        return NotFound();
+      }
+
+      targetUser.IsAdmin = !targetUser.IsAdmin;
+
+      context.Users.Update(targetUser);
+      context.SaveChanges();
+
+      return RedirectToAction("Users", "Admin", new { area = "" });
+    }
+
     [HttpPost("token")]
     public async Task<IActionResult> Token([FromBody] RequestTokenViewModel model) {
       if (!ModelState.IsValid) {
