@@ -9,7 +9,8 @@ import ReviewForm from './ReviewForm';
 import { CanvasOverlay, Marker } from 'react-map-gl';
 
 declare interface PlaceState {
-  place?: Place
+	place?: Place
+	isAuthenticated: boolean
 }
 
 type PlaceProps = RouteComponentProps<{ id: number }>
@@ -19,23 +20,32 @@ export default class PlaceDisplay extends React.Component<PlaceProps, PlaceState
     super(props);
 
     this.state = {
-      place: undefined,
+			place: undefined,
+			isAuthenticated: localStorage.getItem('id_token') != undefined,
 		};
+
 		this.submitReview = this.submitReview.bind(this);
   }
 
-  componentWillMount() {
+	componentWillMount() {
     const placeId = this.props.match.params.id;
 
     Api.getPlace(placeId)
-      .then(place => this.setState({place: place}));
-  }
+			.then(place => {
+				this.setState({place: place})
+				return place as Place
+			});
+	}
+
 
   componentWillReceiveProps(nextProps: PlaceProps) {
     const placeId = nextProps.match.params.id;
 
     Api.getPlace(placeId)
-      .then(place => this.setState({place: place}));
+			.then(place => {
+				this.setState({place: place})
+				return place as Place
+			});
   }
 
 	submitReview(review: ReviewSubmission) {
@@ -50,7 +60,7 @@ export default class PlaceDisplay extends React.Component<PlaceProps, PlaceState
 	}
 
   renderPlaceInformation() {
-    const { place } = this.state;
+    const { place, isAuthenticated } = this.state;
     return (
       <div id="place-information-container" className="flex flex-column mw8 center">
 				<div id="place-meta-container" className="mb3">
@@ -75,11 +85,13 @@ export default class PlaceDisplay extends React.Component<PlaceProps, PlaceState
 					<div className="flex flex-column w-70">
 						<h3 className="f2 lh-title ma0 mb2">Reviews</h3>
 						<div id="reviews-container">
-							<ReviewForm
-								placeId={place.id}
-								placeName={place.name}
-								onSubmitPressed={(review) => {this.submitReview(review)}}
-							/>
+							{isAuthenticated &&
+								<ReviewForm
+									placeId={place.id}
+									placeName={place.name}
+									onSubmitPressed={(review) => {this.submitReview(review)}}
+								/>
+							}
 							{place.reviews.map(review => {
 								return (
 									<ReviewItem
