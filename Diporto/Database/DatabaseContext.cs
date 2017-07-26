@@ -44,7 +44,7 @@ namespace Diporto.Database {
       modelBuilder.Entity<Place>()
         .HasMany(place => place.PlaceReviews)
         .WithOne(review => review.Place)
-        .HasForeignKey("place_id");
+	.HasForeignKey(review => review.PlaceId);
 
       modelBuilder.Entity<Category>()
         .HasIndex(cat => cat.Name)
