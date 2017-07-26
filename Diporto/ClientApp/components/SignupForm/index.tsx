@@ -46,7 +46,7 @@ class SignupForm extends React.Component<SignupFormProps, SignupFormState> {
 	<h1>Sign Up</h1>
 
 	<TextFieldGroup
-	  field="name"
+	  field="Name"
 	  label="Name"
 	  value={Name}
 	  onChange={this.onChange}
@@ -54,7 +54,7 @@ class SignupForm extends React.Component<SignupFormProps, SignupFormState> {
 	/>
 
 	<TextFieldGroup
-	  field="username"
+	  field="UserName"
 	  label="Username"
 	  value={UserName}
 	  onChange={this.onChange}
@@ -62,7 +62,7 @@ class SignupForm extends React.Component<SignupFormProps, SignupFormState> {
 	/>
 
 	<TextFieldGroup
-	  field="email"
+	  field="Email"
 	  label="Email"
 	  value={Email}
 	  onChange={this.onChange}
@@ -70,7 +70,7 @@ class SignupForm extends React.Component<SignupFormProps, SignupFormState> {
 	/>
 
 	<TextFieldGroup
-	  field="password"
+	  field="Password"
 	  label="Password"
 	  value={Password}
 	  onChange={this.onChange}
@@ -78,7 +78,7 @@ class SignupForm extends React.Component<SignupFormProps, SignupFormState> {
 	/>
 
 	<TextFieldGroup
-	  field="confirm_password"
+	  field="ConfirmPassword"
 	  label="Confirm Password"
 	  value={ConfirmPassword}
 	  onChange={this.onChange}
