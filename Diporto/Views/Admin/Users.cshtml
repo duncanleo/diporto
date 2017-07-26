@@ -25,6 +25,7 @@
           <td class="user-username">@u.UserName</td>
           <td>
             <form action="/api/users/@u.Id/admin" method="post">
+              @Html.AntiForgeryToken()
               <input type="submit" value="@(u.IsAdmin ? "Revoke" : "Grant")">
             </form>
           </td>

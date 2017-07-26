@@ -19,6 +19,7 @@
             <div class="controls">
               <h4>@Model.Name</h4>
               <form action="/api/logout" method="post">
+                @Html.AntiForgeryToken()
                 <input type="submit" value="Logout">
               </form>
             </div>

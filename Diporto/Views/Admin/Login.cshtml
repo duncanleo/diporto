@@ -11,6 +11,7 @@
   <h4>Login here.</h4>
 
   <form action="/api/login" method="post">
+    @Html.AntiForgeryToken()
     <input type="text" name="UserName" placeholder="Username" required>
     <input name="Password" type="password" placeholder="Password" required>
     <input type="submit" value="Login">

@@ -165,6 +165,7 @@ namespace Diporto.Controllers {
     }
 
     [HttpPost("{id:int}")]
+    [ValidateAntiForgeryToken]
     public IActionResult UpdateForm(int id, [FromForm] Place item) {
       if (item == null || item.Id != id) {
         return BadRequest();
@@ -213,6 +214,7 @@ namespace Diporto.Controllers {
     }
 
     [HttpPost("{id:int}/delete")]
+    [ValidateAntiForgeryToken]
     public IActionResult DeleteForm(int id) {
       switch(DeletePlace(id)) {
         case Result.NotFound:

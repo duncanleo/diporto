@@ -59,6 +59,7 @@ namespace Diporto.Controllers {
     }
 
     [HttpPost("login")]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(LoginViewModel model) {
       if (!ModelState.IsValid) {
         return StatusCode((int)HttpStatusCode.BadRequest);
@@ -77,6 +78,7 @@ namespace Diporto.Controllers {
     }
 
     [HttpPost("logout")]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Logout() {
       await signInManager.SignOutAsync();
       return RedirectToAction("Index", "Admin", new { area = "" });
@@ -181,6 +183,7 @@ namespace Diporto.Controllers {
 
     [HttpPost("users/{id:int}/admin")]
     [Authorize]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> ToggleAdmin(int id) {
       var user = await userManager.GetUserAsync(User);
       if (!user.IsAdmin) {

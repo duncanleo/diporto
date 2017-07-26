@@ -13,6 +13,7 @@
 <div class="container">
   <h1>@(@Model.Mode == PlacesFieldsViewModel.FieldsMode.Create ? "Create" : "Edit") Place</h1>
   <form action="/api/places/@Model.Place.Id" method="post">
+    @Html.AntiForgeryToken()
     <input name="Id" type="hidden" asp-for="Place.Id">
     <label asp-for="Place.Name"></label> 
     <input name="Name" asp-for="Place.Name" placeholder="Name" required>
