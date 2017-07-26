@@ -148,7 +148,7 @@ namespace Diporto.Controllers {
 	result.PlaceReviews = result.PlaceReviews.Select(review => {
 	  review.User.PlaceReviews = null;
 	  return review;
-	}).ToList();
+	}).ToList().OrderByDescending(r => r.Time).ToList();
       }
 
       return new ObjectResult(result);
