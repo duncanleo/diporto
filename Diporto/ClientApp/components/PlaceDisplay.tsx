@@ -5,6 +5,7 @@ import CategoryList from './CategoryList';
 import ReviewItem from './ReviewItem';
 import Map from './Map';
 import PlacePin from './PlacePin';
+import ReviewForm from './ReviewForm';
 import { CanvasOverlay, Marker } from 'react-map-gl';
 
 declare interface PlaceState {
@@ -19,7 +20,8 @@ export default class PlaceDisplay extends React.Component<PlaceProps, PlaceState
 
     this.state = {
       place: undefined,
-    };
+		};
+		this.submitReview = this.submitReview.bind(this);
   }
 
   componentWillMount() {
@@ -35,6 +37,17 @@ export default class PlaceDisplay extends React.Component<PlaceProps, PlaceState
     Api.getPlace(placeId)
       .then(place => this.setState({place: place}));
   }
+
+	submitReview(review: ReviewSubmission) {
+		Api.submitReview(review)
+			.then(response => {
+				Api.getReviewsWithPlaceId(this.props.match.params.id)
+					.then(reviews => this.state.place.reviews = reviews)
+			})
+			.catch(error => {
+				alert(error)
+			});
+	}
 
   renderPlaceInformation() {
     const { place } = this.state;
@@ -62,13 +75,18 @@ export default class PlaceDisplay extends React.Component<PlaceProps, PlaceState
 					<div className="flex flex-column w-70">
 						<h3 className="f2 lh-title ma0 mb2">Reviews</h3>
 						<div id="reviews-container">
+							<ReviewForm
+								placeId={place.id}
+								placeName={place.name}
+								onSubmitPressed={(review) => {this.submitReview(review)}}
+							/>
 							{place.reviews.map(review => {
-					return (
-						<ReviewItem
-							key={review.id}
-							review={review}
-						/>
-					);
+								return (
+									<ReviewItem
+										key={review.id}
+										review={review}
+									/>
+								);
 							})}
 						</div>
 					</div>
