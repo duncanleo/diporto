@@ -79,7 +79,7 @@ namespace Diporto.Controllers {
     [HttpPost("logout")]
     public async Task<IActionResult> Logout() {
       await signInManager.SignOutAsync();
-      return StatusCode((int)HttpStatusCode.OK);
+      return RedirectToAction("Index", "Admin", new { area = "" });
     }
 
     [HttpPost("password")]
