@@ -6,12 +6,14 @@ using Microsoft.EntityFrameworkCore;
 using Diporto.Database;
 using Diporto.Models;
 using System.Linq;
+using System;
 using NpgsqlTypes;
 
 namespace Diporto.Controllers {
   [Authorize]
   [Route("api/places")]
   public class PlaceController : Controller {
+    private enum Result { NotFound, DatabaseError, Ok };
     const int pageSize = 20;
 
     private readonly DatabaseContext context;
@@ -147,25 +149,56 @@ namespace Diporto.Controllers {
     }
 
     [HttpPut("{id:int}")]
-    public IActionResult Update(int id, [FromBody] Place item) {
+    public IActionResult UpdateJSON(int id, [FromBody] Place item) {
       if (item == null || item.Id != id) {
         return BadRequest();
       }
 
-      var place = context.Places.FirstOrDefault(p => p.Id == id);
-      if (place == null) {
-        return NotFound();
+      switch(UpdatePlace(id, item)) {
+        case Result.NotFound:
+          return NotFound();
+        case Result.DatabaseError:
+          return StatusCode((int)HttpStatusCode.InternalServerError);
       }
 
-      place.Name = item.Name;
-      place.OpeningHours = item.OpeningHours;
-      place.Address = item.Address;
-      place.Phone = item.Phone;
+      return new NoContentResult();
+    }
+
+    [HttpPost("{id:int}")]
+    public IActionResult UpdateForm(int id, [FromForm] Place item) {
+      if (item == null || item.Id != id) {
+        return BadRequest();
+      }
+
+      switch(UpdatePlace(id, item)) {
+        case Result.NotFound:
+          return NotFound();
+        case Result.DatabaseError:
+          return StatusCode((int)HttpStatusCode.InternalServerError);
+      }
+
+      return RedirectToAction("Places", "Admin", new { area = "" });
+    }
+
+    private Result UpdatePlace(int id, Place updatedModel) {
+      var place = context.Places.FirstOrDefault(p => p.Id == id);
+      if (place == null) {
+        return Result.NotFound;
+      }
+
+      place.Name = updatedModel.Name;
+      place.OpeningHours = updatedModel.OpeningHours;
+      place.Address = updatedModel.Address;
+      place.Phone = updatedModel.Phone;
 
       context.Places.Update(place);
-      context.SaveChanges();
+      try {
+        context.SaveChanges();
+      } catch (Exception) {
+        return Result.DatabaseError;
+      }
 
-      return new NoContentResult();
+      return Result.Ok;
     }
 
     [HttpDelete("{id:int}")]

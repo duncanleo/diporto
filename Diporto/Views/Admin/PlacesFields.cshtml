@@ -1,0 +1,32 @@
+@model Diporto.ViewModels.Admin.PlacesFieldsViewModel
+@using Diporto.ViewModels.Admin
+
+@{
+    ViewData["Title"] = "Admin Panel - Places - Edit Place";
+    Layout = "_AdminLayout";
+}
+
+@section styles {
+  <link rel="stylesheet" href="~/css/admin/places_fields.css">
+}
+
+<div class="container">
+  <h1>@(@Model.Mode == PlacesFieldsViewModel.FieldsMode.Create ? "Create" : "Edit") Place</h1>
+  <form action="/api/places/@Model.Place.Id" method="post">
+    <input name="Id" type="hidden" asp-for="Place.Id">
+    <label asp-for="Place.Name"></label> 
+    <input name="Name" asp-for="Place.Name" placeholder="Name" required>
+    <label asp-for="Place.Phone"></label>
+    <input name="Phone" asp-for="Place.Phone" placeholder="Phone">
+    <label asp-for="Place.Address"></label>
+    <input name="Address" asp-for="Place.Address" placeholder="Address" required>
+    <label asp-for="Place.OpeningHours"></label>
+    <input name="OpeningHours" asp-for="Place.OpeningHours" placeholder="OpeningHours" required>
+    <label asp-for="Place.Lat"></label>
+    <input name="Lat" asp-for="Place.Lat" placeholder="Latitude" required>
+    <label asp-for="Place.Lon"></label>
+    <input name="Lon" asp-for="Place.Lon" placeholder="Longitude" required>
+    <input type="submit" value="Submit">
+  </form>
+  <button onclick="javascript:history.back()">Cancel</button>
+</div>

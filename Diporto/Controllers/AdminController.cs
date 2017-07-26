@@ -49,6 +49,27 @@ namespace Diporto.Controllers {
     }
 
     [HttpGet]
+    [Route("places/edit/{id:int}")]
+    public async Task<ViewResult> PlacesEdit(int id) {
+      var user = await userManager.GetUserAsync(User);
+      return View("PlacesFields", new PlacesFieldsViewModel {
+        Name = user.Name,
+        Place = context.Places.FirstOrDefault(p => p.Id == id),
+        Mode = PlacesFieldsViewModel.FieldsMode.Edit
+      });
+    }
+
+    [HttpGet]
+    [Route("places/create")]
+    public async Task<ViewResult> PlacesCreate() {
+      var user = await userManager.GetUserAsync(User);
+      return View("PlacesFields", new PlacesFieldsViewModel {
+        Name = user.Name,
+        Mode = PlacesFieldsViewModel.FieldsMode.Create
+      });
+    }
+
+    [HttpGet]
     [Route("users")]
     public ViewResult Users() {
       return View();

@@ -19,7 +19,7 @@ html, body {
   display: flex;
   flex-shrink: 0;
   background-color: #2C45FE;
-  padding: 12px 12px;
+  padding: 20px;
   flex-direction: row;
   color: white;
 }
@@ -63,4 +63,5 @@ html, body {
 .content {
   flex-grow: 1;
   overflow-y: scroll;
+  padding: 20px;
 }
