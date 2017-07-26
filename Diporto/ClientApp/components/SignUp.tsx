@@ -15,7 +15,7 @@ class SignUp extends React.Component<LoginProps, {}> {
 
   signupUser(regCreds: UserRegistration) {
     console.log(regCreds);
-    // this.props.signupUser(regCreds);
+    this.props.signupUser(regCreds, this.props.loginUser);
   }
 
   render() {
