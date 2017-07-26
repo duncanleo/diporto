@@ -59,8 +59,9 @@ namespace Diporto.Controllers {
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public IActionResult GetByPlaceId(int placeId = -1) {
-      var reviews = context.PlaceReviews.Where(pr => (placeId != -1) ? pr.Place.Id == placeId : true);
+      var reviews = context.PlaceReviews.Where(pr => (placeId != -1) ? pr.Place.Id == placeId : true).ToList().OrderByDescending(r => r.Time);
       if (reviews == null) {
         return NotFound();
       }
