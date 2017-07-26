@@ -1,21 +1,8 @@
-div.place {
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 1em;
-  border: 1px solid gray;
-  padding: 15px;
-}
-
-div.details {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-div.details .place-name {
-  font-weight: 600;
-}
-
-div.details .place-address {
+.place-address {
   color: gray;
+}
+
+table {
+  border-collapse:separate; 
+  border-spacing: 0 1em;
 }
