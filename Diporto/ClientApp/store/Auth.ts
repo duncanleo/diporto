@@ -68,6 +68,16 @@ export const actionCreators = {
     localStorage.removeItem('id_token');
     localStorage.removeItem('user');
     dispatch({type: 'LOGOUT_SUCCESS'});
+  },
+  signupUser: (creds: UserRegistration,
+    onFinish: (creds: Credentials) => AppThunkAction<KnownAction>) : AppThunkAction<KnownAction> => (dispatch, getState) => {
+    return Api.signUp(creds)
+      .then(response => {
+	onFinish({username: creds.UserName, password: creds.Password});
+      })
+      .catch(error => {
+	alert(error);
+      })
   }
 }
 
