@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Diporto.Database;
 using Diporto.Models;
@@ -9,6 +10,7 @@ using System.Linq;
 
 namespace Diporto.Controllers {
   [Route("admin")]
+  [Authorize]
   public class AdminController : Controller {
     const int pageSize = 20;
 
@@ -20,7 +22,14 @@ namespace Diporto.Controllers {
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public ViewResult Index() {
+      return View();
+    }
+
+    [HttpGet("error")]
+    [AllowAnonymous]
+    public ViewResult Error() {
       return View();
     }
 

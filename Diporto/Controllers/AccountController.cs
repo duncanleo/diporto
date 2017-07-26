@@ -66,14 +66,14 @@ namespace Diporto.Controllers {
 
       var result = await signInManager.PasswordSignInAsync(model.UserName, model.Password, true, lockoutOnFailure: false);
       if (result.Succeeded) {
-        return StatusCode((int)HttpStatusCode.OK);
+        var user = context.Users.First(u => u.UserName == model.UserName);
+        if (!user.IsAdmin) {
+          await signInManager.SignOutAsync();
+          return RedirectToAction("Error", "Admin", new { area = "" });
+        }
+        return RedirectToAction("Home", "Admin", new { area = "" });
       }
-
-      if (result.IsLockedOut) {
-        return StatusCode((int)HttpStatusCode.Conflict);
-      } else {
-        return StatusCode((int)HttpStatusCode.Forbidden);
-      }
+      return RedirectToAction("Error", "Admin", new { area = "" });
     }
 
     [HttpPost("logout")]
