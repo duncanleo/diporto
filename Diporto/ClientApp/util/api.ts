@@ -53,7 +53,28 @@ export class DiportoApi {
 
     return fetchTask;
   }
+  submitReview(review: ReviewSubmission) {
+    const fetchTask = fetch('/api/reviews', {
+      method: 'POST',
+      headers: {
+	'Authorization' : `Bearer ${localStorage.getItem('id_token')}`,
+	'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(review)
+    })
+    .then(handleErrors)
 
+    return fetchTask
+  }
+  getReviewsWithPlaceId(id: number) {
+    const fetchTask = fetch(`/api/reviews?placeId=${id}`)
+      .then(handleErrors)
+      .then(response => {
+	return response.json() as Promise<Review[]>
+      })
+
+    return fetchTask;
+  }
 }
 
 function handleErrors(response) {
