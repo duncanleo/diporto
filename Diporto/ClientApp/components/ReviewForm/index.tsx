@@ -14,14 +14,16 @@ declare interface ReviewFormState {
   rating: number
 }
 
+const defaultState = {
+  text: '',
+  rating: 0
+}
+
 class ReviewForm extends React.Component<ReviewFormProps, ReviewFormState> {
   constructor(props) {
     super(props);
 
-    this.state = {
-      text: '',
-      rating: 0,
-    }
+    this.state = defaultState;
 
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -30,7 +32,12 @@ class ReviewForm extends React.Component<ReviewFormProps, ReviewFormState> {
 
   onSubmit(e) {
     e.preventDefault();
-    this.props.onSubmitPressed({place_id: this.props.placeId, text: this.state.text, rating: this.state.rating, time: moment().toISOString()})
+    this.props.onSubmitPressed({
+      place_id: this.props.placeId,
+      text: this.state.text,
+      rating: this.state.rating,
+      time: moment().toISOString()
+    });
   }
 
   onChange(e) {
