@@ -28,7 +28,7 @@ namespace Diporto.Controllers {
       if (user != null) {
         return RedirectToAction("Home");
       }
-      return View();
+      return View("Login");
     }
 
     [HttpGet("error")]
