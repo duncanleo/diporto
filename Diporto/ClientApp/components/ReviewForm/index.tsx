@@ -49,7 +49,7 @@ class ReviewForm extends React.Component<ReviewFormProps, ReviewFormState> {
     } as HTMLProps<HTMLAnchorElement>
 
     return (
-	<button style={buttonStyle} className="f6 link dim br3 ph3 pv2 mb2 dib white bg-hot-pink right pointer">
+	<button style={buttonStyle} className="f6 link dim br3 ph3 pv2 mb2 dib white bg-hot-pink right pointer" onClick={this.onSubmit}>
 	  Submit
 	</button>
     )
