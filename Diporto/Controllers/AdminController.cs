@@ -23,7 +23,11 @@ namespace Diporto.Controllers {
 
     [HttpGet]
     [AllowAnonymous]
-    public ViewResult Index() {
+    public async Task<IActionResult> Index() {
+      var user = await userManager.GetUserAsync(User);
+      if (user != null) {
+        return RedirectToAction("Home");
+      }
       return View();
     }
 
