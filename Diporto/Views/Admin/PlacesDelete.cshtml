@@ -1,0 +1,18 @@
+@model Diporto.ViewModels.Admin.PlaceDeleteViewModel
+
+@{
+    ViewData["Title"] = "Admin Panel";
+    Layout = "_AdminLayout";
+}
+
+@section styles {
+  <link rel="stylesheet" href="~/css/admin/home.css">
+}
+
+<h1>Are you sure you want to delete</h1>
+<h3>@Model.Place.Name</h3>
+<h5>@Model.Place.Address</h5>
+<form action="/api/places/@Model.Place.Id/delete" method="post">
+  <input type="submit" value="Yes, delete">
+</form>
+<button onclick="javascript:history.back()">Cancel</button>

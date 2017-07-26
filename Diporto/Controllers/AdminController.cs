@@ -79,6 +79,16 @@ namespace Diporto.Controllers {
     }
 
     [HttpGet]
+    [Route("places/delete/{id:int}")]
+    public async Task<ViewResult> PlacesDelete(int id) {
+      var user = await userManager.GetUserAsync(User);
+      return View(new PlaceDeleteViewModel {
+        Name = user.Name,
+        Place = context.Places.FirstOrDefault(p => p.Id == id)
+      });
+    }
+
+    [HttpGet]
     [Route("users")]
     public async Task<ViewResult> Users(int page = 1) {
       if (page < 1) {

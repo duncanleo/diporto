@@ -202,15 +202,40 @@ namespace Diporto.Controllers {
     }
 
     [HttpDelete("{id:int}")]
-    public IActionResult Delete(int id) {
+    public IActionResult DeleteJSON(int id) {
+      switch(DeletePlace(id)) {
+        case Result.NotFound:
+          return NotFound();
+        case Result.DatabaseError:
+          return StatusCode((int)HttpStatusCode.InternalServerError);
+      }
+      return new NoContentResult();
+    }
+
+    [HttpPost("{id:int}/delete")]
+    public IActionResult DeleteForm(int id) {
+      switch(DeletePlace(id)) {
+        case Result.NotFound:
+          return NotFound();
+        case Result.DatabaseError:
+          return StatusCode((int)HttpStatusCode.InternalServerError);
+      }
+      return RedirectToAction("Places", "Admin", new { area = "" });
+    }
+
+    private Result DeletePlace(int id) {
       var place = context.Places.FirstOrDefault(p => p.Id == id);
       if (place == null) {
-        return NotFound();
+        return Result.NotFound;
       }
 
       context.Places.Remove(place);
-      context.SaveChanges();
-      return new NoContentResult();
+      try {
+        context.SaveChanges();
+      } catch (Exception) {
+        return Result.DatabaseError;
+      }
+      return Result.Ok;
     }
   }
 }
