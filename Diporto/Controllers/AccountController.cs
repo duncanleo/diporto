@@ -115,6 +115,12 @@ namespace Diporto.Controllers {
       var dbUser = context.Users
         .Include(u => u.PlaceReviews)
         .First(u => u.Id == user.Id);
+
+      dbUser.PlaceReviews = dbUser.PlaceReviews.Select(review => {
+	review.User = null;
+	return review;
+      }).ToList();
+
       return new ObjectResult(dbUser);
     }
 
