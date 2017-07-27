@@ -22,9 +22,9 @@ export default class PlacePin extends PureComponent<CityPinProps, {}> {
 
     return (
       <svg height={size} viewBox='0 0 24 24'
-	style={{...pinStyle, transform: `translate(${-size/2}px,${-size}px)`}}
-	>
-	<path d={ICON}/>
+        style={{...pinStyle, transform: `translate(${-size/2}px,${-size}px)`}}
+        >
+        <path d={ICON}/>
       </svg>
     );
   }

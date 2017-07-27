@@ -56,19 +56,19 @@ class ReviewForm extends React.Component<ReviewFormProps, ReviewFormState> {
     } as HTMLProps<HTMLAnchorElement>
 
     return (
-	<button style={buttonStyle} className="f6 link dim br3 ph3 pv2 mb2 dib white bg-hot-pink right pointer" onClick={this.onSubmit}>
-	  Submit
-	</button>
+      <button style={buttonStyle} className="f6 link dim br3 ph3 pv2 mb2 dib white bg-hot-pink right pointer" onClick={this.onSubmit}>
+        Submit
+      </button>
     )
   }
 
   renderTextBox() {
     return (
       <div className="pa3 bt b--black-10 flex flex-column">
-	<label className="f6 b db mb2">Write a Review <span className="normal black-60">(optional)</span></label>
-	<textarea id="review" name="text" className="db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2" aria-describedby="comment-desc" onChange={this.onChange} value={this.state.text}/>
-	<small id="comment-desc" className="f6 black-60">Written reviews go a long way to help other users!</small>
-	{ this.state.text.length > 0 && this.renderSubmitButton() }
+        <label className="f6 b db mb2">Write a Review <span className="normal black-60">(optional)</span></label>
+        <textarea id="review" name="text" className="db border-box hover-black w-100 measure ba b--black-20 pa2 br2 mb2" aria-describedby="comment-desc" onChange={this.onChange} value={this.state.text}/>
+        <small id="comment-desc" className="f6 black-60">Written reviews go a long way to help other users!</small>
+        { this.state.text.length > 0 && this.renderSubmitButton() }
       </div>
     )
   }
@@ -76,9 +76,9 @@ class ReviewForm extends React.Component<ReviewFormProps, ReviewFormState> {
   renderStartReviewTip() {
     return (
       <div className="pa3 bt b--black-10 center">
-	<span className="f6 f5-ns lh-copy measure">
-	  Start your review of {this.props.placeName}
-	</span>
+        <span className="f6 f5-ns lh-copy measure">
+          Start your review of {this.props.placeName}
+        </span>
       </div>
     )
   }
@@ -86,17 +86,17 @@ class ReviewForm extends React.Component<ReviewFormProps, ReviewFormState> {
   render() {
     return (
       <div>
-	<div className="mw5 mw6-ns hidden ba b--black-10 mv4">
-	  <div className="pa3 center">
-	    <StarRating
-	      size={50}
-	      half={false}
-	      value={this.state.rating}
-	      onChange={this.onRatingChanged}
-	    />
-	  </div>
-	  { this.state.rating == 0 ? this.renderStartReviewTip() : this.renderTextBox() }
-	</div>
+        <div className="mw5 mw6-ns hidden ba b--black-10 mv4">
+          <div className="pa3 center">
+            <StarRating
+              size={50}
+              half={false}
+              value={this.state.rating}
+              onChange={this.onRatingChanged}
+            />
+          </div>
+          { this.state.rating == 0 ? this.renderStartReviewTip() : this.renderTextBox() }
+        </div>
       </div>
     )
   }

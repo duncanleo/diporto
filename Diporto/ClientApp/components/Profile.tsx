@@ -27,12 +27,12 @@ export default class Profile extends React.Component<ProfileProps, ProfileState>
 
     Api.getUser(userId)
       .then(user => {
-	this.setState({ user: user })
-	return user
+        this.setState({ user: user })
+        return user
       })
       .then(user => {
-	Api.getReviewsWithUserId(userId)
-	  .then(reviews => { this.setState({reviews: reviews}) })
+        Api.getReviewsWithUserId(userId)
+          .then(reviews => { this.setState({reviews: reviews}) })
       });
   }
 
@@ -41,12 +41,12 @@ export default class Profile extends React.Component<ProfileProps, ProfileState>
 
     Api.getUser(userId)
       .then(user => {
-	this.setState({ user: user })
-	return user
+        this.setState({ user: user })
+        return user
       })
       .then(user => {
-	Api.getReviewsWithUserId(userId)
-	  .then(reviews => { this.setState({reviews: reviews}) })
+        Api.getReviewsWithUserId(userId)
+          .then(reviews => { this.setState({reviews: reviews}) })
       });
   }
 
@@ -56,33 +56,33 @@ export default class Profile extends React.Component<ProfileProps, ProfileState>
 
     return (
       <div className="flex flex-column">
-	<div id="profile-meta-container" className="flex mv4">
-	  <img src={profileUrl} className="h4 h4 br3" />
-	  <div className="flex flex-column">
-	    <h2 className="f3 lh-title">{user.name}</h2>
-	    <div id="user-meta" className="flex">
-	      <span>{reviews == null ? 0 : reviews.length} Reviews</span>
-	      <span>0 Bookmarks</span>
-	    </div>
-	  </div>
-	</div>
-	<div id="tab-container">
-	  <Tabs>
-	    <TabList>
-	      <Tab>Reviews</Tab>
-	      <Tab>Bookmarks</Tab>
-	    </TabList>
+        <div id="profile-meta-container" className="flex mv4">
+          <img src={profileUrl} className="h4 h4 br3" />
+          <div className="flex flex-column">
+            <h2 className="f3 lh-title">{user.name}</h2>
+            <div id="user-meta" className="flex">
+              <span>{reviews == null ? 0 : reviews.length} Reviews</span>
+              <span>0 Bookmarks</span>
+            </div>
+          </div>
+        </div>
+        <div id="tab-container">
+          <Tabs>
+            <TabList>
+              <Tab>Reviews</Tab>
+              <Tab>Bookmarks</Tab>
+            </TabList>
 
-	    <TabPanel>
-	      {reviews !== undefined &&
-		<ReviewList reviews={reviews} user={user} />
-	      }
-	    </TabPanel>
-	    <TabPanel>
+            <TabPanel>
+              {reviews !== undefined &&
+          <ReviewList reviews={reviews} user={user} />
+              }
+            </TabPanel>
+            <TabPanel>
 
-	    </TabPanel>
-	  </Tabs>
-	</div>
+            </TabPanel>
+          </Tabs>
+        </div>
       </div>
     )
   }
@@ -90,11 +90,11 @@ export default class Profile extends React.Component<ProfileProps, ProfileState>
   render() {
     return (
       <div id="profile-container" className="w-60 center">
-	{ this.state.user === undefined ? (
-	  <h2>Loading...</h2>
-	) : (
-	  this.renderProfileInformation()
-	)}
+        { this.state.user === undefined ? (
+          <h2>Loading...</h2>
+        ) : (
+          this.renderProfileInformation()
+        )}
       </div>
     )
   }

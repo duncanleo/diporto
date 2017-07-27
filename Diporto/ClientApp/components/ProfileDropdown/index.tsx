@@ -42,25 +42,24 @@ class ProfileDropdown extends React.Component<ProfileDropdownProps, ProfileDropd
 
     return (
       <div id="profile-dropdown-container">
-	<div className="flex items-center" ref="target" onClick={this.handleClick}>
-	    {user.profile_image_url !== null ?
-		<img
-		    src={user.profile_image_url}
-		    alt="profile photo"
-		    className={avatarStyles}/>
-	    :
-		<img src="https://s3-us-west-1.amazonaws.com/jurvis/placeholder_profile.svg" alt="profile photo"
-		className={avatarStyles}/>
-	    }
-	    <span className="ml2 lh-copy white">{user.name}</span>
-	    <a
-		href="#"
-		className="f6 link dim pl2 white"
-		onClick={this.handleLogoutPressed}>
-		Logout
-	    </a>
-	</div>
-
+        <div className="flex items-center" ref="target" onClick={this.handleClick}>
+            {user.profile_image_url !== null ?
+          <img
+              src={user.profile_image_url}
+              alt="profile photo"
+              className={avatarStyles}/>
+            :
+          <img src="https://s3-us-west-1.amazonaws.com/jurvis/placeholder_profile.svg" alt="profile photo"
+          className={avatarStyles}/>
+            }
+            <span className="ml2 lh-copy white">{user.name}</span>
+            <a
+          href="#"
+          className="f6 link dim pl2 white"
+          onClick={this.handleLogoutPressed}>
+          Logout
+            </a>
+        </div>
       </div>
     )
   }

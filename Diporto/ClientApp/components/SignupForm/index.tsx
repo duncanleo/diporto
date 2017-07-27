@@ -43,49 +43,49 @@ class SignupForm extends React.Component<SignupFormProps, SignupFormState> {
 
     return (
       <form onSubmit={this.onSubmit}>
-	<h1>Sign Up</h1>
+        <h1>Sign Up</h1>
 
-	<TextFieldGroup
-	  field="Name"
-	  label="Name"
-	  value={Name}
-	  onChange={this.onChange}
-	  type="text"
-	/>
+        <TextFieldGroup
+          field="Name"
+          label="Name"
+          value={Name}
+          onChange={this.onChange}
+          type="text"
+        />
 
-	<TextFieldGroup
-	  field="UserName"
-	  label="Username"
-	  value={UserName}
-	  onChange={this.onChange}
-	  type="text"
-	/>
+        <TextFieldGroup
+          field="UserName"
+          label="Username"
+          value={UserName}
+          onChange={this.onChange}
+          type="text"
+        />
 
-	<TextFieldGroup
-	  field="Email"
-	  label="Email"
-	  value={Email}
-	  onChange={this.onChange}
-	  type="email"
-	/>
+        <TextFieldGroup
+          field="Email"
+          label="Email"
+          value={Email}
+          onChange={this.onChange}
+          type="email"
+        />
 
-	<TextFieldGroup
-	  field="Password"
-	  label="Password"
-	  value={Password}
-	  onChange={this.onChange}
-	  type="password"
-	/>
+        <TextFieldGroup
+          field="Password"
+          label="Password"
+          value={Password}
+          onChange={this.onChange}
+          type="password"
+        />
 
-	<TextFieldGroup
-	  field="ConfirmPassword"
-	  label="Confirm Password"
-	  value={ConfirmPassword}
-	  onChange={this.onChange}
-	  type="password"
-	/>
+        <TextFieldGroup
+          field="ConfirmPassword"
+          label="Confirm Password"
+          value={ConfirmPassword}
+          onChange={this.onChange}
+          type="password"
+        />
 
-	<div><button>Sign Up</button></div>
+        <div><button>Sign Up</button></div>
       </form>
     )
   }

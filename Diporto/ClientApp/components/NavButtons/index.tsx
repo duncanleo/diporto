@@ -17,18 +17,18 @@ const NavButtons: React.SFC<{}> = (props) => {
 
   return (
     <div style={styles.buttonContainer}>
-	<Link
-	    className="f6 link dim br3 ph3 pv2 mb2 white"
-	    style={styles.loginButton}
-	    to="/login">
-	    Login
-	</Link>
-	<Link
-	  className="f6 link dim br3 ph3 pv2 mb2 white"
-	  style={styles.signUpButton}
-	  to="/signup">
-	  Sign Up
-	</Link>
+      <Link
+          className="f6 link dim br3 ph3 pv2 mb2 white"
+          style={styles.loginButton}
+          to="/login">
+          Login
+      </Link>
+      <Link
+        className="f6 link dim br3 ph3 pv2 mb2 white"
+        style={styles.signUpButton}
+        to="/signup">
+        Sign Up
+      </Link>
     </div>
   )
 }

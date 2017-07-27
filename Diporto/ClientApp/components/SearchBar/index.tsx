@@ -49,15 +49,15 @@ export default class SearchBar extends React.Component<SearchProps, SearchState>
   public render() {
     return (
       <form style={Object.assign({flexGrow: 1}, this.props.barStyle)} onSubmit={this.handleSubmit}>
-	<input
-	  className="f6 f5-l input-reset bn fl black-80 bg-white pa3 lh-solid w-100 w-75-m w-80-l br2-ns br--left-n outline-0"
-	  placeholder="Search"
-	  type="text"
-	  name="search"
-	  value={this.state.value}
-	  onChange={this.handleChange}
-	/>
-	<input style={this.props.buttonStyle} className="f6 f5-l button-reset fl pv3 tc bn bg-animate white pointer w-100 w-25-m w-20-l br2-ns br--right-ns outline-0" type="submit" value="search"/>
+        <input
+          className="f6 f5-l input-reset bn fl black-80 bg-white pa3 lh-solid w-100 w-75-m w-80-l br2-ns br--left-n outline-0"
+          placeholder="Search"
+          type="text"
+          name="search"
+          value={this.state.value}
+          onChange={this.handleChange}
+        />
+        <input style={this.props.buttonStyle} className="f6 f5-l button-reset fl pv3 tc bn bg-animate white pointer w-100 w-25-m w-20-l br2-ns br--right-ns outline-0" type="submit" value="search"/>
       </form>
     )
   }

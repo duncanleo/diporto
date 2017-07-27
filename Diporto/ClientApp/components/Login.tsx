@@ -5,7 +5,9 @@ import { connect } from 'react-redux';
 import { ApplicationState } from '../store';
 import * as AuthState from '../store/Auth';
 
-type LoginProps = typeof AuthState.actionCreators & RouteComponentProps<{}>
+type LoginProps = 
+  typeof AuthState.actionCreators
+  & RouteComponentProps<{}>
 
 class Login extends React.Component<LoginProps, {}> {
   constructor(props) {
@@ -21,9 +23,9 @@ class Login extends React.Component<LoginProps, {}> {
   render() {
     return (
       <div>
-	<LoginForm
-	  onLoginPressed={(creds) => this.loginUser(creds)}
-	/>
+        <LoginForm
+          onLoginPressed={(creds) => this.loginUser(creds)}
+        />
       </div>
     )
   }

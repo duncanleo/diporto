@@ -22,16 +22,16 @@ export default class PlaceList extends React.Component<PlaceListProps, PlaceList
     const { places } = this.props;
     return (
       <div className="flex mw8 center">
-	<div className="w-70">
-	  {this.renderPlaceList()}
-	</div>
-	<div className="w-10"></div>
-	<div className="w-20 mt4">
-	  <Map
-	    viewport={{latitude: places[0].lat, longitude: places[0].lon, zoom: 10, height: 200, width: 200}}
-	    places={places}
-	   />
-	</div>
+        <div className="w-70">
+          {this.renderPlaceList()}
+        </div>
+        <div className="w-10"></div>
+        <div className="w-20 mt4">
+          <Map
+            viewport={{latitude: places[0].lat, longitude: places[0].lon, zoom: 10, height: 200, width: 200}}
+            places={places}
+          />
+        </div>
       </div>
     )
   }
