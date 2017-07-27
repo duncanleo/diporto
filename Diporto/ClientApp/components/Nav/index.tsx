@@ -24,18 +24,18 @@ class Nav extends React.Component<NavProps, {}> {
 
     return (
       <div className="flex flex-row pa3 pa3-ns" style={styles.navBar}>
-	<Link to={"/"} className="no-underline">
-	    <h2 className="f3 lh-title white ma0">Diporto</h2>
-	</Link>
-	<div style={{flexGrow: 1}}></div>
-	{!isAuthenticated &&
-	  <NavButtons />
-	}
-	{isAuthenticated && user &&
-	  <ProfileDropdown
-	    user={user}
-	    onLogout={this.props.logout}/>
-	}
+        <Link to={"/"} className="no-underline">
+            <h2 className="f3 lh-title white ma0">Diporto</h2>
+        </Link>
+        <div style={{flexGrow: 1}}></div>
+        {!isAuthenticated &&
+          <NavButtons />
+        }
+        {isAuthenticated && user &&
+          <ProfileDropdown
+            user={user}
+            onLogout={this.props.logout}/>
+        }
       </div>
     )
   }

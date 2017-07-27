@@ -24,9 +24,9 @@ class SignUp extends React.Component<LoginProps, {}> {
   render() {
     return (
       <div>
-	<SignupForm
-	  onSignupPressed={(regCreds) => this.signupUser(regCreds)}
-	/>
+        <SignupForm
+          onSignupPressed={(regCreds) => this.signupUser(regCreds)}
+        />
       </div>
     )
   }

@@ -23,9 +23,9 @@ export class Map extends React.Component<MapProps, MapState> {
   private _renderCityMarker(place: Place, index: number) {
     return (
       <Marker key={`marker-${index}`}
-	longitude={place.lon}
-	latitude={place.lat}>
-	<Pin size={20}/>
+        longitude={place.lon}
+        latitude={place.lat}>
+        <Pin size={20}/>
       </Marker>
     )
   }
@@ -41,11 +41,11 @@ export class Map extends React.Component<MapProps, MapState> {
 
     return (
       <MapGL
-	{...viewport}
-	mapboxApiAccessToken="pk.eyJ1IjoianVydmlzIiwiYSI6ImNqNTh5MmlnNzAya3EzMXE3eGFhMWtrczQifQ.BgT8aHg52oKkki4GV8oNpA"
-	onViewportChange={this.updateViewport}>
+        {...viewport}
+        mapboxApiAccessToken="pk.eyJ1IjoianVydmlzIiwiYSI6ImNqNTh5MmlnNzAya3EzMXE3eGFhMWtrczQifQ.BgT8aHg52oKkki4GV8oNpA"
+        onViewportChange={this.updateViewport}>
 
-	{this.props.places.map(this._renderCityMarker)}
+        {this.props.places.map(this._renderCityMarker)}
       </MapGL>
     )
   }

@@ -37,14 +37,16 @@ class PlacesSearch extends React.Component<PlacesSearchProps, {}> {
   }
 
   public render() {
-    return <div className="bg-white">
-      <ToolBar
-	initialValue={this.props.filter.text}
-	searchButtonPressed={this.handleSearchButtonPressed}
-      />
+    return (
+      <div className="bg-white">
+        <ToolBar
+          initialValue={this.props.filter.text}
+          searchButtonPressed={this.handleSearchButtonPressed}
+        />
 
-      { this.renderPlacesTable() }
-    </div>
+        { this.renderPlacesTable() }
+      </div>
+    )
   }
 
   private renderPlacesTable() {
@@ -52,13 +54,13 @@ class PlacesSearch extends React.Component<PlacesSearchProps, {}> {
 
     if (this.props.places.length === 0) {
       return (
-	<h2>{`No Results Found for ${this.props.filter.text}`}</h2>
-      )
+        <h2>{`No Results Found for ${this.props.filter.text}`}</h2>
+            )
     } else {
       return (
-	<PlaceList
-	  places={this.props.places}
-	/>
+        <PlaceList
+          places={this.props.places}
+        />
       )
     }
   }

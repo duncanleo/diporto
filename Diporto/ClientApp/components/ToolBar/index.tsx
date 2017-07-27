@@ -22,10 +22,10 @@ export default class ToolBar extends React.Component<ToolBarProps, ToolBarState>
   public render() {
     return (
       <div className="flex bg-light-gray pa3">
-	<SearchBar
-	  initialValue={this.props.initialValue}
-	  onSearch={(t) => this.searchButtonPressed(t)}
-	/>
+        <SearchBar
+          initialValue={this.props.initialValue}
+          onSearch={(t) => this.searchButtonPressed(t)}
+        />
       </div>
     )
   }

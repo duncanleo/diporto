@@ -39,25 +39,25 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
 
     return (
       <form onSubmit={this.onSubmit}>
-	<h1>Login</h1>
+        <h1>Login</h1>
 
-	<TextFieldGroup
-	  field="identifier"
-	  label="Username / Email"
-	  value={identifier}
-	  onChange={this.onChange}
-	  type="text"
-	/>
+        <TextFieldGroup
+          field="identifier"
+          label="Username / Email"
+          value={identifier}
+          onChange={this.onChange}
+          type="text"
+        />
 
-	<TextFieldGroup
-	  field="password"
-	  label="Password"
-	  value={password}
-	  onChange={this.onChange}
-	  type="password"
-	/>
+        <TextFieldGroup
+          field="password"
+          label="Password"
+          value={password}
+          onChange={this.onChange}
+          type="password"
+        />
 
-	<div><button disabled={isLoading}>Login</button></div>
+        <div><button disabled={isLoading}>Login</button></div>
       </form>
     )
   }

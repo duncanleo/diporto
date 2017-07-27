@@ -24,21 +24,21 @@ class ReviewItem extends React.Component<ReviewItemProps, {}> {
 
     return (
       <div className="flex mb2">
-	<div className="flex flex-column w3">
-	  {this.renderUserImage()}
-	</div>
-	<div className="ml2 w-70">
-	  <span className="fw6">
-	    {user == null ? "Anonymous User" : user.name} said:
-	  </span>
-	  <StarRating
-	    size={20}
-	    edit={false}
-	    value={review.rating}
-	  />
-	  <span>{moment(review.time, moment.ISO_8601).format("YYYY-MM-DD")}</span>
-	  <p className="f5 lh-copy measure">{review.text}</p>
-	</div>
+        <div className="flex flex-column w3">
+          {this.renderUserImage()}
+        </div>
+        <div className="ml2 w-70">
+          <span className="fw6">
+            {user == null ? "Anonymous User" : user.name} said:
+          </span>
+          <StarRating
+            size={20}
+            edit={false}
+            value={review.rating}
+          />
+          <span>{moment(review.time, moment.ISO_8601).format("YYYY-MM-DD")}</span>
+          <p className="f5 lh-copy measure">{review.text}</p>
+        </div>
       </div>
     );
   }
