@@ -18,7 +18,8 @@ module.exports = (env) => {
         module: {
             rules: [
 		{ test: /\.(t|j)sx?$/, include: /ClientApp/, use: 'awesome-typescript-loader?silent=true' }
-            ]
+            ],
+            noParse: /(mapbox-gl)\.js$/
         },
         plugins: [new CheckerPlugin()]
     });
