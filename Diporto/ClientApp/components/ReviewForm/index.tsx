@@ -38,6 +38,7 @@ class ReviewForm extends React.Component<ReviewFormProps, ReviewFormState> {
       rating: this.state.rating,
       time: moment().toISOString()
     });
+    this.setState(defaultState);
   }
 
   onChange(e) {
