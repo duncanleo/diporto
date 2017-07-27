@@ -33,7 +33,6 @@ export default class PlaceDisplay extends React.Component<PlaceProps, PlaceState
     Api.getPlace(placeId)
 			.then(place => {
 				this.setState({place: place})
-				return place as Place
 			});
 	}
 
@@ -44,7 +43,6 @@ export default class PlaceDisplay extends React.Component<PlaceProps, PlaceState
     Api.getPlace(placeId)
 			.then(place => {
 				this.setState({place: place})
-				return place as Place
 			});
   }
 
