@@ -4,11 +4,13 @@ import Api from '../util/api';
 import ReviewItem from './ReviewItem';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import ReviewList from './ReviewList';
+import PlaceList from './PlaceList';
 import 'react-tabs/style/react-tabs.css';
 
 declare interface ProfileState {
   user?: User,
-  reviews?: Review[]
+  reviews?: Review[],
+  bookmarks?: Place[],
 }
 
 type ProfileProps = RouteComponentProps<{ id: number }>
@@ -19,7 +21,10 @@ export default class Profile extends React.Component<ProfileProps, ProfileState>
 
     this.state = {
       user: undefined,
+      bookmarks: undefined,
     }
+
+    this.parseJwt = this.parseJwt.bind(this);
   }
 
   componentWillMount() {
@@ -34,6 +39,15 @@ export default class Profile extends React.Component<ProfileProps, ProfileState>
         Api.getReviewsWithUserId(userId)
           .then(reviews => { this.setState({reviews: reviews}) })
       });
+
+    const loggedInUserId = this.parseJwt(localStorage.getItem('id_token')).sub
+    if (loggedInUserId == userId) {
+      Api.getBookmarks()
+        .then(bookmarks => {
+          const places = bookmarks.map(bookmark => bookmark.place);
+          this.setState({bookmarks: places})
+        })
+    }
   }
 
   componentWillReceiveProps(nextProps: ProfileProps) {
@@ -48,10 +62,25 @@ export default class Profile extends React.Component<ProfileProps, ProfileState>
         Api.getReviewsWithUserId(userId)
           .then(reviews => { this.setState({reviews: reviews}) })
       });
+
+    const loggedInUserId = this.parseJwt(localStorage.getItem('id_token')).sub
+    if (loggedInUserId == userId) {
+      Api.getBookmarks()
+        .then(bookmarks => {
+          const places = bookmarks.map(bookmark => bookmark.place);
+          this.setState({bookmarks: places})
+        })
+    }
+  }
+
+  parseJwt(token) {
+    let base64Url = token.split('.')[1];
+    let base64 = base64Url.replace('-', '+').replace('_', '/');
+    return JSON.parse(window.atob(base64));
   }
 
   renderProfileInformation() {
-    const { user, reviews } = this.state;
+    const { user, reviews, bookmarks } = this.state;
     const profileUrl = (user.profile_image_url !== null) ? user.profile_image_url : "https://s3-us-west-1.amazonaws.com/jurvis/placeholder_profile.svg"
 
     return (
@@ -62,7 +91,7 @@ export default class Profile extends React.Component<ProfileProps, ProfileState>
             <h2 className="f3 lh-title">{user.name}</h2>
             <div id="user-meta" className="flex">
               <span>{reviews == null ? 0 : reviews.length} Reviews</span>
-              <span>0 Bookmarks</span>
+              {bookmarks && <span>{bookmarks.length} Bookmark(s)</span>}
             </div>
           </div>
         </div>
@@ -70,17 +99,21 @@ export default class Profile extends React.Component<ProfileProps, ProfileState>
           <Tabs>
             <TabList>
               <Tab>Reviews</Tab>
-              <Tab>Bookmarks</Tab>
+              {bookmarks && <Tab>Bookmarks</Tab>}
             </TabList>
 
             <TabPanel>
-              {reviews !== undefined &&
-          <ReviewList reviews={reviews} user={user} />
+              {reviews &&
+                <ReviewList reviews={reviews} user={user} />
               }
             </TabPanel>
-            <TabPanel>
-
-            </TabPanel>
+            {bookmarks &&
+              <TabPanel>
+                <PlaceList
+                  places={bookmarks}
+                />
+              </TabPanel>
+            }
           </Tabs>
         </div>
       </div>
