@@ -25,12 +25,13 @@ namespace Diporto.Models {
 
     [Column("current_location")]
     [JsonProperty("current_location")]
+    [JsonIgnore]
     public PostgisPoint CurrentLocation { get; set; }
 
     [NotMapped]
     public IEnumerable<int> Bookmarks { get; set; }
-
-    [JsonProperty("reviews", NullValueHandling = NullValueHandling.Ignore)]
+    
+    [JsonIgnore]
     public ICollection<PlaceReview> PlaceReviews { get; set; }
 
     [JsonIgnore]
