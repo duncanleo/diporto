@@ -11,7 +11,7 @@ class ReviewItem extends React.Component<ReviewItemProps, {}> {
   private renderUserImage() {
     let user = this.props.review.user;
 
-    if (user !== undefined && user.profile_image_url !== null) {
+    if (user && user.profile_image_url !== null) {
       return <img src={user.profile_image_url} className="h4 br3"/>
     } else {
       return <img className="h3 br3" src="https://s3-us-west-1.amazonaws.com/jurvis/placeholder_profile.svg"/>
