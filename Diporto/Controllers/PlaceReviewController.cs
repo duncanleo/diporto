@@ -62,19 +62,24 @@ namespace Diporto.Controllers {
     [AllowAnonymous]
     public IActionResult GetPlaces(int userId = -1, int placeId = -1)  {
       var reviews = from r in context.PlaceReviews
-		    select r;
+            select r;
 
       if (placeId != -1) {
-	reviews = reviews.Where(pr => pr.PlaceId == placeId);
+        reviews = reviews.Where(pr => pr.PlaceId == placeId);
       }
 
       if (userId != -1) {
-	reviews = reviews.Where(pr => pr.UserId == userId);
+        reviews = reviews.Where(pr => pr.UserId == userId);
       }
 
       if (reviews == null) {
         return NotFound();
       }
+
+      reviews =
+        reviews
+        .Include(r => r.User)
+        .OrderByDescending(r => r.Time);
 
       return new ObjectResult(reviews);
     }
@@ -85,7 +90,7 @@ namespace Diporto.Controllers {
       if (item == null) {
         return BadRequest();
       }
-      
+
       var review = context.PlaceReviews.Include(rv => rv.User).FirstOrDefault(rv => rv.Id == id);
       if (review == null) {
         return NotFound();
@@ -100,7 +105,7 @@ namespace Diporto.Controllers {
       review.Text = item.Text;
       review.Time = item.Time;
       review.Rating = item.Rating;
-      
+
       context.PlaceReviews.Update(review);
       context.SaveChanges();
 
