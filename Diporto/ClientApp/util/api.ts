@@ -75,6 +75,24 @@ export class DiportoApi {
 
     return fetchTask;
   }
+  getUser(userId: number) {
+    const fetchTask = fetch(`/api/users/${userId}`)
+      .then(handleErrors)
+      .then(response => {
+	return response.json() as Promise<User>
+      });
+
+    return fetchTask;
+  }
+  getReviewsWithUserId(userId: number) {
+    const fetchTask = fetch(`/api/reviews?userId=${userId}`)
+      .then(handleErrors)
+      .then(response => {
+	return response.json() as Promise<Review[]>
+      });
+
+      return fetchTask;
+  }
 }
 
 function handleErrors(response) {
