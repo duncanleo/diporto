@@ -4,7 +4,6 @@
   "dependencies": {
     "@types/history": "4.6.0",
     "@types/immutable": "^3.8.7",
-    "@types/moment": "^2.13.0",
     "@types/react": "15.0.35",
     "@types/react-dom": "15.5.1",
     "@types/react-hot-loader": "3.0.3",
@@ -12,6 +11,7 @@
     "@types/react-router": "4.0.12",
     "@types/react-router-dom": "4.0.5",
     "@types/react-router-redux": "5.0.3",
+    "@types/react-tabs": "^1.0.1",
     "@types/webpack": "2.2.15",
     "@types/webpack-env": "1.13.0",
     "aspnet-prerendering": "^3.0.1",
@@ -39,6 +39,7 @@
     "react-router-redux": "5.0.0-alpha.6",
     "react-star-rating": "^1.4.2",
     "react-stars": "^2.1.0",
+    "react-tabs": "^1.1.0",
     "redux": "^3.7.2",
     "redux-thunk": "2.2.0",
     "style-loader": "0.18.2",
