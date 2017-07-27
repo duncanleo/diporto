@@ -1,10 +1,11 @@
 import * as React from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 import LoginForm from './LoginForm';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../store';
 import * as AuthState from '../store/Auth';
 
-type LoginProps = typeof AuthState.actionCreators
+type LoginProps = typeof AuthState.actionCreators & RouteComponentProps<{}>
 
 class Login extends React.Component<LoginProps, {}> {
   constructor(props) {
