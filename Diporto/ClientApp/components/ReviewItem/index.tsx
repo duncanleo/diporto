@@ -4,14 +4,15 @@ import StarRating from 'react-stars';
 
 declare interface ReviewItemProps {
   review: Review
+  user?: User
 }
 
 class ReviewItem extends React.Component<ReviewItemProps, {}> {
   private renderUserImage() {
     let user = this.props.review.user;
 
-    if (user !== null && user.profile_image_url !== null) {
-      return <img src={user.profile_image_url}/>
+    if (user !== undefined && user.profile_image_url !== null) {
+      return <img src={user.profile_image_url} className="h4 br3"/>
     } else {
       return <img className="h3 br3" src="https://s3-us-west-1.amazonaws.com/jurvis/placeholder_profile.svg"/>
     }
@@ -19,7 +20,7 @@ class ReviewItem extends React.Component<ReviewItemProps, {}> {
 
   render() {
     const { review } = this.props;
-    const { user } = review;
+    const user = this.props.user || review.user;
 
     return (
       <div className="flex mb2">
@@ -28,7 +29,7 @@ class ReviewItem extends React.Component<ReviewItemProps, {}> {
 	</div>
 	<div className="ml2 w-70">
 	  <span className="fw6">
-	    {review.user == null ? "Anonymous User" : review.user.name} said:
+	    {user == null ? "Anonymous User" : user.name} said:
 	  </span>
 	  <StarRating
 	    size={20}
