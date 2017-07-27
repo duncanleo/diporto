@@ -125,13 +125,7 @@ namespace Diporto.Controllers {
     }
 
     [HttpGet("users/{id:int}")]
-    [Authorize]
-    public async Task<IActionResult> GetById(int id) {
-      var user = await userManager.GetUserAsync(User);
-      if (!user.IsAdmin) {
-        return Forbid();
-      }
-
+    public IActionResult GetById(int id) {
       var targetUser = context.Users.FirstOrDefault(u => u.Id == id);
       if (targetUser == null) {
         return NotFound();
