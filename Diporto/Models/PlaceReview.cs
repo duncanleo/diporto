@@ -29,10 +29,11 @@ namespace Diporto.Models {
     public int PlaceId { get; set; }
 
     [JsonProperty("user")]
+    [JsonIgnore]
     public User User { get; set; }
 
     [Column("user_id")]
-    [JsonIgnore]
+    [JsonProperty("user_id")]
     public int UserId { get; set; }
   }
 }
