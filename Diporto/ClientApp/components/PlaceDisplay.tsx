@@ -6,11 +6,13 @@ import ReviewItem from './ReviewItem';
 import Map from './Map';
 import PlacePin from './PlacePin';
 import ReviewForm from './ReviewForm';
+import BookmarkButton from './BookmarkButton'
 import { CanvasOverlay, Marker } from 'react-map-gl';
 
 declare interface PlaceState {
 	place?: Place
 	isAuthenticated: boolean
+	bookmark: Bookmark
 }
 
 type PlaceProps = RouteComponentProps<{ id: number }>
@@ -22,9 +24,11 @@ export default class PlaceDisplay extends React.Component<PlaceProps, PlaceState
     this.state = {
 			place: undefined,
 			isAuthenticated: localStorage.getItem('id_token') != undefined,
+			bookmark: undefined
 		};
 
 		this.submitReview = this.submitReview.bind(this);
+		this.handleBookmarkButtonClicked = this.handleBookmarkButtonClicked.bind(this);
   }
 
 	componentWillMount() {
@@ -34,8 +38,14 @@ export default class PlaceDisplay extends React.Component<PlaceProps, PlaceState
 			.then(place => {
 				this.setState({place: place})
 			});
-	}
 
+		Api.getBookmarks()
+			.then(bookmarks => {
+				const bookmark = bookmarks.filter(bookmark => bookmark.place_id == placeId)[0];
+
+				this.setState({bookmark})
+			})
+	}
 
   componentWillReceiveProps(nextProps: PlaceProps) {
     const placeId = nextProps.match.params.id;
@@ -44,6 +54,13 @@ export default class PlaceDisplay extends React.Component<PlaceProps, PlaceState
 			.then(place => {
 				this.setState({place: place})
 			});
+
+		Api.getBookmarks()
+			.then(bookmarks => {
+				const bookmark = bookmarks.filter(bookmark => bookmark.place_id == placeId)[0];
+
+				this.setState({bookmark})
+			})
   }
 
 	submitReview(review: ReviewSubmission) {
@@ -57,13 +74,38 @@ export default class PlaceDisplay extends React.Component<PlaceProps, PlaceState
 			});
 	}
 
+	handleBookmarkButtonClicked() {
+		const { place, bookmark } = this.state;
+		if (bookmark) {
+			Api.deleteBookmark(bookmark.id)
+				.then(_ => this.setState({bookmark: undefined}))
+				.catch(error => alert(error));
+		} else {
+			Api.submitBookmark(this.state.place.id)
+				.then(bookmark => {
+					this.setState({bookmark: bookmark})
+				});
+		}
+	}
+
   renderPlaceInformation() {
-    const { place, isAuthenticated } = this.state;
+    const { place, isAuthenticated, bookmark } = this.state;
     return (
       <div id="place-information-container" className="flex flex-column mw8 center">
-				<div id="place-meta-container" className="mb3">
-					<h2 className="f2 lh-title mv3">{place.name}</h2>
-					<CategoryList categories={place.categories}/>
+				<div id="place-meta-container" className="mb3 flex items-center">
+					<div>
+						<h2 className="f2 lh-title mv3">{place.name}</h2>
+						<CategoryList categories={place.categories}/>
+					</div>
+					<div style={{flexGrow: 1}}></div>
+					{isAuthenticated &&
+						<div>
+							<BookmarkButton
+								bookmarked={bookmark != null}
+								onClick={this.handleBookmarkButtonClicked}
+							/>
+						</div>
+					}
 				</div>
 				<div id="place-images-container" className="flex mb4">
 					{place.photos.slice(0,4).map(photo => {
@@ -71,10 +113,10 @@ export default class PlaceDisplay extends React.Component<PlaceProps, PlaceState
 						const imageStyle = { backgroundImage: `url(${imageUrl}` };
 						return (
 							<div key={photo.id} className="w-25">
-					<div className="aspect-ratio aspect-ratio--1x1">
-						<img className="bg-center cover aspect-ratio--object"
-							style={imageStyle}/>
-					</div>
+								<div className="aspect-ratio aspect-ratio--1x1">
+									<img className="bg-center cover aspect-ratio--object"
+										style={imageStyle}/>
+								</div>
 							</div>
 						);
 					})}
