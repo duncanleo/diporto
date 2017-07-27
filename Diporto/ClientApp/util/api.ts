@@ -13,12 +13,12 @@ export class DiportoApi {
     const fetchTask = fetch('/api/token', {
       method: 'POST',
       headers: {
-	'Content-Type': 'application/json'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-	UserName: creds.username,
-	Password: creds.password,
-	GrantType: "access_token"
+        UserName: creds.username,
+        Password: creds.password,
+        GrantType: "access_token"
       })
     })
     .then(response => response.json());
@@ -39,14 +39,14 @@ export class DiportoApi {
     const fetchTask = fetch('/api/register', {
       method: 'POST',
       headers: {
-	'Content-Type': 'application/json'
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-	UserName: regCreds.UserName,
-	Password: regCreds.Password,
-	ConfirmPassword: regCreds.ConfirmPassword,
-	Email: regCreds.Email,
-	Name: regCreds.Name
+        UserName: regCreds.UserName,
+        Password: regCreds.Password,
+        ConfirmPassword: regCreds.ConfirmPassword,
+        Email: regCreds.Email,
+        Name: regCreds.Name
       })
     })
     .then(handleErrors)
@@ -57,8 +57,8 @@ export class DiportoApi {
     const fetchTask = fetch('/api/reviews', {
       method: 'POST',
       headers: {
-	'Authorization' : `Bearer ${localStorage.getItem('id_token')}`,
-	'Content-Type': 'application/json'
+        'Authorization' : `Bearer ${localStorage.getItem('id_token')}`,
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(review)
     })
@@ -70,7 +70,7 @@ export class DiportoApi {
     const fetchTask = fetch(`/api/reviews?placeId=${id}`)
       .then(handleErrors)
       .then(response => {
-	return response.json() as Promise<Review[]>
+        return response.json() as Promise<Review[]>
       })
 
     return fetchTask;
@@ -79,7 +79,7 @@ export class DiportoApi {
     const fetchTask = fetch(`/api/users/${userId}`)
       .then(handleErrors)
       .then(response => {
-	return response.json() as Promise<User>
+        return response.json() as Promise<User>
       });
 
     return fetchTask;
@@ -88,16 +88,56 @@ export class DiportoApi {
     const fetchTask = fetch(`/api/reviews?userId=${userId}`)
       .then(handleErrors)
       .then(response => {
-	return response.json() as Promise<Review[]>
+        return response.json() as Promise<Review[]>
       });
 
       return fetchTask;
+  }
+  submitBookmark(placeId: number) {
+    const fetchTask = fetch(`/api/bookmarks`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('id_token')}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "place_id": placeId
+      })
+    })
+    .then(handleErrors)
+    .then(response => response.json() as Promise<Bookmark>);
+
+    return fetchTask
+  }
+  getBookmarks() {
+    const fetchTask = fetch(`/api/bookmarks`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('id_token')}`,
+      }
+    })
+    .then(handleErrors)
+    .then(response => {
+      return response.json() as Promise<Bookmark[]>
+    });
+
+    return fetchTask;
+  }
+  deleteBookmark(bookmarkId) {
+    const fetchTask = fetch(`/api/bookmarks/${bookmarkId}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('id_token')}`,
+      }
+    })
+    .then(handleErrors)
+
+    return fetchTask;
   }
 }
 
 function handleErrors(response) {
     if (!response.ok) {
-	throw Error(response.statusText);
+      throw Error(response.statusText);
     }
     return response;
 }
