@@ -49,8 +49,12 @@ export default class PlaceDisplay extends React.Component<PlaceProps, PlaceState
 	submitReview(review: ReviewSubmission) {
 		Api.submitReview(review)
 			.then(response => {
+
 				Api.getReviewsWithPlaceId(this.props.match.params.id)
-					.then(reviews => this.state.place.reviews = reviews)
+					.then(reviews => {
+						const newPlace = Object.assign({}, this.state.place, {reviews: reviews});
+						this.setState({place: newPlace});
+					})
 			})
 			.catch(error => {
 				alert(error)
