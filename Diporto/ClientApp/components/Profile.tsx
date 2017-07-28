@@ -40,6 +40,8 @@ export default class Profile extends React.Component<ProfileProps, ProfileState>
           .then(reviews => { this.setState({reviews: reviews}) })
       });
 
+    if (localStorage.getItem('id_token') === null) { return }
+
     const loggedInUserId = this.parseJwt(localStorage.getItem('id_token')).sub
     if (loggedInUserId == userId) {
       Api.getBookmarks()
@@ -62,6 +64,8 @@ export default class Profile extends React.Component<ProfileProps, ProfileState>
         Api.getReviewsWithUserId(userId)
           .then(reviews => { this.setState({reviews: reviews}) })
       });
+
+    if (localStorage.getItem('id_token') === null) { return }
 
     const loggedInUserId = this.parseJwt(localStorage.getItem('id_token')).sub
     if (loggedInUserId == userId) {
