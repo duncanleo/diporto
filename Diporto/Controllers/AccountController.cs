@@ -134,6 +134,16 @@ namespace Diporto.Controllers {
       return new ObjectResult(targetUser);
     }
 
+    [HttpGet("users/{userName}")]
+    public IActionResult GetByUsername(string userName) {
+      var targetUser = context.Users.FirstOrDefault(u => u.UserName == userName);
+      if (targetUser == null) {
+        return NotFound();
+      }
+
+      return new ObjectResult(targetUser);
+    }
+
     [HttpPut("users/{id:int}")]
     [Authorize]
     // Update user. NOTE: WILL NOT UPDATE PASSWORDS.
