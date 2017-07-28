@@ -60,7 +60,7 @@ namespace Diporto.Controllers {
 
     [HttpGet]
     [AllowAnonymous]
-    public IActionResult GetPlaces(string username, int userId = -1, int placeId = -1)  {
+    public IActionResult GetPlaceReviews(string username, int userId = -1, int placeId = -1)  {
       var reviews = from r in context.PlaceReviews
             select r;
 
