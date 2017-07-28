@@ -20,6 +20,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Amazon;
 using Amazon.S3;
+using AspNetCoreRateLimit;
 using Serilog.Extensions.Logging;
 
 namespace Diporto
@@ -89,6 +90,22 @@ namespace Diporto
 
             services.AddDefaultAWSOptions(Configuration.GetAWSOptions());
             services.AddAWSService<IAmazonS3>();
+
+            // needed to load configuration from appsettings.json
+            services.AddOptions();
+
+            // needed to store rate limit counters and ip rules
+            services.AddMemoryCache();
+
+            //load general configuration from appsettings.json
+            services.Configure<IpRateLimitOptions>(Configuration.GetSection("IpRateLimiting"));
+
+            //load ip rules from appsettings.json
+            services.Configure<IpRateLimitPolicies>(Configuration.GetSection("IpRateLimitPolicies"));
+
+            // inject counter and rules stores
+            services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+            services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -133,6 +150,8 @@ namespace Diporto
                     ValidIssuer = Configuration.GetSection("AppConfiguration:SiteUrl").Value
                 }
             });
+
+            app.UseIpRateLimiting();
 
             app.UseMvc(routes =>
             {
