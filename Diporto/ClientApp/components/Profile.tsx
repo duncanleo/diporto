@@ -13,7 +13,7 @@ declare interface ProfileState {
   bookmarks?: Place[],
 }
 
-type ProfileProps = RouteComponentProps<{ id: number }>
+type ProfileProps = RouteComponentProps<{ id: string }>
 
 export default class Profile extends React.Component<ProfileProps, ProfileState> {
   constructor(props) {
@@ -36,20 +36,21 @@ export default class Profile extends React.Component<ProfileProps, ProfileState>
         return user
       })
       .then(user => {
-        Api.getReviewsWithUserId(userId)
+        Api.getReviews(this.state.user.user_name)
           .then(reviews => { this.setState({reviews: reviews}) })
+
+        if (localStorage.getItem('id_token') === null) { return }
+
+        const loggedInUserId = this.parseJwt(localStorage.getItem('id_token')).sub
+
+        if (loggedInUserId == this.state.user.id) {
+          Api.getBookmarks()
+            .then(bookmarks => {
+              const places = bookmarks.map(bookmark => bookmark.place);
+              this.setState({bookmarks: places})
+            })
+        }
       });
-
-    if (localStorage.getItem('id_token') === null) { return }
-
-    const loggedInUserId = this.parseJwt(localStorage.getItem('id_token')).sub
-    if (loggedInUserId == userId) {
-      Api.getBookmarks()
-        .then(bookmarks => {
-          const places = bookmarks.map(bookmark => bookmark.place);
-          this.setState({bookmarks: places})
-        })
-    }
   }
 
   componentWillReceiveProps(nextProps: ProfileProps) {
@@ -61,20 +62,21 @@ export default class Profile extends React.Component<ProfileProps, ProfileState>
         return user
       })
       .then(user => {
-        Api.getReviewsWithUserId(userId)
+        Api.getReviews(this.state.user.user_name)
           .then(reviews => { this.setState({reviews: reviews}) })
+
+        if (localStorage.getItem('id_token') === null) { return }
+
+        const loggedInUserId = this.parseJwt(localStorage.getItem('id_token')).sub
+
+        if (loggedInUserId == this.state.user.id) {
+          Api.getBookmarks()
+            .then(bookmarks => {
+              const places = bookmarks.map(bookmark => bookmark.place);
+              this.setState({bookmarks: places})
+            })
+        }
       });
-
-    if (localStorage.getItem('id_token') === null) { return }
-
-    const loggedInUserId = this.parseJwt(localStorage.getItem('id_token')).sub
-    if (loggedInUserId == userId) {
-      Api.getBookmarks()
-        .then(bookmarks => {
-          const places = bookmarks.map(bookmark => bookmark.place);
-          this.setState({bookmarks: places})
-        })
-    }
   }
 
   parseJwt(token) {

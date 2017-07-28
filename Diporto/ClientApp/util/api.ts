@@ -75,7 +75,7 @@ export class DiportoApi {
 
     return fetchTask;
   }
-  getUser(userId: number) {
+  getUser(userId: string) {
     const fetchTask = fetch(`/api/users/${userId}`)
       .then(handleErrors)
       .then(response => {
@@ -84,14 +84,15 @@ export class DiportoApi {
 
     return fetchTask;
   }
-  getReviewsWithUserId(userId: number) {
-    const fetchTask = fetch(`/api/reviews?userId=${userId}`)
+  getReviews(userName) {
+    const fetchTask = fetch(`/api/reviews?username=${userName}`)
       .then(handleErrors)
       .then(response => {
         return response.json() as Promise<Review[]>
       });
 
       return fetchTask;
+
   }
   submitBookmark(placeId: number) {
     const fetchTask = fetch(`/api/bookmarks`, {
