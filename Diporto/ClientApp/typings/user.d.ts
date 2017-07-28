@@ -2,6 +2,7 @@ declare interface User {
   name: string,
   profile_image_url?: string
   reviews: Review[]
+  user_name: string
 }
 
 declare interface TokenResponse {
