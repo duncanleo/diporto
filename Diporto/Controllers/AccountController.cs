@@ -39,7 +39,7 @@ namespace Diporto.Controllers {
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register(RegisterViewModel model) {
+    public async Task<IActionResult> Register([FromBody] RegisterViewModel model) {
       if (model.Password != model.ConfirmPassword || !ModelState.IsValid) {
         return StatusCode((int)HttpStatusCode.BadRequest);
       }
@@ -115,17 +115,17 @@ namespace Diporto.Controllers {
       var dbUser = context.Users
         .Include(u => u.PlaceReviews)
         .First(u => u.Id == user.Id);
+
+      dbUser.PlaceReviews = dbUser.PlaceReviews.Select(review => {
+	review.User = null;
+	return review;
+      }).ToList();
+
       return new ObjectResult(dbUser);
     }
 
     [HttpGet("users/{id:int}")]
-    [Authorize]
-    public async Task<IActionResult> GetById(int id) {
-      var user = await userManager.GetUserAsync(User);
-      if (!user.IsAdmin) {
-        return Forbid();
-      }
-
+    public IActionResult GetById(int id) {
       var targetUser = context.Users.FirstOrDefault(u => u.Id == id);
       if (targetUser == null) {
         return NotFound();

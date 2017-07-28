@@ -59,14 +59,26 @@ namespace Diporto.Controllers {
     }
 
     [HttpGet]
-    public IActionResult GetByPlaceId(int placeId = -1) {
-      var reviews = context.PlaceReviews.Where(pr => (placeId != -1) ? pr.Place.Id == placeId : true);
+    [AllowAnonymous]
+    public IActionResult GetPlaces(int userId = -1, int placeId = -1)  {
+      var reviews = from r in context.PlaceReviews
+		    select r;
+
+      if (placeId != -1) {
+	reviews = reviews.Where(pr => pr.PlaceId == placeId);
+      }
+
+      if (userId != -1) {
+	reviews = reviews.Where(pr => pr.UserId == userId);
+      }
+
       if (reviews == null) {
         return NotFound();
       }
 
       return new ObjectResult(reviews);
     }
+
 
     [HttpPut("{id:int}")]
     public async Task<IActionResult> Update(int id, [FromBody] PlaceReview item) {

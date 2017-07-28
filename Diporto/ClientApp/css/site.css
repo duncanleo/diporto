@@ -1,5 +1,17 @@
+* {
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
 .main-nav li .glyphicon {
     margin-right: 10px;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    min-height: 100%;
 }
 
 /* Highlighting rules for nav menu items */
@@ -17,13 +29,6 @@
     left: 0;
     right: 0;
     z-index: 1;
-}
-
-@media (max-width: 767px) {
-    /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
-    body {
-        padding-top: 50px;
-    }
 }
 
 @media (min-width: 768px) {

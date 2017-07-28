@@ -1,12 +1,20 @@
 import * as React from 'react';
 import { Route } from 'react-router-dom';
-import { Layout } from './components/Layout';
+import Layout  from './components/Layout';
 import Home from './components/Home';
-import FetchData from './components/FetchData';
-import Counter from './components/Counter';
+import PlacesSearch from './components/PlacesSearch';
+import PlaceDisplay from './components/PlaceDisplay';
+import Login from './components/Login';
+import SignUp from './components/SignUp';
+import Profile from './components/Profile';
 
-export const routes = <Layout>
-    <Route exact path='/' component={ Home } />
-    <Route path='/counter' component={ Counter } />
-    <Route path='/fetchdata/:startDateIndex?' component={ FetchData } />
-</Layout>;
+export const routes = (
+    <Layout>
+				<Route exact path='/' component={ Home } />
+				<Route path="/login" component={ Login }/>
+				<Route path="/signup" component={ SignUp }/>
+				<Route path='/search/:searchTerm?' component={ PlacesSearch } />
+				<Route path='/place/:id' component={ PlaceDisplay } />
+				<Route path='/profile/:id' component={ Profile }/>
+    </Layout>
+);

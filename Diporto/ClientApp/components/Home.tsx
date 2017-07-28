@@ -1,25 +1,48 @@
 import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { NavLink, Link } from 'react-router-dom';
+import { ChangeTargetHTMLProps } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
+import Map from './Map';
+import SearchBar from './SearchBar';
+const config: Config = require('../util/config.json');
 
 export default class Home extends React.Component<RouteComponentProps<{}>, {}> {
-    public render() {
-        return <div>
-            <h1>Hello, world!</h1>
-            <p>Welcome to your new single-page application, built with:</p>
-            <ul>
-                <li><a href='https://get.asp.net/'>ASP.NET Core</a> and <a href='https://msdn.microsoft.com/en-us/library/67ef8sbd.aspx'>C#</a> for cross-platform server-side code</li>
-                <li><a href='https://facebook.github.io/react/'>React</a>, <a href='http://redux.js.org'>Redux</a>, and <a href='http://www.typescriptlang.org/'>TypeScript</a> for client-side code</li>
-                <li><a href='https://webpack.github.io/'>Webpack</a> for building and bundling client-side resources</li>
-                <li><a href='http://getbootstrap.com/'>Bootstrap</a> for layout and styling</li>
-            </ul>
-            <p>To help you get started, we've also set up:</p>
-            <ul>
-                <li><strong>Client-side navigation</strong>. For example, click <em>Counter</em> then <em>Back</em> to return here.</li>
-                <li><strong>Webpack dev middleware</strong>. In development mode, there's no need to run the <code>webpack</code> build tool. Your client-side resources are dynamically built on demand. Updates are available as soon as you modify any file.</li>
-                <li><strong>Hot module replacement</strong>. In development mode, you don't even need to reload the page after making most changes. Within seconds of saving changes to files, rebuilt React components will be injected directly into your running application, preserving its live state.</li>
-                <li><strong>Efficient production builds</strong>. In production mode, development-time features are disabled, and the <code>webpack</code> build tool produces minified static CSS and JavaScript files.</li>
-                <li><strong>Server-side prerendering</strong>. To optimize startup time, your React application is first rendered on the server. The initial HTML and state is then transferred to the browser, where client-side code picks up where the server left off.</li>
-            </ul>
-        </div>;
+	constructor(props) {
+		super(props);
+
+		this.handleSearchButtonPressed = this.handleSearchButtonPressed.bind(this);
+	}
+
+	private handleSearchButtonPressed(text) {
+		this.props.history.push(`/search/${text}`);
+	}
+
+  public render() {
+		const containerStyle = {
+			backgroundColor: "rgba(80, 204, 188, .8)",
+			flexGrow: 1
+		};
+
+		const backgroundStyle = {
+			backgroundImage: `url(https://api.mapbox.com/styles/v1/mapbox/streets-v9/static/103.9,1.29,11,.00,0.00/1000x600@2x?access_token=${config.MAPBOX_API_KEY})`,
+			flexGrow: 1
+		}
+
+		return (
+			<div style={backgroundStyle} className="flex flex-column">
+				<div style={containerStyle} className="flex flex-column h-100 justify-center">
+					<div className="flex flex-column items-center pa4 pa0-ns">
+					<h1 className="white f-subheadline lh-solid">Diporto</h1>
+					<h2 className="white f4 lh-title tc">Best recommendations for the best places in Singapore.</h2>
+					<div className="flex w-100 mw7">
+						<SearchBar
+							onSearch={this.handleSearchButtonPressed}
+						/>
+					</div>
+					</div>
+				</div>
+			</div>
+		);
     }
 }
