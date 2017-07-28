@@ -1,0 +1,21 @@
+.container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.container form input {
+  font-size: 1em;
+}
+
+.container form input[type="submit"] {
+  margin-top: 20px;
+}

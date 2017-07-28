@@ -1,0 +1,15 @@
+@model Diporto.ViewModels.Admin.HomeViewModel
+
+@{
+    ViewData["Title"] = "Admin Panel";
+    Layout = "_AdminLayout";
+}
+
+@section styles {
+  <link rel="stylesheet" href="~/css/admin/home.css">
+}
+
+<div class="container">
+  <a href="places">Places</a>
+  <a href="users">Users</a>
+</div>

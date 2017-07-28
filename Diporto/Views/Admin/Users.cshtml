@@ -1,0 +1,37 @@
+@model Diporto.ViewModels.Admin.UsersViewModel
+
+@{
+    ViewData["Title"] = "Admin Panel - Users";
+    Layout = "_AdminLayout";
+}
+
+@section styles {
+  <link rel="stylesheet" href="~/css/admin/users.css">
+}
+
+<div class="container">
+  <h1>Places</h1>
+  <table>
+    <tr>
+      <th>Id</th>
+      <th>Name</th>
+      <th>Username</th>
+      <th>Admin rights</th>
+    </tr>
+      @foreach (var u in @Model.Users) {
+        <tr class="user">
+          <td>@u.Id</td>
+          <td class="user-name">@u.Name</td>
+          <td class="user-username">@u.UserName</td>
+          <td>
+            <form action="/api/users/@u.Id/admin" method="post">
+              @Html.AntiForgeryToken()
+              <input type="submit" value="@(u.IsAdmin ? "Revoke" : "Grant")">
+            </form>
+          </td>
+        </tr>
+      }
+  </table>
+  <a href="?page=@(Model.PageIndex - 1)">Previous</a>
+  <a href="?page=@(Model.PageIndex + 1)">Next</a>
+</div>

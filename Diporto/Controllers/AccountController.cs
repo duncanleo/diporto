@@ -59,6 +59,7 @@ namespace Diporto.Controllers {
     }
 
     [HttpPost("login")]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(LoginViewModel model) {
       if (!ModelState.IsValid) {
         return StatusCode((int)HttpStatusCode.BadRequest);
@@ -66,20 +67,21 @@ namespace Diporto.Controllers {
 
       var result = await signInManager.PasswordSignInAsync(model.UserName, model.Password, true, lockoutOnFailure: false);
       if (result.Succeeded) {
-        return StatusCode((int)HttpStatusCode.OK);
+        var user = context.Users.First(u => u.UserName == model.UserName);
+        if (!user.IsAdmin) {
+          await signInManager.SignOutAsync();
+          return RedirectToAction("Error", "Admin", new { area = "" });
+        }
+        return RedirectToAction("Home", "Admin", new { area = "" });
       }
-
-      if (result.IsLockedOut) {
-        return StatusCode((int)HttpStatusCode.Conflict);
-      } else {
-        return StatusCode((int)HttpStatusCode.Forbidden);
-      }
+      return RedirectToAction("Error", "Admin", new { area = "" });
     }
 
     [HttpPost("logout")]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Logout() {
       await signInManager.SignOutAsync();
-      return StatusCode((int)HttpStatusCode.OK);
+      return RedirectToAction("Index", "Admin", new { area = "" });
     }
 
     [HttpPost("password")]
@@ -187,6 +189,28 @@ namespace Diporto.Controllers {
       context.SaveChanges();
 
       return new ObjectResult(targetUser);
+    }
+
+    [HttpPost("users/{id:int}/admin")]
+    [Authorize]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ToggleAdmin(int id) {
+      var user = await userManager.GetUserAsync(User);
+      if (!user.IsAdmin) {
+        return Forbid();
+      }
+
+      var targetUser = context.Users.FirstOrDefault(u => u.Id == id);
+      if (targetUser == null) {
+        return NotFound();
+      }
+
+      targetUser.IsAdmin = !targetUser.IsAdmin;
+
+      context.Users.Update(targetUser);
+      context.SaveChanges();
+
+      return RedirectToAction("Users", "Admin", new { area = "" });
     }
 
     [HttpPost("token")]

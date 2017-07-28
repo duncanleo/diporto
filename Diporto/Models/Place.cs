@@ -23,6 +23,7 @@ namespace Diporto.Models {
     
     [Required(AllowEmptyStrings = true)]
     [Column("phone")]
+    [DisplayFormat(ConvertEmptyStringToNull = false)]
     public string Phone { get; set; }
     
     [Required]
@@ -32,6 +33,7 @@ namespace Diporto.Models {
     [Required(AllowEmptyStrings = true)]
     [Column("opening_hours")]
     [JsonProperty("opening_hours")]
+    [DisplayFormat(ConvertEmptyStringToNull = false)]
     public string OpeningHours { get; set; }
 
     [NotMapped]
