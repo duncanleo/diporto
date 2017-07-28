@@ -20,6 +20,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Amazon;
 using Amazon.S3;
+using Serilog.Extensions.Logging;
 
 namespace Diporto
 {
@@ -95,6 +96,7 @@ namespace Diporto
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+            loggerFactory.AddFile("Logs/Diporto-{Date}.txt");
 
             if (env.IsDevelopment())
             {
