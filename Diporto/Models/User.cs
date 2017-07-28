@@ -1,14 +1,21 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using NpgsqlTypes;
 
 namespace Diporto.Models {
   [Table("user")]
   [JsonObject(MemberSerialization.OptIn)]
+  [DataContract]
   public class User : IdentityUser<int> {
+    [DataMember]
+    [JsonProperty("user_name")]
+    public override string UserName { get; set; }
+
     [Required]
     [Column("name")]
     [JsonProperty("name")]
