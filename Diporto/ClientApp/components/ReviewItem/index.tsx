@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as moment from 'moment';
 import StarRating from 'react-stars';
+import ProfileImage from '../ProfileImage';
 
 declare interface ReviewItemProps {
   review: Review
@@ -11,11 +12,9 @@ class ReviewItem extends React.Component<ReviewItemProps, {}> {
   private renderUserImage() {
     let user = this.props.review.user;
 
-    if (user && user.profile_image_url !== null) {
-      return <img src={user.profile_image_url} className="h4 br3"/>
-    } else {
-      return <img className="h3 br3" src="https://s3-us-west-1.amazonaws.com/jurvis/placeholder_profile.svg"/>
-    }
+    return <ProfileImage
+      user={user}
+    />
   }
 
   render() {
