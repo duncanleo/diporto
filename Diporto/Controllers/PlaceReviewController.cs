@@ -60,7 +60,7 @@ namespace Diporto.Controllers {
 
     [HttpGet]
     [AllowAnonymous]
-    public IActionResult GetPlaces(int userId = -1, int placeId = -1)  {
+    public IActionResult GetPlaces(string username, int userId = -1, int placeId = -1)  {
       var reviews = from r in context.PlaceReviews
             select r;
 
@@ -70,6 +70,10 @@ namespace Diporto.Controllers {
 
       if (userId != -1) {
         reviews = reviews.Where(pr => pr.UserId == userId);
+      }
+
+      if (!string.IsNullOrEmpty(username)) {
+        reviews = reviews.Where(pr => pr.User.UserName == username);
       }
 
       if (reviews == null) {
