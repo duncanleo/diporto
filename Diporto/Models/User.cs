@@ -13,6 +13,10 @@ namespace Diporto.Models {
   [DataContract]
   public class User : IdentityUser<int> {
     [DataMember]
+    [JsonProperty("id")]
+    public override int Id { get; set; }
+
+    [DataMember]
     [JsonProperty("user_name")]
     public override string UserName { get; set; }
 
@@ -37,7 +41,7 @@ namespace Diporto.Models {
 
     [NotMapped]
     public IEnumerable<int> Bookmarks { get; set; }
-    
+
     [JsonIgnore]
     public ICollection<PlaceReview> PlaceReviews { get; set; }
 
