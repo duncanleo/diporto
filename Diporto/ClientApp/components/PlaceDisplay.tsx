@@ -95,37 +95,39 @@ export default class PlaceDisplay extends React.Component<PlaceProps, PlaceState
   renderPlaceInformation() {
     const { place, isAuthenticated, bookmark } = this.state;
     return (
-      <div id="place-information-container" className="flex flex-column mw8 center">
-				<div id="place-meta-container" className="mb3 flex items-center">
-					<div>
-						<h2 className="f2 lh-title mv3">{place.name}</h2>
-						<CategoryList categories={place.categories}/>
-					</div>
-					<div style={{flexGrow: 1}}></div>
-					{isAuthenticated &&
+			<div>
+				<div id="place-information-container" className="flex flex-column bg-near-white ph6 mb3">
+					<div id="place-meta-container" className="mb3 flex items-center">
 						<div>
-							<BookmarkButton
-								bookmarked={bookmark != null}
-								onClick={this.handleBookmarkButtonClicked}
-							/>
+							<h2 className="f2 lh-title mv3">{place.name}</h2>
+							<CategoryList categories={place.categories}/>
 						</div>
-					}
-				</div>
-				<div id="place-images-container" className="flex mb4">
-					{place.photos.slice(0,4).map(photo => {
-						const imageUrl = `/api/photos/${photo.id}`;
-						const imageStyle = { backgroundImage: `url(${imageUrl}` };
-						return (
-							<div key={photo.id} className="w-25">
-								<div className="aspect-ratio aspect-ratio--1x1">
-									<img className="bg-center cover aspect-ratio--object"
-										style={imageStyle}/>
-								</div>
+						<div style={{flexGrow: 1}}></div>
+						{isAuthenticated &&
+							<div>
+								<BookmarkButton
+									bookmarked={bookmark != null}
+									onClick={this.handleBookmarkButtonClicked}
+								/>
 							</div>
-						);
-					})}
+						}
+					</div>
+					<div id="place-images-container" className="flex mb4">
+						{place.photos.slice(0,4).map(photo => {
+							const imageUrl = `/api/photos/${photo.id}`;
+							const imageStyle = { backgroundImage: `url(${imageUrl}` };
+							return (
+								<div key={photo.id} className="w-25">
+									<div className="aspect-ratio aspect-ratio--1x1">
+										<img className="bg-center cover aspect-ratio--object"
+											style={imageStyle}/>
+									</div>
+								</div>
+							);
+						})}
+					</div>
 				</div>
-				<div id="remaining-meta-container" className="flex">
+				<div id="remaining-meta-container" className="flex ph6 center">
 					<div className="flex flex-column w-70">
 						<h3 className="f2 lh-title ma0 mb2">Reviews</h3>
 						<div id="reviews-container">
@@ -157,7 +159,7 @@ export default class PlaceDisplay extends React.Component<PlaceProps, PlaceState
 						<address>{place.address}</address>
 					</div>
 				</div>
-      </div>
+			</div>
     )
   }
 
