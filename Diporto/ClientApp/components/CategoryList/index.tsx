@@ -19,7 +19,7 @@ export default class CategoryList extends React.Component<CategoryListProps, Cat
     return (
       <div className="pv2">
         {this.props.categories.map((category, index) => {
-          let classes = ["mb1", "f7", "lh-copy", "inline-flex", "bg-near-white", "ba", "b--light-gray", "ttu", "light-silver", "br2", "ph2", "ml2"]
+          let classes = ["mb1", "f7", "lh-copy", "inline-flex", "bg-light-gray", "ba", "b--moon-gray", "ttu", "light-silver", "br2", "ph2", "ml2"]
 
           if (index === 0) { classes = classes.filter(string => string !== "ml2") }
 
