@@ -136,6 +136,9 @@ export default class PlaceDisplay extends React.Component<PlaceProps, PlaceState
 									onSubmitPressed={(review) => {this.submitReview(review)}}
 								/>
 							}
+							{place.reviews.length == 0 &&
+								<span className=" f5 lh-copy">There are no reviews available for this listing.</span>
+							}
 							{place.reviews.map(review => {
 								return (
 									<ReviewItem
