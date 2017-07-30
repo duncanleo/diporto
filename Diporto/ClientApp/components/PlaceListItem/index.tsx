@@ -9,8 +9,7 @@ interface PlaceListItemProps {
 
 const PlaceListItem: React.SFC<PlaceListItemProps> = (props) => {
   const { place } = props;
-
-  const placePhotoUrl = place.photos == null ?  'https://s3-us-west-1.amazonaws.com/jurvis/placeholder_img.svg' : `/api/photos/${place.photos[0].id}`
+  const placePhotoUrl = Array.isArray(place.photos) === false || place.photos.length === 0 ?  'https://s3-us-west-1.amazonaws.com/jurvis/placeholder_img.svg' : `/api/photos/${place.photos[0].id}`
 
   const photoStyle = {
     "background": `url(${placePhotoUrl}) center`
@@ -29,7 +28,7 @@ const PlaceListItem: React.SFC<PlaceListItemProps> = (props) => {
             <span className="fw7 lh-title underline-hover">{props.index + 1}. {place.name}</span>
           </Link>
           {place.categories && <CategoryList categories={place.categories}/>}
-          {place.reviews && <span className="f6 i lh-copy">"{place.reviews[0].text}"</span>}
+          {Array.isArray(place.reviews) && place.reviews.length > 0 && <span className="f6 i lh-copy">"{place.reviews[0].text}"</span>}
         </div>
             </div>
             <div className="w-30 pa3">
