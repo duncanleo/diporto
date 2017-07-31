@@ -9,7 +9,7 @@ export interface ReviewListProps extends React.Props<any> {
 const ReviewList: React.SFC<ReviewListProps> = ({ reviews, user }) => {
   return (
     <div id="review-list-container">
-      {reviews.map(review => <ReviewListItem review={review} user={user}/>)}
+      {reviews.map(review => <ReviewListItem key={review.id} review={review} user={user}/>)}
     </div>
   )
 }
