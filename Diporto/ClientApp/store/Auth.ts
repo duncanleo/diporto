@@ -39,7 +39,12 @@ interface SetUserAction {
   user: User
 }
 
-type KnownAction = LoginRequestAction | LoginSuccessAction | LoginFailureAction | LogoutRequestAction| LogoutSuccessAction | SetUserAction
+interface UserSignUpFailureAction {
+  type: 'SIGNUP_FAILED',
+  message: string
+}
+
+type KnownAction = LoginRequestAction | LoginSuccessAction | LoginFailureAction | LogoutRequestAction| LogoutSuccessAction | SetUserAction | UserSignUpFailureAction
 
 export const actionCreators = {
   loginUser: (creds: Credentials) : AppThunkAction<KnownAction> => (dispatch, getState) => {
@@ -75,8 +80,9 @@ export const actionCreators = {
       .then(response => {
         onFinish({username: creds.UserName, password: creds.Password});
       })
-      .catch(error => {
-        alert(error);
+      .catch(err => {
+        dispatch({type: 'SIGNUP_FAILED', message: "One or more of the fields you have entered is invalid"});
+        return Promise.reject(err);
       })
   }
 }
@@ -94,6 +100,7 @@ export const reducer: Reducer<AuthState> = (state: AuthState, incomingAction: Ac
       return Object.assign({}, state, {
         isFetching: true,
         isAuthenticated: false,
+        errorMessage: ''
       })
     case 'LOGIN_SUCCESS':
       return Object.assign({}, state, {
@@ -118,6 +125,10 @@ export const reducer: Reducer<AuthState> = (state: AuthState, incomingAction: Ac
       return Object.assign({}, state, {
         user: action.user
       })
+    case 'SIGNUP_FAILED':
+      return Object.assign({}, state, {
+        errorMessage: action.message
+      });
     default:
       const exhaustiveCheck: never = action;
   }
