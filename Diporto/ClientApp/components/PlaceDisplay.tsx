@@ -13,23 +13,33 @@ declare interface PlaceState {
 	place?: Place
 	isAuthenticated: boolean
 	bookmark: Bookmark
+	mapContainerDimensions: MapDimensions
 }
 
 type PlaceProps = RouteComponentProps<{ id: number }>
 
 export default class PlaceDisplay extends React.Component<PlaceProps, PlaceState> {
+	private mapContainer: HTMLDivElement;
+
   constructor(props) {
     super(props);
 
     this.state = {
 			place: undefined,
 			isAuthenticated: localStorage.getItem('id_token') != undefined,
-			bookmark: undefined
+			bookmark: undefined,
+			mapContainerDimensions: { height: 300, width: 300 }
 		};
 
 		this.submitReview = this.submitReview.bind(this);
 		this.handleBookmarkButtonClicked = this.handleBookmarkButtonClicked.bind(this);
-  }
+	}
+
+	componentDidMount() {
+		const height = this.mapContainer.clientHeight;
+		const width = this.mapContainer.clientWidth;
+		this.setState({ mapContainerDimensions: { height, width } });
+	}
 
 	componentWillMount() {
     const placeId = this.props.match.params.id;
@@ -93,7 +103,8 @@ export default class PlaceDisplay extends React.Component<PlaceProps, PlaceState
 	}
 
   renderPlaceInformation() {
-    const { place, isAuthenticated, bookmark } = this.state;
+		const { place, isAuthenticated, bookmark, mapContainerDimensions } = this.state;
+
     return (
 			<div>
 				<div id="place-information-container" className="flex flex-column bg-near-white ph6 mb3">
@@ -151,9 +162,9 @@ export default class PlaceDisplay extends React.Component<PlaceProps, PlaceState
 							})}
 						</div>
 					</div>
-					<div className="w-30">
+					<div className="w-30" ref={(mapContainer) => this.mapContainer = mapContainer}>
 						<Map
-							viewport={{latitude: place.lat, longitude: place.lon, zoom: 13, width: 300, height: 300}}
+							viewport={{latitude: place.lat, longitude: place.lon, zoom: 10, height: mapContainerDimensions.height, width: mapContainerDimensions.width}}
 							places={[place]}/>
 						<span>{place.phone}</span>
 						<address>{place.address}</address>
