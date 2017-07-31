@@ -44,12 +44,12 @@ export default class PlaceList extends React.Component<PlaceListProps, PlaceList
     const { places } = this.props;
     const { mapContainerDimensions } = this.state;
     return (
-      <div className="flex mw8 center">
+      <div className="flex mw8 center mt4">
         <div className="w-70">
           {this.renderPlaceList()}
         </div>
         <div className="w-10"></div>
-        <div className="w-20 mt4" ref={(mapContainer) => this.mapContainer = mapContainer}>
+        <div className="w-30" ref={(mapContainer) => this.mapContainer = mapContainer}>
           <Map
             viewport={{latitude: places[0].lat, longitude: places[0].lon, zoom: 10, height: mapContainerDimensions.height, width: mapContainerDimensions.width}}
             places={places}
