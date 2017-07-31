@@ -46,21 +46,21 @@ export const actionCreators = {
     dispatch({type: 'LOGIN_REQUEST', creds: creds})
     return Api.login(creds)
       .then(tokenResponse => {
-	localStorage.setItem('id_token', tokenResponse.token);
-	dispatch({type: 'LOGIN_SUCCESS', idToken: tokenResponse.token});
-	return tokenResponse.token;
+        localStorage.setItem('id_token', tokenResponse.token);
+        dispatch({type: 'LOGIN_SUCCESS', idToken: tokenResponse.token});
+        return tokenResponse.token;
       })
       .then(token => {
-	Api.getMe(token)
-	  .then(user => {
-	    localStorage.setItem('user', JSON.stringify(user));
-	    dispatch({type: 'SET_USER', user: user})
-	    history.replace('/');
-	  });
+        Api.getMe(token)
+          .then(user => {
+            localStorage.setItem('user', JSON.stringify(user));
+            dispatch({type: 'SET_USER', user: user})
+            history.replace('/');
+          });
       })
       .catch(err => {
-	dispatch({type: 'LOGIN_FAILURE', message: 'Bad Credentials'})
-	return Promise.reject(err)
+        dispatch({type: 'LOGIN_FAILURE', message: 'Bad Credentials'})
+        return Promise.reject(err)
       });
   },
   logout: () : AppThunkAction<KnownAction> => (dispatch, getState) => {
@@ -73,10 +73,10 @@ export const actionCreators = {
     onFinish: (creds: Credentials) => AppThunkAction<KnownAction>) : AppThunkAction<KnownAction> => (dispatch, getState) => {
     return Api.signUp(creds)
       .then(response => {
-	onFinish({username: creds.UserName, password: creds.Password});
+        onFinish({username: creds.UserName, password: creds.Password});
       })
       .catch(error => {
-	alert(error);
+        alert(error);
       })
   }
 }
@@ -92,31 +92,31 @@ export const reducer: Reducer<AuthState> = (state: AuthState, incomingAction: Ac
   switch(action.type) {
     case 'LOGIN_REQUEST':
       return Object.assign({}, state, {
-	isFetching: true,
-	isAuthenticated: false,
+        isFetching: true,
+        isAuthenticated: false,
       })
     case 'LOGIN_SUCCESS':
       return Object.assign({}, state, {
-	isFetching: false,
-	isAuthenticated: true,
-	errorMessage: ''
+        isFetching: false,
+        isAuthenticated: true,
+        errorMessage: ''
       })
     case 'LOGIN_FAILURE':
       return Object.assign({}, state, {
-	isFetching: false,
-	isAuthenticated: false,
-	errorMessage: action.message
+        isFetching: false,
+        isAuthenticated: false,
+        errorMessage: action.message
       })
     case 'LOGOUT_REQUEST':
       return Object.assign({}, state, {
-	isFetching: true,
-	isAuthenticated: false
+        isFetching: true,
+        isAuthenticated: false
       })
     case 'LOGOUT_SUCCESS':
       return Object.assign({}, state, unloadedState)
     case 'SET_USER':
       return Object.assign({}, state, {
-	user: action.user
+        user: action.user
       })
     default:
       const exhaustiveCheck: never = action;
