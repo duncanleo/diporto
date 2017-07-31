@@ -28,7 +28,7 @@ class SignupForm extends React.Component<SignupFormProps, SignupFormState> {
     this.props.onSignupPressed({
       UserName: this.state.UserName,
       Password: this.state.Password,
-      ConfirmPassword: this.state.ConfirmPassword,
+      ConfirmPassword: this.state.Password,
       Email: this.state.Email,
       Name: this.state.Name
     })
@@ -50,6 +50,7 @@ class SignupForm extends React.Component<SignupFormProps, SignupFormState> {
           label="Name"
           value={Name}
           onChange={this.onChange}
+          required={true}
           type="text"
         />
 
@@ -58,6 +59,7 @@ class SignupForm extends React.Component<SignupFormProps, SignupFormState> {
           label="Username"
           value={UserName}
           onChange={this.onChange}
+          required={true}
           type="text"
         />
 
@@ -66,6 +68,7 @@ class SignupForm extends React.Component<SignupFormProps, SignupFormState> {
           label="Email"
           value={Email}
           onChange={this.onChange}
+          required={true}
           type="email"
         />
 
@@ -74,14 +77,7 @@ class SignupForm extends React.Component<SignupFormProps, SignupFormState> {
           label="Password"
           value={Password}
           onChange={this.onChange}
-          type="password"
-        />
-
-        <TextFieldGroup
-          field="ConfirmPassword"
-          label="Confirm Password"
-          value={ConfirmPassword}
-          onChange={this.onChange}
+          required={true}
           type="password"
         />
 
