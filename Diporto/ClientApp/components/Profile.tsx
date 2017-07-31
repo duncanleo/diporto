@@ -131,12 +131,12 @@ export default class Profile extends React.Component<ProfileProps, ProfileState>
     return (
       <div id="profile-container" className="w-60 center">
         { this.state.user === undefined ? (
-					<div className="self-center flex items-start justify-center" style={{flexGrow: 1}}>
-						<BounceLoader
-							color="#273CFE"
-							size="100px"
-						/>
-					</div>
+          <div className="self-center flex items-start justify-center" style={{flexGrow: 1}}>
+            <BounceLoader
+              color="#273CFE"
+              size="100px"
+            />
+          </div>
         ) : (
           this.renderProfileInformation()
         )}

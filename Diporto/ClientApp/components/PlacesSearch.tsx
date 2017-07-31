@@ -53,12 +53,12 @@ class PlacesSearch extends React.Component<PlacesSearchProps, {}> {
   private renderPlacesTable() {
     if (this.props.isLoading) {
       return (
-					<div className="self-center flex items-start justify-center" style={{flexGrow: 1}}>
-						<BounceLoader
-							color="#273CFE"
-							size="100px"
-						/>
-					</div>
+          <div className="self-center flex items-start justify-center" style={{flexGrow: 1}}>
+            <BounceLoader
+              color="#273CFE"
+              size="100px"
+            />
+          </div>
       );
     }
 
