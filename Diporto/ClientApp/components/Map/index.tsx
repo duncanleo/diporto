@@ -20,6 +20,11 @@ export class Map extends React.Component<MapProps, MapState> {
     this.updateViewport = this.updateViewport.bind(this);
   }
 
+  componentWillReceiveProps(nextProps: MapProps) {
+    const { viewport } = nextProps;
+    this.setState({ viewport });
+  }
+
   private _renderCityMarker(place: Place, index: number) {
     return (
       <Marker key={`marker-${index}`}
