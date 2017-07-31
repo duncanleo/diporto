@@ -52,7 +52,7 @@
     "whatwg-fetch": "^2.0.3"
   },
   "scripts": {
-    "fuck": "node_modules/.bin/webpack --config webpack.config.vendor.js; node_modules/.bin/webpack",
+    "setup": "node_modules/.bin/webpack --config webpack.config.vendor.js; node_modules/.bin/webpack",
     "test": "echo Test!"
   }
 }
