@@ -5,6 +5,7 @@ import { ApplicationState } from '../store';
 import * as PlacesState from '../store/Places';
 import PlaceList from './PlaceList'
 import ToolBar from './ToolBar'
+import { BounceLoader } from 'halogen';
 
 type PlacesSearchProps =
   PlacesState.PlacesState
@@ -50,7 +51,16 @@ class PlacesSearch extends React.Component<PlacesSearchProps, {}> {
   }
 
   private renderPlacesTable() {
-    if (this.props.isLoading) { return <h2>Loading</h2> }
+    if (this.props.isLoading) {
+      return (
+					<div className="self-center flex items-start justify-center" style={{flexGrow: 1}}>
+						<BounceLoader
+							color="#273CFE"
+							size="100px"
+						/>
+					</div>
+      );
+    }
 
     if (this.props.places.length === 0) {
       return (
