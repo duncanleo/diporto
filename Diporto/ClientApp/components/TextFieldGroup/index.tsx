@@ -5,10 +5,20 @@ declare interface TextFieldGroupProps {
   value: string,
   label: string,
   type: string,
+  required?: boolean,
   onChange: (text) => void
 }
 
-const TextFieldGroup: React.SFC<TextFieldGroupProps> = ({ label, field, value, type, onChange }) => {
+const defaultProps: TextFieldGroupProps = {
+  field: '',
+  value: '',
+  label: '',
+  type: '',
+  required: false,
+  onChange: () => {}
+}
+
+const TextFieldGroup: React.SFC<TextFieldGroupProps> = ({ label, field, value, type, required, onChange }) => {
   return (
     <div className="mt3">
       <label className="db fw6 lh-copy f6">{label}</label>
@@ -17,10 +27,13 @@ const TextFieldGroup: React.SFC<TextFieldGroupProps> = ({ label, field, value, t
         type={type}
         name={field}
         value={value}
+        required={required}
         onChange={onChange}
        />
     </div>
   )
 };
+
+TextFieldGroup.defaultProps = defaultProps;
 
 export default TextFieldGroup;
