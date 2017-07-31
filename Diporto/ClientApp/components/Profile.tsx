@@ -5,6 +5,7 @@ import ReviewItem from './ReviewItem';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import ReviewList from './ReviewList';
 import PlaceList from './PlaceList';
+import { BounceLoader } from 'halogen';
 import 'react-tabs/style/react-tabs.css';
 
 declare interface ProfileState {
@@ -130,7 +131,12 @@ export default class Profile extends React.Component<ProfileProps, ProfileState>
     return (
       <div id="profile-container" className="w-60 center">
         { this.state.user === undefined ? (
-          <h2>Loading...</h2>
+					<div className="self-center flex items-start justify-center" style={{flexGrow: 1}}>
+						<BounceLoader
+							color="#273CFE"
+							size="100px"
+						/>
+					</div>
         ) : (
           this.renderProfileInformation()
         )}

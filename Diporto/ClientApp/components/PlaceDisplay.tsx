@@ -8,6 +8,7 @@ import PlacePin from './PlacePin';
 import ReviewForm from './ReviewForm';
 import BookmarkButton from './BookmarkButton'
 import { CanvasOverlay, Marker } from 'react-map-gl';
+import { BounceLoader } from 'halogen';
 
 declare interface PlaceState {
 	place?: Place
@@ -176,11 +177,16 @@ export default class PlaceDisplay extends React.Component<PlaceProps, PlaceState
 
   public render() {
     return (
-      <div id="place-container">
+      <div id="place-container" className="flex flex-column" style={{flexGrow: 1}}>
 				{ this.state.place == null ?
-					<h2>Loading...</h2>
+					<div className="self-center flex items-start justify-center" style={{flexGrow: 1}}>
+						<BounceLoader
+							color="#273CFE"
+							size="100px"
+						/>
+					</div>
 					:
-					this.renderPlaceInformation()
+					 this.renderPlaceInformation()
 				}
       </div>
     )
