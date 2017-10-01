@@ -3,7 +3,10 @@ mono: none
 dotnet: 1.0.4
 dist: trusty
 before_install:
-- openssl aes-256-cbc -K $encrypted_c800c9ae741a_key -iv $encrypted_c800c9ae741a_iv -in deploy_key.enc -out deploy_key -d
+- openssl aes-256-cbc -K $encrypted_c800c9ae741a_key -iv $encrypted_c800c9ae741a_iv -in deploy_key.enc -out /tmp/deploy_key -d
+- eval "$(ssh-agent -s)"
+- chmod 600 /tmp/deploy_key
+- ssh-add /tmp/deploy_key
 - nvm install stable
 - nvm use stable
 before_script:
