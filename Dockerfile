@@ -21,3 +21,5 @@ FROM microsoft/aspnetcore:1.1
 WORKDIR /app
 COPY --from=builder /app .
 ENTRYPOINT ["dotnet", "Diporto.dll"]
+
+EXPOSE 5000

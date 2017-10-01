@@ -1,0 +1,9 @@
+{
+  "name": "diporto",
+  "description": "Foursquare Clone for Singapore",
+  "scripts": {
+    "dokku": {
+      "postdeploy": "dotnet ef database update"
+    }
+  }
+}
