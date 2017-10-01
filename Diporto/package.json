@@ -13,7 +13,7 @@
     "@types/react-router-redux": "5.0.3",
     "@types/react-tabs": "^1.0.1",
     "@types/webpack": "2.2.15",
-    "@types/webpack-env": "1.13.0",
+    "@types/webpack-env": "1.13.1",
     "aspnet-prerendering": "^3.0.1",
     "aspnet-webpack": "^2.0.1",
     "aspnet-webpack-react": "^3.0.0",
