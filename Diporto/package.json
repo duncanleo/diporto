@@ -12,6 +12,7 @@
     "@types/react-router-dom": "4.0.5",
     "@types/react-router-redux": "5.0.3",
     "@types/react-tabs": "^1.0.1",
+    "@types/tapable": "0.2.5",
     "@types/webpack": "2.2.15",
     "@types/webpack-env": "1.13.1",
     "aspnet-prerendering": "^3.0.1",
