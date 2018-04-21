@@ -3,47 +3,34 @@ mono: none
 dotnet: 1.0.4
 dist: trusty
 before_install:
-- openssl aes-256-cbc -K $encrypted_c800c9ae741a_key -iv $encrypted_c800c9ae741a_iv -in deploy_key.enc -out /tmp/deploy_key -d
-- eval "$(ssh-agent -s)"
-- chmod 600 /tmp/deploy_key
-- ssh-add /tmp/deploy_key
-- nvm install stable
-- nvm use stable
+  - nvm install stable
+  - nvm use stable
 before_script:
-- cd Diporto
-- dotnet restore
-- cd ../DiportoTests
-- dotnet restore
-- cd ../Diporto
-- yarn install
-- psql -U postgres -c "create extension cube"
-- psql -U postgres -c "create extension earthdistance"
-- psql -U postgres -c "create extension postgis"
+  - cd Diporto
+  - dotnet restore
+  - cd ../DiportoTests
+  - dotnet restore
+  - cd ../Diporto
+  - yarn install
+  - psql -U postgres -c "create extension cube"
+  - psql -U postgres -c "create extension earthdistance"
+  - psql -U postgres -c "create extension postgis"
 script:
-- cd ../Diporto
-- cp appsettings.Travis.json appsettings.Development.json
-- dotnet ef database update
-- cd ../DiportoTests
-- dotnet test
-- cd ..
-- yarn test
-before_deploy:
-- chmod +x deploy.sh
-deploy:
-  provider: script
-  script: "./deploy.sh"
-  skip_cleanup: true
-  on:
-    branch: master
+  - cd ../Diporto
+  - cp appsettings.Travis.json appsettings.Development.json
+  - dotnet ef database update
+  - cd ../DiportoTests
+  - dotnet test
+  - cd ..
+  - yarn test
 cache:
   yarn: true
 services:
-- postgresql
+  - postgresql 
 env:
-- ASPNETCORE_ENVIRONMENT=Development
+  - ASPNETCORE_ENVIRONMENT=Development
 addons:
   postgresql: 9.6
   apt:
     packages:
     - postgresql-9.6-postgis-2.3
-  ssh_known_hosts: diporto.undertide.co
